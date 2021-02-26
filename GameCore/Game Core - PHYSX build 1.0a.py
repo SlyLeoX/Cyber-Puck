@@ -1,3 +1,5 @@
+#Version 1.1a : Introduction des hitboxes rondes et de la var trucenter en remplacement des rect. (Version 1)
+
 import pygame
 import sys
 import random as rd
@@ -24,6 +26,8 @@ if __name__ == '__main__':
 
             self.speed = [0, 0]
             self.true_pos = [x, y]
+            self.true_center = [x - (self.rect.size[0])/2 , y - (self.rect.size[1])/2]
+            self.ray = self.rect.size[0]/2
 
             self.rect.x = x
             self.rect.y = y
@@ -32,6 +36,10 @@ if __name__ == '__main__':
             self.map = controls_mapping(keys)
 
             self.last_impact = 0
+
+        def get_truecenter(self):
+
+            self.true_center = [self.rect.x - (self.rect.size[0]) / 2, self.rect.y - (self.rect.size[1]) / 2]
 
         def run(self, resistance=500):
 
@@ -51,29 +59,31 @@ if __name__ == '__main__':
             self.rect.x = self.true_pos[0]
             self.rect.y = self.true_pos[1]
 
+            self.get_truecenter()
+
             # self.rect = self.rect.move(self.speed[0], self.speed[1])
 
         def boundary_check(self):
             # print("Check before moving.")
             w = 0
 
-            if self.rect.x < 0:
-                self.rect.x = 5
+            if self.true_center[0] < -25:
+                self.rect.x = 0
                 self.speed[0] *= -1
                 w = 1
 
-            if self.rect.x > (width-50):
-                self.rect.x = width-55
+            if self.true_center[0] > (width-75):
+                self.rect.x = width-50
                 self.speed[0] *= -1
                 w = 1
 
-            if self.rect.y < 0:
-                self.rect.y = 5
+            if self.true_center[1] < -25:
+                self.rect.y = 0
                 self.speed[1] *= -1
                 w = 1
 
-            if self.rect.y > height-50:
-                self.rect.y = height-55
+            if self.true_center[1] > (height-75):
+                self.rect.y = height-50
                 self.speed[1] *= -1
                 w = 1
 
@@ -82,7 +92,9 @@ if __name__ == '__main__':
         def physics_check(self, sentities):
             # print("Check before moving")
             for lentity in sentities:
-                if self.rect.colliderect(lentity.rect) and (pygame.time.get_ticks()-self.last_impact > 16 or pygame.time.get_ticks()-lentity.last_impact > 16 ):
+                #if self.rect.colliderect(lentity.rect) and (pygame.time.get_ticks()-self.last_impact > 16 or pygame.time.get_ticks()-lentity.last_impact > 16 ):
+                if (self.true_center[0] - lentity.true_center[0])**2 + (self.true_center[1] - lentity.true_center[1])**2 < (self.ray + lentity.ray)**2 and (
+                        pygame.time.get_ticks() - self.last_impact > 16 or pygame.time.get_ticks() - lentity.last_impact > 16):
 
                     if abs(self.speed[0])+abs(self.speed[1])>abs(lentity.speed[0])+abs(lentity.speed[1]):
                         a = self
@@ -98,28 +110,34 @@ if __name__ == '__main__':
 
                     relative_v = [a.speed[0]-b.speed[0], a.speed[1]-b.speed[1]]
 
-                    if a.rect.x == b.rect.x: c = 0 # temporary patch (use a derivative-based limit ?)
-                    else: c = (a.rect.y - b.rect.y)/(a.rect.x - b.rect.x)
+                    if a.true_center[0] == b.true_center[0]:  # temporary patch (Romeo  knows da way ! )
 
-                    s = (relative_v[0])*(np.cos(np.tan(c)))+(relative_v[1])*(np.sin(np.tan(c)))
-                    va = s - ((2*s*b.mass)/(a.mass + b.mass))
-                    vb = ((2*s*a.mass)/(a.mass + b.mass))
+                            b.speed[1] = a.speed * round(b.mass / a.mass )
 
-                    print(a.speed, b.speed)
-                    print(c, s, va, vb)
+                    else: #Proper physics calculated.
 
-                    a.speed[0] = va * (np.cos(np.tan(c)))
-                    a.speed[1] = va * (np.sin(np.tan(c)))
+                        c = (a.true_center[1] - b.true_center[1])/(a.true_center[0] - b.true_center[0])
+                        s = (relative_v[0])*(np.cos(np.tan(c)))+(relative_v[1])*(np.sin(np.tan(c)))
 
-                    b.speed[0] = vb * (np.cos(np.tan(c)))
-                    b.speed[1] = vb * (np.sin(np.tan(c)))
+                        va = s - ((2*s*b.mass)/(a.mass + b.mass))
+                        vb = ((2*s*a.mass)/(a.mass + b.mass))
+
+                        a.speed[0] = va * (np.cos(np.tan(c)))
+                        a.speed[1] = va * (np.sin(np.tan(c)))
+
+                        b.speed[0] = vb * (np.cos(np.tan(c)))
+                        b.speed[1] = vb * (np.sin(np.tan(c)))
 
                     print(self.speed, lentity.speed)
 
-                    # print("IMPACT", self, lentity, lentity.dspeed[0], lentity.dspeed[1])
-                    #self.speed[1], lentity.speed[1] = lentity.speed[1], self.speed[1]
-                    #self.speed[0], lentity.speed[0] = lentity.speed[0], self.speed[0]
-                    #self.rect = self.rect.move(self.speed)
+                    while (self.true_center[0] - lentity.true_center[0])**2 + (self.true_center[1] - lentity.true_center[1])**2 < (self.ray + lentity.ray)**2:
+                        b.run()
+                        b.boundary_check()
+
+                        # print("IMPACT", self, lentity, lentity.dspeed[0], lentity.dspeed[1])
+                        #self.speed[1], lentity.speed[1] = lentity.speed[1], self.speed[1]
+                        #self.speed[0], lentity.speed[0] = lentity.speed[0], self.speed[0]
+                        #self.rect = self.rect.move(self.speed)
 
                     return 1
             return 0
