@@ -1,9 +1,12 @@
 import pygame
 from CyberPuck2.Application import Application
+import sys
+from Multilingual import sysL
 
 width = 1366
 height = 768
 
+sysL(sys.argv)
 app = Application()
 app.menu()
 

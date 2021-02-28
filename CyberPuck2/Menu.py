@@ -7,6 +7,7 @@ class Menu:
     def __init__(self, application, *groups):
         self.colors = dict(normal=(200, 200, 0), survol=(0, 200, 200))
         font = pygame.font.SysFont('Helvetica', 30, bold=True)
+        print("Emma3", currL)
         items = ((multiL[currL]['Story'], application.story),
                  (multiL[currL]['Versus'], application.versus),
                  (multiL[currL]['Collection'], application.collection),
