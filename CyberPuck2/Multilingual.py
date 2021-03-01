@@ -1,4 +1,4 @@
-from config import currL
+currL = 'en'
 
 multiL = {
     'fr': {'Story': 'Histoire',
@@ -18,11 +18,12 @@ multiL = {
 
 def setL(selectedLanguage):
     global currL
-    print("Emma 2 ", selectedLanguage)
     currL = selectedLanguage
-    print(currL)
 
 
 def sysL(argv):
     if len(argv) >= 2:
         setL(argv[1].lower())
+
+def transL(word):
+    return multiL[currL][word]

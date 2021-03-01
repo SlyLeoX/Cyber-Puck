@@ -1,19 +1,18 @@
 import pygame
 from CyberPuck2.Slt_Menu import Slt_Menu
-from Multilingual import multiL, currL
+from Multilingual import transL
 
 class Menu:
 
     def __init__(self, application, *groups):
         self.colors = dict(normal=(200, 200, 0), survol=(0, 200, 200))
         font = pygame.font.SysFont('Helvetica', 30, bold=True)
-        print("Emma3", currL)
-        items = ((multiL[currL]['Story'], application.story),
-                 (multiL[currL]['Versus'], application.versus),
-                 (multiL[currL]['Collection'], application.collection),
-                 (multiL[currL]['Settings'], application.settings),
-                 (multiL[currL]['Credit'], application.credit),
-                 (multiL[currL]['Quit'], application.quit))
+        items = ((transL('Story'), application.story),
+                 (transL('Versus'), application.versus),
+                 (transL('Collection'), application.collection),
+                 (transL('Settings'), application.settings),
+                 (transL('Credit'), application.credit),
+                 (transL('Quit'), application.quit))
         x = 1366 / 2
         y = 100
         self.buttons = []
