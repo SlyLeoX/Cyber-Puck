@@ -18,6 +18,12 @@ if __name__ == '__main__':
 
     loop = 1
 
+    pygame.joystick.init()
+    joystick = []
+    for i in range(pygame.joystick.get_count()):
+        joystick.append(pygame.joystick.Joystick(i))
+        joystick[-1].init()
+
     class Movable:
 
         def __init__(self, x, y, mass,keys, texture="bumper.gif"):
@@ -26,7 +32,6 @@ if __name__ == '__main__':
 
             self.speed = [0, 0]
             self.true_pos = [x, y]
-            self.true_center = [x - (self.rect.size[0])/2 , y - (self.rect.size[1])/2]
             self.ray = self.rect.size[0]/2
 
             self.rect.x = x
@@ -36,19 +41,16 @@ if __name__ == '__main__':
             self.map = controls_mapping(keys)
 
             self.last_impact = 0
-
-        def get_truecenter(self):
-
-            self.true_center = [self.rect.x - (self.rect.size[0]) / 2, self.rect.y - (self.rect.size[1]) / 2]
+            self.number = -1
 
         def run(self, resistance=500):
 
             #if rd.randint(0, resistance) == resistance:
                 #print("Slow down!")
 
-            for i in range(0,2):
-                if self.speed[i] > 0: self.speed[i] -= 1/resistance
-                elif self.speed[i] < 0: self.speed[i] += 1/resistance
+            for dat_speed in self.speed:
+                if dat_speed > 0: dat_speed -= 1/resistance
+                elif dat_speed < 0: dat_speed += 1/resistance
 
             # rect = {1: self.rect.x, 2: self.rect.y}
             for i in range(0, 2):
@@ -59,31 +61,28 @@ if __name__ == '__main__':
             self.rect.x = self.true_pos[0]
             self.rect.y = self.true_pos[1]
 
-            self.get_truecenter()
-
             # self.rect = self.rect.move(self.speed[0], self.speed[1])
 
         def boundary_check(self):
             # print("Check before moving.")
             w = 0
-
-            if self.true_center[0] < -25:
-                self.rect.x = 0
+            if self.rect.left <= 0:
+                self.rect.x += 50
                 self.speed[0] *= -1
                 w = 1
 
-            if self.true_center[0] > (width-75):
-                self.rect.x = width-50
+            if self.rect.right >= width:
+                self.rect.x -= 50
                 self.speed[0] *= -1
                 w = 1
 
-            if self.true_center[1] < -25:
-                self.rect.y = 0
+            if self.rect.top <= 0:
+                self.rect.y += 50
                 self.speed[1] *= -1
                 w = 1
 
-            if self.true_center[1] > (height-75):
-                self.rect.y = height-50
+            if self.rect.bottom >= height:
+                self.rect.y -= 50
                 self.speed[1] *= -1
                 w = 1
 
@@ -93,8 +92,8 @@ if __name__ == '__main__':
             # print("Check before moving")
             for lentity in sentities:
                 #if self.rect.colliderect(lentity.rect) and (pygame.time.get_ticks()-self.last_impact > 16 or pygame.time.get_ticks()-lentity.last_impact > 16 ):
-                if (self.true_center[0] - lentity.true_center[0])**2 + (self.true_center[1] - lentity.true_center[1])**2 < (self.ray + lentity.ray)**2 and (
-                        pygame.time.get_ticks() - self.last_impact > 16 or pygame.time.get_ticks() - lentity.last_impact > 16):
+                if (self.rect.centerx - lentity.rect.centerx)**2 + (self.rect.centery - lentity.rect.centery)**2 < (self.ray + lentity.ray)**2 and (
+                        pygame.time.get_ticks() - self.last_impact > 8 or pygame.time.get_ticks() - lentity.last_impact > 8):
 
                     if abs(self.speed[0])+abs(self.speed[1])>abs(lentity.speed[0])+abs(lentity.speed[1]):
                         a = self
@@ -110,13 +109,13 @@ if __name__ == '__main__':
 
                     relative_v = [a.speed[0]-b.speed[0], a.speed[1]-b.speed[1]]
 
-                    if a.true_center[0] == b.true_center[0]:  # temporary patch (Romeo  knows da way ! )
+                    if a.rect.centerx == b.rect.centerx:  # temporary patch (Romeo knows da way ! )
 
-                            b.speed[1] = a.speed * round(b.mass / a.mass )
+                            b.speed[1] = a.speed[1] * round(b.mass / a.mass )
 
                     else: #Proper physics calculated.
 
-                        c = (a.true_center[1] - b.true_center[1])/(a.true_center[0] - b.true_center[0])
+                        c = (a.rect.centery - b.rect.centery)/(a.rect.centerx - b.rect.centerx)
                         s = (relative_v[0])*(np.cos(np.tan(c)))+(relative_v[1])*(np.sin(np.tan(c)))
 
                         va = s - ((2*s*b.mass)/(a.mass + b.mass))
@@ -130,9 +129,11 @@ if __name__ == '__main__':
 
                     print(self.speed, lentity.speed)
 
-                    while (self.true_center[0] - lentity.true_center[0])**2 + (self.true_center[1] - lentity.true_center[1])**2 < (self.ray + lentity.ray)**2:
-                        b.run()
-                        b.boundary_check()
+                    a.run()
+                    b.run()
+                    #while (self.rect.centerx - lentity.rect.centerx)**2 + (self.rect.centery - lentity.rect.centery)**2 < (self.ray + lentity.ray)**2:
+                        #b.run()
+                        #b.boundary_check()
 
                         # print("IMPACT", self, lentity, lentity.dspeed[0], lentity.dspeed[1])
                         #self.speed[1], lentity.speed[1] = lentity.speed[1], self.speed[1]
@@ -163,18 +164,24 @@ if __name__ == '__main__':
                     # The 0.5 down there could be later replaced by the acceleration stats.
                     # The 3 down there could be later replaced by the strength stats.
                     if event.key == self.map["up"]:
-                        if self.speed[1] > -3: self.speed[1] -= 0.5
+                        if self.speed[1] > -3: self.speed[1] -= 0.4
                         if self.speed[1] > 0: self.speed[1] = 0
                     elif event.key == self.map["down"]:
                         if self.speed[1] < 0: self.speed[1] = 0
-                        if self.speed[1] < 3: self.speed[1] += 0.5
+                        if self.speed[1] < 3: self.speed[1] += 0.4
 
                     if event.key == self.map["left"]:
                         if self.speed[0] > 0: self.speed[0] = 0
-                        if self.speed[0] > -3: self.speed[0] -= 0.5
+                        if self.speed[0] > -3: self.speed[0] -= 0.4
                     elif event.key == self.map["right"]:
                         if self.speed[0] < 0: self.speed[0] = 0
-                        if self.speed[0] < 3: self.speed[0] += 0.5
+                        if self.speed[0] < 3: self.speed[0] += 0.4
+
+                if event.type == pygame.JOYAXISMOTION and event.instance_id == self.number - 1:
+                    if event.axis == 0:
+                        self.speed[0] = event.value
+                    if event.axis == 1:
+                        self.speed[1] = event.value
 
     class ComType(Movable):
         pass
@@ -220,7 +227,9 @@ if __name__ == '__main__':
     while goal1.innerscore < 3 and goal2.innerscore < 3:
 
         player1 = PlayerType(width/6, height/2, 10, "keyboard1")
+        player1.number = 1
         player2 = PlayerType(5*width/6, height/2, 10, "keyboard2")
+        player2.number = 2
         puck1 = PuckType(width/2, height/2, 5, "0", "intro_ball.gif")
 
         players = [player2, player1]
@@ -237,7 +246,6 @@ if __name__ == '__main__':
             for entity in entities:
                 entity.boundary_check()
 
-            puck1.physics_check([player1, player2])
             player1.physics_check([puck1, player2])
             player2.physics_check([puck1, player1])
 
