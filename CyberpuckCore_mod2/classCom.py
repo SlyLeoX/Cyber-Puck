@@ -1,0 +1,5 @@
+
+
+
+class ComType:
+    pass
