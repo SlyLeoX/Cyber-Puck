@@ -16,29 +16,51 @@ if __name__ == '__main__':
     size = width, height = 1366, 768
     screen = pygame.display.set_mode(size)
 
-    system_parameters = [screen, 1366, 768]
-    player_parameters = [["PLAYER1", "keyboard1", "bumper.gif"], ["COM", "COM1", "bumper.gif"]]
+    # Characters_stats prototype: [mass,...]
+    charinfo = {"0": [5], "Sanic": [6,25,"char_icons\sanic_icon.gif"]}
 
-    game = partyOn(system_parameters,player_parameters)
-    gp1,gp2=game.players[0],game.players[1]
+    system_parameters = [screen, [1366, 768]]
+    player_parameters = [["PLAYER1", charinfo["Sanic"], "keyboard1","bumper.gif"], ["PLAYER2", charinfo["Sanic"], "keyboard2", "bumper.gif"]]
+    terrain = ["metal_bg.jpg", 200]
+
+    game = partyOn(system_parameters, player_parameters, terrain)
+    gp1,gp2=game.players[0], game.players[1]
 
     while gp1.score < 3 and gp2.score < 3:
 
         game.entities_reset()
+        chrono = pygame.time.Clock()
+        sec = round(pygame.time.get_ticks() / 1000)
 
         loop = 1
         while loop:
 
+            chrono.tick(60)
+            fps = chrono.get_fps()
+            #print(round(fps))
+
+            #Chronometer_code
+            if sec != round(pygame.time.get_ticks()/1000):
+                sec = round(pygame.time.get_ticks()/1000)
+                print(sec//60,":", (sec//10)%6, sec%10)
+
+            #screen.fill(white)
+            game.blit_bg()
+
             game.complete_frame()
             game.get_allinputs()
 
-            loop = game.goal_verif()
+            game.stamina_restitution()
 
-            screen.fill(white)
+            loop = game.goal_verif2()
+
             game.blit_entities()
             game.blit_stadium()
             game.blit_scores()
             game.blit_playtags()
+
+            game.blit_stamina()
+            game.blit_special()
 
             pygame.display.flip()
 

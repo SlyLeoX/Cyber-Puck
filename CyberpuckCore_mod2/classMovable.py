@@ -6,9 +6,11 @@ from classMovableControlsAux import controls_mapping
 
 class Movable:
 
-    def __init__(self, x, y, mass, keys, texture="bumper.gif"):
+    def __init__(self, x, y, charinfo, keys, texture="bumper.gif"):
         self.tex = pygame.image.load(texture).convert()
         self.rect = self.tex.get_rect()
+
+        self.base_x = x
 
         self.speed = [0, 0]
         self.true_pos = [x, y]
@@ -17,29 +19,24 @@ class Movable:
         self.rect.x = x
         self.rect.y = y
 
-        self.mass = mass
-        self.map = controls_mapping(keys)
+        self.mass = charinfo[0]
 
         self.last_impact = 0
-        self.number = -1
-
-        self.score=0
-        self.current_inputs = [0,0]
-
         self.followed_impact = 0
-        #Faut que je comprenne comment marche le mélange entre héritages et inits...
 
-    def run(self, resistance=500):
+    def run(self, resistance=200):
 
         # if rd.randint(0, resistance) == resistance:
         # print("Slow down!")
 
-        for dat_speed in self.speed:
-            if dat_speed > 0:
-                dat_speed -= 1 / resistance
-            elif dat_speed < 0:
-                dat_speed += 1 / resistance
-            dat_speed = 0 if abs(dat_speed) < 0.1 else 0
+        for i in range(2):
+
+            if self.speed[i] < 0:
+                self.speed[i] += 1/resistance
+
+            elif self.speed[i] > 0:
+                self.speed[i] -= 1/resistance
+
 
         # rect = {1: self.rect.x, 2: self.rect.y}
         for i in range(0, 2):
@@ -64,9 +61,9 @@ class Movable:
                 print("FOLLOWED IMPACT!",self.followed_impact)
             elif self.followed_impact > 0:
                 print("DEBUG DEFUSED!")
-                self.followed_impact -=1
+                self.followed_impact -= 1
 
-            if self.followed_impact >= 8:
+            if self.followed_impact >= 16:
                 print("DEBUG TRIGGERED!")
                 if self.true_pos[0] < entity.true_pos[0]:
                     self.true_pos[0] -= 3
@@ -74,15 +71,25 @@ class Movable:
                     self.true_pos[0] += 3
                 self.followed_impact = 0
 
+            for test in [self,entity]:
+                for i in range(2):
+                    if test.speed[i]>7:
+                        test.speed[i] = 7
+                    if test.speed[i]<-7:
+                        test.speed[i] = -7
+
 
 
             # if self.rect.colliderect(lentity.rect) and (pygame.time.get_ticks()-self.last_impact > 16 or pygame.time.get_ticks()-lentity.last_impact > 16 ):
             if (self.rect.centerx - entity.rect.centerx) ** 2 + (self.rect.centery - entity.rect.centery) ** 2 <= (
                     self.ray + entity.ray) ** 2 and (
-                    pygame.time.get_ticks() - self.last_impact > 1 or pygame.time.get_ticks() - entity.last_impact > 1):
+                    pygame.time.get_ticks() - self.last_impact > 4 or pygame.time.get_ticks() - entity.last_impact > 4):
 
                 a = self
                 b = entity
+
+                print(a.mass)
+                print(b.mass)
 
                 # a, b = self, lentity
 
@@ -93,7 +100,7 @@ class Movable:
 
                 if a.rect.centerx == b.rect.centerx:  # temporary patch (Romeo knows da way ! )
 
-                    b.speed[1] = a.speed[1] * round(b.mass / a.mass)
+                    b.speed[1] = a.speed[1] * (b.mass / a.mass)
 
                 else:  # Proper physics calculated.
 
@@ -110,17 +117,14 @@ class Movable:
                     b.speed[1] = vb * (np.sin(np.tan(c))) + b.speed[1]
 
                 #print(self.speed, lentity.speed)
-
                 a.run()
-                b.run()
-                # while (self.rect.centerx - lentity.rect.centerx)**2 + (self.rect.centery - lentity.rect.centery)**2 < (self.ray + lentity.ray)**2:
-                # b.run()
-                # b.boundary_check()
 
-                # print("IMPACT", self, lentity, lentity.dspeed[0], lentity.dspeed[1])
-                # self.speed[1], lentity.speed[1] = lentity.speed[1], self.speed[1]
-                # self.speed[0], lentity.speed[0] = lentity.speed[0], self.speed[0]
-                # self.rect = self.rect.move(self.speed)
+                #Maybe try to put it elsewhere
+                if type(a).__name__ != "PlayerType":
+                    if b.current_special < b.max_special: b.current_special += 0.5
+                elif type(b).__name__ != "PlayerType":
+                    if a.current_special < a.max_special: a.current_special += 0.5
+
 
                 return 1
         return 0

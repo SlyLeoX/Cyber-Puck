@@ -2,9 +2,29 @@ import pygame
 import sys
 
 from classOneGame import Movable
+from classMovableControlsAux import controls_mapping
 
 
 class PlayerType(Movable):
+
+    def __init__(self, x, y, charinfo, keys, texture="bumper.gif"):
+
+        Movable.__init__(self, x, y, charinfo, keys, texture="bumper.gif")
+
+        self.score = 0
+
+        self.current_inputs = [0, 0]
+        self.map = controls_mapping(keys)
+        self.number = -1
+
+        self.max_stamina = charinfo[1]
+        self.max_special = 12
+
+        self.current_stamina = self.max_stamina
+        self.current_special = 0
+
+        self.icon = charinfo[2]
+
 
     def get_inputs(self, events):
 
@@ -39,13 +59,14 @@ class PlayerType(Movable):
                     if self.speed[0] < 0: self.speed[0] = 0
                     if self.speed[0] < 3: self.speed[0] += 0.4
 
+
             if event.type == pygame.JOYAXISMOTION and event.instance_id == self.number - 1:
                 if event.axis == 0:
                     self.speed[0] = event.value
                 if event.axis == 1:
                     self.speed[1] = event.value
 
-    def get_inputs_2(self,events):
+    def get_inputs_2(self, events, game):
 
         for event in events:
 
@@ -54,40 +75,72 @@ class PlayerType(Movable):
             if event.type == pygame.KEYUP:
 
                 if event.key == self.map["up"] and self.current_inputs[1]==-1:
-                    self.current_inputs[1]=0
+                    self.current_inputs[1] = 0
                 elif event.key == self.map["down"] and self.current_inputs[1]==1:
-                    self.current_inputs[1]=0
+                    self.current_inputs[1] = 0
 
                 if event.key == self.map["left"] and self.current_inputs[0]==-1:
-                    self.current_inputs[0]=0
+                    self.current_inputs[0] = 0
                 elif event.key == self.map["right"] and self.current_inputs[0]==1:
-                    self.current_inputs[0]=0
+                    self.current_inputs[0] = 0
 
             if event.type == pygame.KEYDOWN:
 
                 if event.key == self.map["up"]:
-                    self.current_inputs[1]=-1
+                    self.current_inputs[1] = -1
                 elif event.key == self.map["down"]:
-                    self.current_inputs[1]=1
+                    self.current_inputs[1] = 1
 
                 if event.key == self.map["left"]:
-                    self.current_inputs[0]=-1
+                    self.current_inputs[0] = -1
                 elif event.key == self.map["right"]:
-                    self.current_inputs[0]=1
+                    self.current_inputs[0] = 1
+
+                if event.key == self.map["spe_move"]:
+                    self.dash(game)
+
+                if event.key == self.map["ultra"]:
+                    self.ultra(game)
 
     def apply_inputs(self):
 
         #Instant direction change code
         for i in range(2):
-            if self.current_inputs[i]==1 and self.speed[i]<0:
+            if self.current_inputs[i] == 1 and self.speed[i] < 0:
                 self.speed[i]=0
-            if self.current_inputs[i]==-1 and self.speed[i]>0:
+            if self.current_inputs[i] == -1 and self.speed[i] > 0:
                 self.speed[i]=0
         #To replace with char stats
-        acc = 0.003
+        acc = 0.1
         max = 4
 
         #print(self.current_inputs)
 
         for i in range(2):
             self.speed[i] += acc*self.current_inputs[i] if abs(self.speed[i]) < max else 0
+
+    def dash(self,game):
+        if self.current_stamina >= 5:
+            self.current_stamina -= 5
+            print("DASH! remaining:",self.current_stamina)
+            for i in range(64):
+                self.run()
+                self.boundary_check((game.width, game.height))
+                self.physics_check(game.base_entities)
+        else:
+            print("Dash failed")
+
+    def ultra(self,game):
+
+        if self.current_special == 12:
+            print("ULTRA")
+            self.current_special -= 12
+            icon = pygame.image.load(self.icon).convert()
+            icon = pygame.transform.scale(icon, [round(game.width/2), round(game.height/2)])
+            for x in range(round(game.width*1/5), round(game.width*1/2)):
+                game.screen.blit(icon, (x, game.height/3))
+                pygame.display.flip()
+        else:
+            print("ULTRA FAIL!")
+
+
