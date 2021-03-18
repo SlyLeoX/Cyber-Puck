@@ -52,8 +52,14 @@ Du coup il faut faire une boucle après avoir utilisé les inputs pour 2 choses 
                 del(self.inputs[input])
 """
 
+# To improve :
+# We should get how long we will take to reset to our original position given our speed, and maybe try to acccount
+# for speed on arrival ? idk if it should be done here or when we use that function
 
 def get_quickest_position(player_x_pos, player_y_pos, max_speed, ball_x_pos, ball_y_pos, ball_x_speed, ball_y_speed):
+    # Takes in the necessary parameters, returns the position that we must go to
+    # In the future, I may change it to just take the player and the ball as arguments if I can do that with attributes
+
     # Max speed in pix per frame
     catchable = False
     radius = 0
