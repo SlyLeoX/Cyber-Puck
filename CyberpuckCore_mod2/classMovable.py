@@ -73,10 +73,10 @@ class Movable:
 
             for test in [self,entity]:
                 for i in range(2):
-                    if test.speed[i]>7:
-                        test.speed[i] = 7
-                    if test.speed[i]<-7:
-                        test.speed[i] = -7
+                    if test.speed[i]>10:
+                        test.speed[i] = 10
+                    if test.speed[i]<-10:
+                        test.speed[i] = -10
 
 
 
@@ -88,8 +88,8 @@ class Movable:
                 a = self
                 b = entity
 
-                print(a.mass)
-                print(b.mass)
+                #print(a.mass)
+                #print(b.mass)
 
                 # a, b = self, lentity
 
@@ -134,25 +134,25 @@ class Movable:
         if 1:
             # print("Check before moving.")
             w = 0
-            if self.rect.left <= 0:
+            if self.rect.left <= 64*size[0]/1920:
                 self.rect.x += 5
                 self.true_pos[0] += 5
                 self.speed[0] *= -1
                 w = 1
 
-            if self.rect.right >= size[0]:
+            if self.rect.right >= size[0]-(64*size[0]/1920):
                 self.rect.x -= 5
                 self.true_pos[0] -= 5
                 self.speed[0] *= -1
                 w = 1
 
-            if self.rect.top <= 0:
+            if self.rect.top <= 132*size[1]/1080:
                 self.true_pos[1] += 5
                 self.rect.y += 5
                 self.speed[1] *= -1
                 w = 1
 
-            if self.rect.bottom >= size[1]:
+            if self.rect.bottom >= size[1]-(36*size[1]/1080):
                 self.true_pos[1] -= 5
                 self.rect.y -= 5
                 self.speed[1] *= -1

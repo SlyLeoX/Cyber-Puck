@@ -2,6 +2,7 @@ import pygame
 import sys
 
 from classOneGame import Movable
+from ClassEffect import effectType
 from classMovableControlsAux import controls_mapping
 
 
@@ -22,6 +23,8 @@ class PlayerType(Movable):
 
         self.current_stamina = self.max_stamina
         self.current_special = 0
+
+        self.active_pow = []
 
         self.icon = charinfo[2]
 
@@ -112,7 +115,7 @@ class PlayerType(Movable):
                 self.speed[i]=0
         #To replace with char stats
         acc = 0.1
-        max = 4
+        max = 10
 
         #print(self.current_inputs)
 
@@ -123,7 +126,7 @@ class PlayerType(Movable):
         if self.current_stamina >= 5:
             self.current_stamina -= 5
             print("DASH! remaining:",self.current_stamina)
-            for i in range(64):
+            for i in range(32):
                 self.run()
                 self.boundary_check((game.width, game.height))
                 self.physics_check(game.base_entities)
@@ -135,11 +138,7 @@ class PlayerType(Movable):
         if self.current_special == 12:
             print("ULTRA")
             self.current_special -= 12
-            icon = pygame.image.load(self.icon).convert()
-            icon = pygame.transform.scale(icon, [round(game.width/2), round(game.height/2)])
-            for x in range(round(game.width*1/5), round(game.width*1/2)):
-                game.screen.blit(icon, (x, game.height/3))
-                pygame.display.flip()
+            self.active_pow.append(effectType(self,20*5*60,"ultra0"))
         else:
             print("ULTRA FAIL!")
 

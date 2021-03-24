@@ -1,5 +1,7 @@
 #Version 1.1a : Introduction des hitboxes rondes et de la var trucenter en remplacement des rect. (Version 1)
 #Version 1.2a : Première introduction des controles au joystick + Fixs physiques divers, abandon de la var TrueCenter.
+#1.3a: Premiere versions des barres d'endurance, de spéciale, ajout du chronomètre et des premiers mouvements spéciaux.
+#1.4a: Intégration d'un overlay regroupant les informations de jeu.
 
 import pygame
 
@@ -42,13 +44,14 @@ if __name__ == '__main__':
             #Chronometer_code
             if sec != round(pygame.time.get_ticks()/1000):
                 sec = round(pygame.time.get_ticks()/1000)
-                print(sec//60,":", (sec//10)%6, sec%10)
+                #print(sec//60,":", (sec//10)%6, sec%10)
 
             #screen.fill(white)
             game.blit_bg()
 
-            game.complete_frame()
             game.get_allinputs()
+            game.apply_all_effects()
+            game.complete_frame()
 
             game.stamina_restitution()
 
@@ -56,9 +59,13 @@ if __name__ == '__main__':
 
             game.blit_entities()
             game.blit_stadium()
-            game.blit_scores()
+
             game.blit_playtags()
 
+            game.blit_overlay()
+            game.blit_scores()
+            game.blit_char_icon()
+            game.blit_timer(sec)
             game.blit_stamina()
             game.blit_special()
 
