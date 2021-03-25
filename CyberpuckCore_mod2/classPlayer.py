@@ -28,6 +28,12 @@ class PlayerType(Movable):
 
         self.icon = charinfo[2]
 
+        #pattern=[number of frames of effect (theoretical),("type0,effect1,effect2,...")]
+        self.ultras = [100*60,"ultra0,puck_speedup4"]
+        self.specials = [100*60,"super0,enemy_speeddown2"]
+        self.passives = []
+        self.dashs = [10*60,"dash0,self_speedup2"]
+
 
     def get_inputs(self, events):
 
@@ -152,7 +158,7 @@ class PlayerType(Movable):
         if self.current_special == 12:
             print("ULTRA")
             self.current_special -= 12
-            self.active_pow.append(effectType(self,20*5*60,"ultra0"))
+            self.active_pow.append(effectType(self,self.ultras[0],self.ultras[1]))
         else:
             print("ULTRA FAIL!")
 

@@ -43,7 +43,7 @@ class partyOn:
             if player.active_pow!=[]: print(player.active_pow,player.active_pow[0].types,player.active_pow[0].lenght)
             for capacity in player.active_pow:
                 print("He went there! Capacity's time:", pygame.time.get_ticks()-capacity.origin)
-                capacity.effects_apply(player, (self.width,self.height,self.screen))
+                capacity.effects_apply(player, (self.width,self.height,self.screen),self.base_entities)
 
                 if capacity.last_frame() == True:
                     print("Lastframe!")

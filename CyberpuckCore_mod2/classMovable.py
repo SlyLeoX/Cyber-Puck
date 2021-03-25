@@ -12,6 +12,7 @@ class Movable:
 
         self.base_x = x
 
+        self.speed_multiplier=[1, 1]
         self.speed = [0, 0]
         self.true_pos = [x, y]
         self.ray = self.rect.size[0] / 2
@@ -40,7 +41,7 @@ class Movable:
 
         # rect = {1: self.rect.x, 2: self.rect.y}
         for i in range(0, 2):
-            self.true_pos[i] += self.speed[i]
+            self.true_pos[i] += (self.speed[i])*self.speed_multiplier[i]
             # if self.true_pos != [0, 0]: print(self.true_pos)
             # rect[i] = self.true_pos[i]
 
