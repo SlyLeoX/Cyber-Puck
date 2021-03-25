@@ -24,7 +24,7 @@ class partyOn:
             pos = player_pos[i]
             par = player_parameters[i]
             if par[0][:-1] == "PLAYER" or 1: #ALWAYS ON FOR NOW
-                self.base_entities.append(PlayerType(pos[0]*self.width, pos[1]*self.height, par[1], par[2]))
+                self.base_entities.append(PlayerType(pos[0]*self.width, pos[1]*self.height, par[1], par[2], "bumper.gif", i))
             else:
                 self.base_entities.append(ComType)
 

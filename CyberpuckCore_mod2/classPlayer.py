@@ -8,15 +8,15 @@ from classMovableControlsAux import controls_mapping
 
 class PlayerType(Movable):
 
-    def __init__(self, x, y, charinfo, keys, texture="bumper.gif"):
+    def __init__(self, x, y, charinfo, keys, texture="bumper.gif", number=-1):
 
         Movable.__init__(self, x, y, charinfo, keys, texture="bumper.gif")
 
         self.score = 0
+        self.number = number
 
         self.current_inputs = [0, 0]
         self.map = controls_mapping(keys)
-        self.number = -1
 
         self.max_stamina = charinfo[1]
         self.max_special = 12
@@ -104,6 +104,20 @@ class PlayerType(Movable):
 
                 if event.key == self.map["ultra"]:
                     self.ultra(game)
+
+            if event.type == pygame.JOYAXISMOTION and event.instance_id == self.number:
+                if event.axis == 0:
+                    self.current_inputs[0] = event.value
+                if event.axis == 1:
+                    self.current_inputs[1] = event.value
+
+            if event.type == pygame.JOYBUTTONDOWN and event.instance_id == self.number:
+                if event.value in self.map.values():
+                    self.inputs[event.value] = "pressing"
+
+            if event.type == pygame.JOYBUTTONUP and event.instance_id == self.number:
+                if event.value in self.map.values():
+                    self.inputs[event.value] = "releasing"
 
     def apply_inputs(self):
 

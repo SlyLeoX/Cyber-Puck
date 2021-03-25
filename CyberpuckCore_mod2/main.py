@@ -28,6 +28,12 @@ if __name__ == '__main__':
     game = partyOn(system_parameters, player_parameters, terrain)
     gp1,gp2=game.players[0], game.players[1]
 
+    pygame.joystick.init()
+    joystick = []
+    for i in range(pygame.joystick.get_count()):
+        joystick.append(pygame.joystick.Joystick(i))
+        joystick[-1].init()
+
     while gp1.score < 3 and gp2.score < 3:
 
         game.entities_reset()
