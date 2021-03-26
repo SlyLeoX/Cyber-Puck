@@ -1,13 +1,14 @@
 import pygame
 import numpy as np
 
+from miscStats import return_charstats
 from classMovableControlsAux import controls_mapping
 
 
 class Movable:
 
-    def __init__(self, x, y, charinfo, keys, texture="bumper.gif"):
-        self.tex = pygame.image.load(texture).convert()
+    def __init__(self, x, y, infopack):
+        self.tex = pygame.image.load(infopack[3]).convert()
         self.rect = self.tex.get_rect()
 
         self.base_x = x
@@ -20,12 +21,12 @@ class Movable:
         self.rect.x = x
         self.rect.y = y
 
-        self.mass = charinfo[0]
+        self.mass = return_charstats(infopack[1])[0]
 
         self.last_impact = 0
         self.followed_impact = 0
 
-    def run(self, resistance=200):
+    def run(self, resistance=100):
 
         # if rd.randint(0, resistance) == resistance:
         # print("Slow down!")

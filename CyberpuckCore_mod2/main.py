@@ -2,9 +2,10 @@
 #Version 1.2a : Première introduction des controles au joystick + Fixs physiques divers, abandon de la var TrueCenter.
 #1.3a: Premiere versions des barres d'endurance, de spéciale, ajout du chronomètre et des premiers mouvements spéciaux.
 #1.4a: Intégration d'un overlay regroupant les informations de jeu.
+#1.5a: Implémentation du framework des Techniques spéciales.
+#1.6a: Début de travaux sur la refonte des inputs de jeu, optimisation des import calls et préparations au raccordement.
 
 import pygame
-
 from classOneGame import partyOn
 
 white = 255, 255, 255
@@ -14,25 +15,41 @@ blue = 65, 65, 255
 
 if __name__ == '__main__':
 
+    #The following three lines will have to be erased when
     pygame.init()
     size = width, height = 1366, 768
     screen = pygame.display.set_mode(size)
 
-    # Characters_stats prototype: [mass,...]
-    charinfo = {"0": [5], "Sanic": [15,25,"char_icons\sanic_icon.gif"]}
-
+    #The following lines contains values that will have to be given as a parameter when calling the core.
+    #Synthax: [screen,[window_width, window_height]]
     system_parameters = [screen, [1366, 768]]
-    player_parameters = [["PLAYER1", charinfo["Sanic"], "keyboard1","bumper.gif"], ["PLAYER2", charinfo["Sanic"], "keyboard2", "bumper.gif"]]
-    terrain = ["metal_bg.jpg", 200]
+    #Synthax for each: [Player_type(player or IA)+ID,Chosen_Character,Chosen_Peripheral,Chosen_Bumber_Texture]
+    #Also called infopacks later in the code
+    player_parameters = [["PLAYER1","Sanic", "keyboard1", "bumper.gif"],
+                         ["PLAYER2", "Sanic", "keyboard2", "bumper.gif"]]
+    #Synthax: [gametype, terrain chosen]
+    game_parameters = ["first_to3", "metal1"]
 
-    game = partyOn(system_parameters, player_parameters, terrain)
+
+
+    #Supercall synthax: (system_parameters, players_parameters, chosen_stadium)
+    game = partyOn(system_parameters, player_parameters, game_parameters[1])
     gp1,gp2=game.players[0], game.players[1]
+    sec=0
 
+    #Joysticks initialization.
     pygame.joystick.init()
     joystick = []
     for i in range(pygame.joystick.get_count()):
         joystick.append(pygame.joystick.Joystick(i))
         joystick[-1].init()
+
+    #Victoryloops condition.
+    condition = 0
+    if game_parameters[0] == "first_to3":
+        condition = gp1.score < 3 and gp2.score < 3
+    elif game_parameters[0] == "time_to3":
+        condition = sec <= 180
 
     while gp1.score < 3 and gp2.score < 3:
 
@@ -43,9 +60,9 @@ if __name__ == '__main__':
         loop = 1
         while loop:
 
-            chrono.tick(30)
+            chrono.tick(60)
             fps = chrono.get_fps()
-            print(round(fps))
+            #print(round(fps))
 
             #Chronometer_code
             if sec != round(pygame.time.get_ticks()/1000):

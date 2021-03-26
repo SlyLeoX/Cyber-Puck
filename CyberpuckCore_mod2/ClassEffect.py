@@ -29,7 +29,7 @@ class effectType:
         icon = pygame.image.load(player.icon).convert()
         icon = pygame.transform.scale(icon, [round(screen_dim[0] / 2), round(screen_dim[1] / 2)])
 
-        screen[2].blit(icon, (screen_dim[0] + part*screen_dim[0], screen_dim[1] / 3))
+        screen[2].blit(icon, (part*screen_dim[0], screen_dim[1] / 3))
 
     def speedUp(self, amp):
         for i in range(2):

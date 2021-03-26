@@ -5,6 +5,7 @@ from classPlayer import PlayerType
 from classCom import ComType
 from classImmuable import goalType
 from ClassEffect import effectType
+from miscStats import return_stadiumstats
 
 #Placeholder while we don't have proper file transmission between parts...
 player_pos=[[1/6, 2],[5/6, 1/2]]
@@ -18,25 +19,38 @@ class partyOn:
         self.width = system_parameters[1][0]
         self.height = system_parameters[1][1]
 
+        infopack = ["PUCK1","0","0","intro_ball.gif"]
         self.base_entities = []
-        self.base_entities.append(Movable(self.width/2, self.height/2, [5], "0", "intro_ball.gif"))
+        self.base_entities.append(Movable(self.width/2, self.height/2, infopack))
         for i in range(2):
             pos = player_pos[i]
-            par = player_parameters[i]
-            if par[0][:-1] == "PLAYER" or 1: #ALWAYS ON FOR NOW
-                self.base_entities.append(PlayerType(pos[0]*self.width, pos[1]*self.height, par[1], par[2], "bumper.gif", i))
+            infopack = player_parameters[i]
+            if infopack[0][:-1] == "PLAYER" or 1: #ALWAYS ON FOR NOW
+                self.base_entities.append(PlayerType(pos[0]*self.width, pos[1]*self.height, infopack, i))
             else:
                 self.base_entities.append(ComType)
 
         self.players = self.base_entities[1:]
 
+
         self.zone_parts = []
         self.zone_parts.append(goalType(64*self.width/1920, (self.height * 0.5) - 75))
         self.zone_parts.append(goalType(self.width - (64+24)*self.width/1920, (self.height * 0.5) - 75))
 
-        self.bg = pygame.image.load(terrain[0]).convert()
+        self.bg = pygame.image.load(return_stadiumstats(terrain)[0]).convert()
         self.bg = pygame.transform.scale(self.bg, system_parameters[1])
-        self.terrain_resistance = terrain[1]
+        self.terrain_resistance = return_stadiumstats(terrain)[1]
+
+        self.overlay = pygame.image.load("Cyberpeck_Overlay_III_mk1.gif").convert_alpha()
+        self.overlay = pygame.transform.scale(self.overlay, (self.width, self.height))
+
+        self.char_icons = []
+        for player in self.players:
+            icon = (player.icon[:-4]) + "_mini.gif"
+            icon = pygame.image.load(icon).convert_alpha()
+            icon = pygame.transform.scale(icon, (round(160 * self.width / 1920), round(160 * self.height / 1080)))
+            self.char_icons.append(icon)
+
 
     def apply_all_effects(self):
         for player in self.players:
@@ -116,10 +130,7 @@ class partyOn:
         self.screen.blit(self.bg, (0, 0))
 
     def blit_overlay(self):
-        overlay = pygame.image.load("Cyberpeck_Overlay_III_mk1.gif").convert_alpha()
-        overlay = pygame.transform.scale(overlay, (self.width, self.height))
-
-        self.screen.blit(overlay, (0,0))
+        self.screen.blit(self.overlay, (0,0))
 
     def entities_reset(self):
         for entity in self.base_entities:
@@ -177,16 +188,10 @@ class partyOn:
 
     def blit_char_icon(self):
 
-        for player in self.players:
-            icon = (player.icon[:-4]) + "_mini.gif"
-
-            icon = pygame.image.load(icon).convert_alpha()
-            icon = pygame.transform.scale(icon, (round(160*self.width/1920), round(160*self.height/1080)))
-
-
-
-            if player.base_x < (self.width/2) : self.screen.blit(icon, (17*self.width/1920, 17*self.height/1080))
-            else: self.screen.blit(icon, (self.width-(17+158)*self.width/1920, 17*self.height/1080))
+        for i in range (2):
+            player = self.players[i]
+            if player.base_x < (self.width/2) : self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height/1080))
+            else: self.screen.blit(self.char_icons[i], (self.width-(16+158)*self.width/1920, 12*self.height/1080))
 
 
 

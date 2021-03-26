@@ -4,36 +4,37 @@ import sys
 from classOneGame import Movable
 from ClassEffect import effectType
 from classMovableControlsAux import controls_mapping
+from miscStats import return_charstats
 
 
 class PlayerType(Movable):
 
-    def __init__(self, x, y, charinfo, keys, texture="bumper.gif", number=-1):
+    def __init__(self, x, y, infopack, number=-1):
 
-        Movable.__init__(self, x, y, charinfo, keys, texture="bumper.gif")
+        Movable.__init__(self, x, y, infopack)
 
         self.score = 0
         self.number = number
 
         self.current_inputs = [0, 0]
-        self.map = controls_mapping(keys)
+        self.map = controls_mapping(infopack[2])
 
-        self.max_stamina = charinfo[1]
-        self.max_special = 12
+        self.max_stamina = return_charstats(infopack[1])[1]
+        self.max_special = return_charstats(infopack[1])[2]
 
         self.current_stamina = self.max_stamina
         self.current_special = 0
 
         self.active_pow = []
 
-        self.icon = charinfo[2]
+        self.icon = return_charstats(infopack[1])[3]
 
         #pattern=[number of frames of effect (theoretical),("type0,effect1,effect2,...")]
 
-        self.ultras = [100*60,"ultra0,puck_speedup4"]
-        self.specials = [100*60,"super0,enemy_speeddown2"]
-        self.passives = []
-        self.dashs = [10*60,"dash0,self_speedup2"]
+        self.ultras = return_charstats(infopack[1])[4]
+        self.specials = return_charstats(infopack[1])[5]
+        self.passives = return_charstats(infopack[1])[6]
+        self.dashs = [10*60,"dash0,self_speedup4"]
 
         # player.map is a dictionary of type player.map["action"] = key. It is a map for the keyboard.
         # player.current_inputs is an array of int [x_binary_speed, y_binary_speed]
@@ -141,14 +142,18 @@ class PlayerType(Movable):
                 #self.speed[i]=0
             #if self.current_inputs[i] == -1 and self.speed[i] > 0:
                 #self.speed[i]=0
+
         #To replace with char stats
-        acc = 2
-        max = 50
+        acc = 0.5
+        max = 8
 
         #print(self.current_inputs)
-
+        #print(self.current_inputs)
         for i in range(2):
             self.speed[i] += acc*self.current_inputs[i] if abs(self.speed[i]) < max else 0
+            print("for i=",i)
+            print(acc*self.current_inputs[i])
+            print(self.speed[i])
 
     def dash(self, game):
         if self.current_stamina >= 5:
