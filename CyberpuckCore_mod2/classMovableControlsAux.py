@@ -11,7 +11,3 @@ def controls_mapping(controller):
 
     if controller == "keyboard2":
         return {"up": pygame.K_UP, "down": pygame.K_DOWN, "left": pygame.K_LEFT, "right": pygame.K_RIGHT, "spe_move":pygame.K_KP1, "sup_move":pygame.K_KP2, "ultra":pygame.K_KP3}
-
-
-
-

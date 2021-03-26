@@ -43,7 +43,7 @@ if __name__ == '__main__':
         loop = 1
         while loop:
 
-            chrono.tick(60)
+            chrono.tick(30)
             fps = chrono.get_fps()
             print(round(fps))
 
