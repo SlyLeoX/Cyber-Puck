@@ -19,7 +19,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(size)
 
     # Characters_stats prototype: [mass,...]
-    charinfo = {"0": [5], "Sanic": [6,25,"char_icons\sanic_icon.gif"]}
+    charinfo = {"0": [5], "Sanic": [15,25,"char_icons\sanic_icon.gif"]}
 
     system_parameters = [screen, [1366, 768]]
     player_parameters = [["PLAYER1", charinfo["Sanic"], "keyboard1","bumper.gif"], ["PLAYER2", charinfo["Sanic"], "keyboard2", "bumper.gif"]]
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
             chrono.tick(60)
             fps = chrono.get_fps()
-            #print(round(fps))
+            print(round(fps))
 
             #Chronometer_code
             if sec != round(pygame.time.get_ticks()/1000):

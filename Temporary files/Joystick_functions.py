@@ -75,6 +75,7 @@ def get_quickest_position(player_x_pos, player_y_pos, max_speed, ball_x_pos, bal
             catchable = True
 
     # Then we go where the ball will be 10 frames after that
+
     player_x_pos, player_y_pos = ball_x_pos, ball_y_pos
     for i in range(10):
         player_x_pos += ball_x_speed

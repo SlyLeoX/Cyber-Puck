@@ -29,11 +29,19 @@ class PlayerType(Movable):
         self.icon = charinfo[2]
 
         #pattern=[number of frames of effect (theoretical),("type0,effect1,effect2,...")]
+
         self.ultras = [100*60,"ultra0,puck_speedup4"]
         self.specials = [100*60,"super0,enemy_speeddown2"]
         self.passives = []
         self.dashs = [10*60,"dash0,self_speedup2"]
 
+        # player.map is a dictionary of type player.map["action"] = key. It is a map for the keyboard.
+        # player.current_inputs is an array of int [x_binary_speed, y_binary_speed]
+
+        # elements to add :
+        # player.map_axis would be dictionary of type player.map_axis[axis number] = "action"
+        # player.input would be a dictionary of type player.input["action"] = "pressing" or "pressed" or "released"
+        # player.input_axis would be a dictionary of type player.input[axis_number] = value
 
     def get_inputs(self, events):
 
@@ -128,21 +136,21 @@ class PlayerType(Movable):
     def apply_inputs(self):
 
         #Instant direction change code
-        for i in range(2):
-            if self.current_inputs[i] == 1 and self.speed[i] < 0:
-                self.speed[i]=0
-            if self.current_inputs[i] == -1 and self.speed[i] > 0:
-                self.speed[i]=0
+        #for i in range(2):
+            #if self.current_inputs[i] == 1 and self.speed[i] < 0:
+                #self.speed[i]=0
+            #if self.current_inputs[i] == -1 and self.speed[i] > 0:
+                #self.speed[i]=0
         #To replace with char stats
-        acc = 0.1
-        max = 10
+        acc = 2
+        max = 50
 
         #print(self.current_inputs)
 
         for i in range(2):
             self.speed[i] += acc*self.current_inputs[i] if abs(self.speed[i]) < max else 0
 
-    def dash(self,game):
+    def dash(self, game):
         if self.current_stamina >= 5:
             self.current_stamina -= 5
             print("DASH! remaining:",self.current_stamina)
@@ -153,7 +161,7 @@ class PlayerType(Movable):
         else:
             print("Dash failed")
 
-    def ultra(self,game):
+    def ultra(self, game):
 
         if self.current_special == 12:
             print("ULTRA")
