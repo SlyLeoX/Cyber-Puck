@@ -17,12 +17,12 @@ if __name__ == '__main__':
 
     #The following three lines will have to be erased when
     pygame.init()
-    size = width, height = 1366, 768
+    size = width, height = 1366,768
     screen = pygame.display.set_mode(size)
 
     #The following lines contains values that will have to be given as a parameter when calling the core.
     #Synthax: [screen,[window_width, window_height]]
-    system_parameters = [screen, [1366, 768]]
+    system_parameters = [screen, [width, height]]
     #Synthax for each: [Player_type(player or IA)+ID,Chosen_Character,Chosen_Peripheral,Chosen_Bumber_Texture]
     #Also called infopacks later in the code
     player_parameters = [["PLAYER1","Sanic", "keyboard1", "bumper.gif"],
@@ -71,6 +71,7 @@ if __name__ == '__main__':
 
             #screen.fill(white)
             game.blit_bg()
+            game.blit_overlay()
 
             game.get_allinputs()
             game.apply_all_effects()
@@ -85,7 +86,7 @@ if __name__ == '__main__':
 
             game.blit_playtags()
 
-            game.blit_overlay()
+
             game.blit_scores()
             game.blit_char_icon()
             game.blit_timer(sec)

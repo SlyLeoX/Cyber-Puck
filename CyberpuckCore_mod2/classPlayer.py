@@ -137,11 +137,11 @@ class PlayerType(Movable):
     def apply_inputs(self):
 
         #Instant direction change code
-        #for i in range(2):
-            #if self.current_inputs[i] == 1 and self.speed[i] < 0:
-                #self.speed[i]=0
-            #if self.current_inputs[i] == -1 and self.speed[i] > 0:
-                #self.speed[i]=0
+        for i in range(2):
+            if self.current_inputs[i] == 1 and self.speed[i] < 0:
+                self.speed[i]=0
+            if self.current_inputs[i] == -1 and self.speed[i] > 0:
+                self.speed[i]=0
 
         #To replace with char stats
         acc = 0.5

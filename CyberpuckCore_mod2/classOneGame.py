@@ -8,7 +8,7 @@ from ClassEffect import effectType
 from miscStats import return_stadiumstats
 
 #Placeholder while we don't have proper file transmission between parts...
-player_pos=[[1/6, 2],[5/6, 1/2]]
+player_pos=[[1/6, 1/2],[5/6, 1/2]]
 
 
 class partyOn:
@@ -51,6 +51,11 @@ class partyOn:
             icon = pygame.transform.scale(icon, (round(160 * self.width / 1920), round(160 * self.height / 1080)))
             self.char_icons.append(icon)
 
+        self.sideimpact_effect = pygame.image.load("ressources\sfx\side_impact.gif").convert_alpha()
+        self.sideimpact_effect = pygame.transform.scale(self.sideimpact_effect,(86, 39))
+
+        self.centerimpact_effect = pygame.image.load("ressources\sfx\center_impact.gif").convert_alpha()
+        self.centerimpact_effect = pygame.transform.scale(self.centerimpact_effect,(94,94))
 
     def apply_all_effects(self):
         for player in self.players:
@@ -63,11 +68,22 @@ class partyOn:
                     print("Lastframe!")
                     player.active_pow.remove(capacity)
 
+    def side_animations(self,entity,i):
+        return_angle = {"bottom":0,"right":90,"top":180,"left":270}
+        sprite = pygame.transform.rotate(self.sideimpact_effect,return_angle[i])
+        sprite_rect = sprite.get_rect()
+        sprite_rect.centerx,sprite_rect.centery = entity.rect.centerx,entity.rect.centery
+        self.screen.blit(sprite,sprite_rect)
+
+    def collide_animations(self,i):
+        self.screen.blit(self.centerimpact_effect, i)
 
     def complete_frame(self):
         for entity in self.base_entities:
-            entity.boundary_check((self.width, self.height, self.screen))
-            entity.physics_check(self.base_entities)
+            i=entity.boundary_check((self.width, self.height))
+            if i: self.side_animations(entity,i)
+            i=entity.physics_check(self.base_entities)
+            if i: self.collide_animations(i)
             entity.run()
 
     def get_allinputs(self):

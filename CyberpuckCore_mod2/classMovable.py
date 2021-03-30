@@ -75,9 +75,9 @@ class Movable:
 
             for test in [self,entity]:
                 for i in range(2):
-                    if test.speed[i]>10:
+                    if test.speed[i]>15:
                         test.speed[i] = 10
-                    if test.speed[i]<-10:
+                    if test.speed[i]<-15:
                         test.speed[i] = -10
 
 
@@ -128,7 +128,7 @@ class Movable:
                     if a.current_special < a.max_special: a.current_special += 0.5
 
 
-                return 1
+                return ((a.rect.x+b.rect.x)/2,(a.rect.y+b.rect.y)/2)
         return 0
 
     def boundary_check(self, size):
@@ -140,24 +140,27 @@ class Movable:
                 self.rect.x += 5
                 self.true_pos[0] += 5
                 self.speed[0] *= -1
-                w = 1
+                w = "left"
 
             if self.rect.right >= size[0]-(64*size[0]/1920):
                 self.rect.x -= 5
                 self.true_pos[0] -= 5
                 self.speed[0] *= -1
-                w = 1
+                w = "right"
 
             if self.rect.top <= 132*size[1]/1080:
                 self.true_pos[1] += 5
                 self.rect.y += 5
                 self.speed[1] *= -1
-                w = 1
+                w = "top"
 
             if self.rect.bottom >= size[1]-(36*size[1]/1080):
                 self.true_pos[1] -= 5
                 self.rect.y -= 5
                 self.speed[1] *= -1
-                w = 1
+                w = "bottom"
 
-            if w: self.last_impact = pygame.time.get_ticks()
+        if w:
+            self.last_impact = pygame.time.get_ticks()
+
+        return w
