@@ -1,10 +1,11 @@
 import pygame
 
-#example_input: (60,"dash2,attraction2") <=> (for 60 frames (1sec) player goes 2 times faster
+# example_input: (60,"dash2,attraction2") <=> (for 60 frames (1sec) player goes 2 times faster
 
-class effectType:
 
-    def __init__(self, player,lenght, effects):
+class EffectType:
+
+    def __init__(self, player, lenght, effects):
 
         self.origin = pygame.time.get_ticks()
         self.lenght = lenght
@@ -15,7 +16,7 @@ class effectType:
         print(self.types)
         self.player = player
 
-        #Here while I have not resolved framerate related issues.
+        # Here while I have not resolved framerate related issues.
         self.initialized = False
         self.initializing = False
 
@@ -68,17 +69,17 @@ class effectType:
 
             if self.first_frame():
                 print("Most definitely starting something")
-                if effect[:-1]=="self_speedup":
+                if effect[:-1] == "self_speedup":
                     self.speedUp(effect[-1:])
-                if effect[:-1]=="puck_speedup":
+                if effect[:-1] == "puck_speedup":
                     print("puck speedup engaged! 1")
                     self.puckSpeedUp(entities[0],effect[-1:])
 
             if self.last_frame():
                 print("Most definitely ending something")
-                if effect[:-1]=="self_speedup":
+                if effect[:-1] == "self_speedup":
                     self.speedDown(effect[-1:])
-                if effect[:-1]=="puck_speedup":
+                if effect[:-1] == "puck_speedup":
                     print("puck speedup offline! 1")
                     self.puckSpeedDown(entities[0])
 
@@ -87,6 +88,6 @@ class effectType:
                 if effect[:-1] == "attraction":
                     pass
 
-        if self.initializing == True:
-            self.initialized == True
-            self.initialized == False
+        if self.initializing:
+            self.initialized = True
+            self.initializing = False

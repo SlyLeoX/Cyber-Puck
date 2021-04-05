@@ -2,7 +2,6 @@ import pygame
 import numpy as np
 
 from miscStats import return_charstats
-from classMovableControlsAux import controls_mapping
 
 
 class Movable:
@@ -13,7 +12,7 @@ class Movable:
 
         self.base_x = x
 
-        self.speed_multiplier=[1, 1]
+        self.speed_multiplier = [1, 1]
         self.speed = [0, 0]
         self.true_pos = [x, y]
         self.ray = self.rect.size[0] / 2
@@ -39,7 +38,6 @@ class Movable:
             elif self.speed[i] > 0:
                 self.speed[i] -= 1/resistance
 
-
         # rect = {1: self.rect.x, 2: self.rect.y}
         for i in range(0, 2):
             self.true_pos[i] += (self.speed[i])*self.speed_multiplier[i]
@@ -60,7 +58,7 @@ class Movable:
             if (self.rect.centerx - entity.rect.centerx) ** 2 + (self.rect.centery - entity.rect.centery) ** 2 < (
                     self.ray + entity.ray) ** 2 and (pygame.time.get_ticks() - self.last_impact <= 2):
                 self.followed_impact += 2
-                print("FOLLOWED IMPACT!",self.followed_impact)
+                print("FOLLOWED IMPACT!", self.followed_impact)
             elif self.followed_impact > 0:
                 print("DEBUG DEFUSED!")
                 self.followed_impact -= 1
@@ -75,14 +73,11 @@ class Movable:
 
             for test in [self,entity]:
                 for i in range(2):
-                    if test.speed[i]>15:
+                    if test.speed[i] > 15:
                         test.speed[i] = 10
-                    if test.speed[i]<-15:
+                    if test.speed[i] < -15:
                         test.speed[i] = -10
 
-
-
-            # if self.rect.colliderect(lentity.rect) and (pygame.time.get_ticks()-self.last_impact > 16 or pygame.time.get_ticks()-lentity.last_impact > 16 ):
             if (self.rect.centerx - entity.rect.centerx) ** 2 + (self.rect.centery - entity.rect.centery) ** 2 <= (
                     self.ray + entity.ray) ** 2 and (
                     pygame.time.get_ticks() - self.last_impact > 4 or pygame.time.get_ticks() - entity.last_impact > 4):
@@ -90,8 +85,8 @@ class Movable:
                 a = self
                 b = entity
 
-                #print(a.mass)
-                #print(b.mass)
+                # print(a.mass)
+                # print(b.mass)
 
                 # a, b = self, lentity
 
@@ -118,15 +113,14 @@ class Movable:
                     b.speed[0] = vb * (np.cos(np.tan(c))) + b.speed[0]
                     b.speed[1] = vb * (np.sin(np.tan(c))) + b.speed[1]
 
-                #print(self.speed, lentity.speed)
+                # print(self.speed, lentity.speed)
                 a.run()
 
-                #Maybe try to put it elsewhere
-                if type(a).__name__ != "PlayerType":
+                # Maybe try to put it elsewhere
+                if type(a).__name__ != "PlayerType" and type(a).__name__!="AiType":
                     if b.current_special < b.max_special: b.current_special += 0.5
-                elif type(b).__name__ != "PlayerType":
+                elif type(b).__name__ != "PlayerType" and type(b).__name__!="AiType":
                     if a.current_special < a.max_special: a.current_special += 0.5
-
 
                 return ((a.rect.x+b.rect.x)/2,(a.rect.y+b.rect.y)/2)
         return 0

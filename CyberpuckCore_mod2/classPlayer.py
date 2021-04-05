@@ -2,7 +2,7 @@ import pygame
 import sys
 
 from classOneGame import Movable
-from ClassEffect import effectType
+from ClassEffect import EffectType
 from classMovableControlsAux import controls_mapping
 from miscStats import return_charstats
 
@@ -29,7 +29,7 @@ class PlayerType(Movable):
 
         self.icon = return_charstats(infopack[1])[3]
 
-        #pattern=[number of frames of effect (theoretical),("type0,effect1,effect2,...")]
+        # pattern=[number of frames of effect (theoretical),("type0,effect1,effect2,...")]
 
         self.ultras = return_charstats(infopack[1])[4]
         self.specials = return_charstats(infopack[1])[5]
@@ -77,7 +77,6 @@ class PlayerType(Movable):
                     if self.speed[0] < 0: self.speed[0] = 0
                     if self.speed[0] < 3: self.speed[0] += 0.4
 
-
             if event.type == pygame.JOYAXISMOTION and event.instance_id == self.number - 1:
                 if event.axis == 0:
                     self.speed[0] = event.value
@@ -92,14 +91,14 @@ class PlayerType(Movable):
 
             if event.type == pygame.KEYUP:
 
-                if event.key == self.map["up"] and self.current_inputs[1]==-1:
+                if event.key == self.map["up"] and self.current_inputs[1] == -1:
                     self.current_inputs[1] = 0
-                elif event.key == self.map["down"] and self.current_inputs[1]==1:
+                elif event.key == self.map["down"] and self.current_inputs[1] == 1:
                     self.current_inputs[1] = 0
 
-                if event.key == self.map["left"] and self.current_inputs[0]==-1:
+                if event.key == self.map["left"] and self.current_inputs[0] == -1:
                     self.current_inputs[0] = 0
-                elif event.key == self.map["right"] and self.current_inputs[0]==1:
+                elif event.key == self.map["right"] and self.current_inputs[0] == 1:
                     self.current_inputs[0] = 0
 
             if event.type == pygame.KEYDOWN:
@@ -136,29 +135,26 @@ class PlayerType(Movable):
 
     def apply_inputs(self):
 
-        #Instant direction change code
+        # Instant direction change code
         for i in range(2):
             if self.current_inputs[i] == 1 and self.speed[i] < 0:
-                self.speed[i]=0
+                self.speed[i] = 0
             if self.current_inputs[i] == -1 and self.speed[i] > 0:
-                self.speed[i]=0
+                self.speed[i] = 0
 
-        #To replace with char stats
-        acc = 0.5
+        # To replace with char stats
+        acc = 0.3
         max = 8
 
-        #print(self.current_inputs)
-        #print(self.current_inputs)
+        # print(self.current_inputs)
+        # print(self.current_inputs)
         for i in range(2):
             self.speed[i] += acc*self.current_inputs[i] if abs(self.speed[i]) < max else 0
-            print("for i=",i)
-            print(acc*self.current_inputs[i])
-            print(self.speed[i])
 
     def dash(self, game):
         if self.current_stamina >= 5:
             self.current_stamina -= 5
-            print("DASH! remaining:",self.current_stamina)
+            print("DASH! remaining:", self.current_stamina)
             for i in range(32):
                 self.run()
                 self.boundary_check((game.width, game.height))
@@ -171,7 +167,7 @@ class PlayerType(Movable):
         if self.current_special == 12:
             print("ULTRA")
             self.current_special -= 12
-            self.active_pow.append(effectType(self,self.ultras[0],self.ultras[1]))
+            self.active_pow.append(EffectType(self, self.ultras[0], self.ultras[1]))
         else:
             print("ULTRA FAIL!")
 

@@ -1,7 +1,7 @@
 import pygame
 
 class goalType:
-    def __init__(self, x, y, texture="goals.gif"):
+    def __init__(self, x, y, texture="ressources\misc\goals.gif"):
         self.tex = pygame.image.load(texture).convert()
         self.rect = self.tex.get_rect()
         self.rect2 = self.tex.get_rect()

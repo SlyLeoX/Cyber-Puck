@@ -2,36 +2,35 @@ import pygame
 
 from classMovable import Movable
 from classPlayer import PlayerType
-from classCom import ComType
+from classCom import AiType
 from classImmuable import goalType
-from ClassEffect import effectType
+from ClassEffect import EffectType
 from miscStats import return_stadiumstats
 
-#Placeholder while we don't have proper file transmission between parts...
-player_pos=[[1/6, 1/2],[5/6, 1/2]]
+# Placeholder while we don't have proper file transmission between parts...
+player_pos = [[1/6, 1/2], [5/6, 1/2]]
 
 
-class partyOn:
+class PartyOn:
 
-    def __init__(self, system_parameters, player_parameters,terrain):
+    def __init__(self, system_parameters, player_parameters, terrain):
 
         self.screen = system_parameters[0]
         self.width = system_parameters[1][0]
         self.height = system_parameters[1][1]
 
-        infopack = ["PUCK1","0","0","intro_ball.gif"]
+        infopack = ["PUCK1","0", "0", r"ressources\misc\intro_ball.gif"]
         self.base_entities = []
         self.base_entities.append(Movable(self.width/2, self.height/2, infopack))
         for i in range(2):
             pos = player_pos[i]
             infopack = player_parameters[i]
-            if infopack[0][:-1] == "PLAYER" or 1: #ALWAYS ON FOR NOW
+            if infopack[0][:-1] == "PLAYER": # ALWAYS ON FOR NOW
                 self.base_entities.append(PlayerType(pos[0]*self.width, pos[1]*self.height, infopack, i))
             else:
-                self.base_entities.append(ComType)
+                self.base_entities.append(AiType(pos[0]*self.width, pos[1]*self.height, infopack, i))
 
         self.players = self.base_entities[1:]
-
 
         self.zone_parts = []
         self.zone_parts.append(goalType(64*self.width/1920, (self.height * 0.5) - 75))
@@ -41,7 +40,7 @@ class partyOn:
         self.bg = pygame.transform.scale(self.bg, system_parameters[1])
         self.terrain_resistance = return_stadiumstats(terrain)[1]
 
-        self.overlay = pygame.image.load("Cyberpeck_Overlay_III_mk1.gif").convert_alpha()
+        self.overlay = pygame.image.load(r"ressources\ui\Cyberpeck_Overlay_III_mk1.gif").convert_alpha()
         self.overlay = pygame.transform.scale(self.overlay, (self.width, self.height))
 
         self.char_icons = []
@@ -51,45 +50,50 @@ class partyOn:
             icon = pygame.transform.scale(icon, (round(160 * self.width / 1920), round(160 * self.height / 1080)))
             self.char_icons.append(icon)
 
-        self.sideimpact_effect = pygame.image.load("ressources\sfx\side_impact.gif").convert_alpha()
-        self.sideimpact_effect = pygame.transform.scale(self.sideimpact_effect,(86, 39))
+        self.sideimpact_effect = pygame.image.load(r"ressources\sfx\side_impact.gif").convert_alpha()
+        self.sideimpact_effect = pygame.transform.scale(self.sideimpact_effect, (86, 39))
 
-        self.centerimpact_effect = pygame.image.load("ressources\sfx\center_impact.gif").convert_alpha()
-        self.centerimpact_effect = pygame.transform.scale(self.centerimpact_effect,(94,94))
+        self.centerimpact_effect = pygame.image.load(r"ressources\sfx\center_impact.gif").convert_alpha()
+        self.centerimpact_effect = pygame.transform.scale(self.centerimpact_effect, (94, 94))
 
     def apply_all_effects(self):
         for player in self.players:
-            if player.active_pow!=[]: print(player.active_pow,player.active_pow[0].types,player.active_pow[0].lenght)
+            if player.active_pow!=[]: print(player.active_pow,player.active_pow[0].types, player.active_pow[0].lenght)
             for capacity in player.active_pow:
                 print("He went there! Capacity's time:", pygame.time.get_ticks()-capacity.origin)
-                capacity.effects_apply(player, (self.width,self.height,self.screen),self.base_entities)
+                capacity.effects_apply(player, (self.width, self.height, self.screen), self.base_entities)
 
-                if capacity.last_frame() == True:
+                if capacity.last_frame():
                     print("Lastframe!")
                     player.active_pow.remove(capacity)
 
     def side_animations(self,entity,i):
-        return_angle = {"bottom":0,"right":90,"top":180,"left":270}
-        sprite = pygame.transform.rotate(self.sideimpact_effect,return_angle[i])
+        return_angle = {"bottom": 0, "right": 90, "top": 180, "left": 270}
+        sprite = pygame.transform.rotate(self.sideimpact_effect, return_angle[i])
         sprite_rect = sprite.get_rect()
-        sprite_rect.centerx,sprite_rect.centery = entity.rect.centerx,entity.rect.centery
-        self.screen.blit(sprite,sprite_rect)
+        sprite_rect.centerx, sprite_rect.centery = entity.rect.centerx, entity.rect.centery
+        self.screen.blit(sprite, sprite_rect)
 
-    def collide_animations(self,i):
+    def collide_animations(self, i):
         self.screen.blit(self.centerimpact_effect, i)
 
     def complete_frame(self):
         for entity in self.base_entities:
-            i=entity.boundary_check((self.width, self.height))
-            if i: self.side_animations(entity,i)
-            i=entity.physics_check(self.base_entities)
+            i = entity.boundary_check((self.width, self.height))
+            if i: self.side_animations(entity, i)
+            i = entity.physics_check(self.base_entities)
             if i: self.collide_animations(i)
             entity.run()
+
+    def ia_turn(self, game):
+        for player in self.players:
+            if type(player) == AiType:
+                player.ia_choice(game)
 
     def get_allinputs(self):
         events = pygame.event.get()
         for player in self.players:
-            player.get_inputs_2(events,self)
+            player.get_inputs_2(events, self)
             player.apply_inputs()
 
     def goal_verif(self):
@@ -103,7 +107,7 @@ class partyOn:
     def goal_verif2(self):
 
         cy = self.base_entities[0].rect.centery
-        arg = (cy > self.zone_parts[0].rect.centery and cy < self.zone_parts[0].rect2.centery)
+        arg = (self.zone_parts[0].rect.centery < cy < self.zone_parts[0].rect2.centery)
 
         if self.base_entities[0].rect.left < (64+5)*self.width/1920 and arg:
             self.players[1].score += 1
@@ -156,11 +160,11 @@ class partyOn:
         self.players[0].true_pos[1] = self.players[0].rect.y = self.height / 2
         self.players[1].true_pos[1] = self.players[1].rect.y = self.height / 2
 
-        self.base_entities[0].true_pos[0]=self.players[0].rect.x = self.width / 2
+        self.base_entities[0].true_pos[0] = self.players[0].rect.x = self.width / 2
         self.base_entities[0].true_pos[1] = self.players[0].rect.y = self.height / 2
 
     def stamina_restitution(self):
-        if pygame.time.get_ticks()%3 == 0:
+        if pygame.time.get_ticks() % 3 == 0:
             for player in self.players:
                 if player.current_stamina < player.max_stamina:
                     player.current_stamina += 0.1
@@ -172,10 +176,10 @@ class partyOn:
         for player in self.players:
             bar_width = (player.current_stamina/player.max_stamina) * (700*self.width/1920)
 
-            if player.base_x < (self.width/2) : x_pos = 184*self.width/1920
-            else: x_pos = self.width - (185 *self.width/1920) - bar_width
+            if player.base_x < (self.width/2): x_pos = 184*self.width/1920
+            else: x_pos = self.width - (185 * self.width/1920) - bar_width
 
-            rect = ((x_pos,15*self.height/1080),(bar_width,40*self.height/1080))
+            rect = ((x_pos, 15*self.height/1080), (bar_width, 40*self.height/1080))
 
             pygame.draw.rect(self.screen, green, rect)
 
@@ -186,19 +190,19 @@ class partyOn:
         for player in self.players:
             bar_width = (player.current_special/player.max_special) * (700*self.width/1920)
 
-            if player.base_x < (self.width/2) : x_pos = 185*self.width/1920
-            else: x_pos = self.width - (185 *self.width/1920) - bar_width
+            if player.base_x < (self.width/2): x_pos = 185*self.width/1920
+            else: x_pos = self.width - (185 * self.width/1920) - bar_width
 
-            rect = ((x_pos,66*self.height/1080),(bar_width,40*self.height/1080))
+            rect = ((x_pos, 66*self.height/1080), (bar_width, 40*self.height/1080))
 
             pygame.draw.rect(self.screen, yellow, rect)
 
-    def blit_timer(self,sec):
+    def blit_timer(self, sec):
 
         white = 255, 255, 255
 
         misc_text = pygame.font.SysFont('Calibri', 30)
-        timer = misc_text.render((str(sec//60) + ":" + str((sec//10) % 6) + str(sec%10)), False, white)
+        timer = misc_text.render((str(sec//60) + ":" + str((sec//10) % 6) + str(sec % 10)), False, white)
 
         self.screen.blit(timer, (self.width/2 - 25, 33 * self.height/1080))
 
@@ -206,7 +210,7 @@ class partyOn:
 
         for i in range (2):
             player = self.players[i]
-            if player.base_x < (self.width/2) : self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height/1080))
+            if player.base_x < (self.width/2): self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height / 1080))
             else: self.screen.blit(self.char_icons[i], (self.width-(16+158)*self.width/1920, 12*self.height/1080))
 
 
