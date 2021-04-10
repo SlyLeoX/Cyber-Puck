@@ -45,15 +45,15 @@ class PartyOn:
 
         self.char_icons = []
         for player in self.players:
-            icon = (player.icon[:-4]) + "_mini.gif"
+            icon = (player.icon[:-4]) + "_mini.png"
             icon = pygame.image.load(icon).convert_alpha()
             icon = pygame.transform.scale(icon, (round(160 * self.width / 1920), round(160 * self.height / 1080)))
             self.char_icons.append(icon)
 
-        self.sideimpact_effect = pygame.image.load(r"ressources\sfx\side_impact.gif").convert_alpha()
+        self.sideimpact_effect = pygame.image.load(r"ressources\vfx\side_impact.gif").convert_alpha()
         self.sideimpact_effect = pygame.transform.scale(self.sideimpact_effect, (86, 39))
 
-        self.centerimpact_effect = pygame.image.load(r"ressources\sfx\center_impact.gif").convert_alpha()
+        self.centerimpact_effect = pygame.image.load(r"ressources\vfx\center_impact.gif").convert_alpha()
         self.centerimpact_effect = pygame.transform.scale(self.centerimpact_effect, (94, 94))
 
     def apply_all_effects(self):
@@ -67,7 +67,19 @@ class PartyOn:
                     print("Lastframe!")
                     player.active_pow.remove(capacity)
 
+    def side_sounds(self):
+        effect = pygame.mixer.Sound('ressources\sfx\mechanical-clonk-1.wav')
+        effect.set_volume(0.1)
+        effect.play()
+
+    def collide_sounds(self):
+        effect = pygame.mixer.Sound('ressources\sfx\gun-gunshot-01.wav')
+        effect.set_volume(0.1)
+        effect.play()
+
     def side_animations(self,entity,i):
+        self.side_sounds()
+
         return_angle = {"bottom": 0, "right": 90, "top": 180, "left": 270}
         sprite = pygame.transform.rotate(self.sideimpact_effect, return_angle[i])
         sprite_rect = sprite.get_rect()
@@ -75,6 +87,8 @@ class PartyOn:
         self.screen.blit(sprite, sprite_rect)
 
     def collide_animations(self, i):
+        self.collide_sounds()
+
         self.screen.blit(self.centerimpact_effect, i)
 
     def complete_frame(self):
@@ -211,7 +225,8 @@ class PartyOn:
         for i in range (2):
             player = self.players[i]
             if player.base_x < (self.width/2): self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height / 1080))
-            else: self.screen.blit(self.char_icons[i], (self.width-(16+158)*self.width/1920, 12*self.height/1080))
+            else: self.screen.blit(pygame.transform.flip(self.char_icons[i],True,False), (self.width-(16+158)*self.width/1920, 12*self.height/1080))
+            #PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
 
 
 

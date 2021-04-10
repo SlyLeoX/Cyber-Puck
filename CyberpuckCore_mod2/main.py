@@ -7,6 +7,7 @@
 # 1.7a: Développement de la préintégration de l'IA dans les programmes du Core.
 
 import pygame
+from time import sleep
 from classOneGame import PartyOn
 
 white = 255, 255, 255
@@ -27,7 +28,7 @@ if __name__ == '__main__':
     # Synthax for each: [Player_type(player or IA)+ID,Chosen_Character,Chosen_Peripheral,Chosen_Bumber_Texture]
     # Also called infopacks later in the code
     player_parameters = [["PLAYER1","Sanic", "keyboard1", r"ressources\misc\player_bumper.gif"],
-                         ["COM2", "Sanic", "keyboard2", r"ressources\misc\player_bumper.gif"]]
+                         ["COM2", "Alexander", "keyboard2", r"ressources\misc\player_bumper.gif"]]
     # Synthax: [gametype, terrain chosen]
     game_parameters = ["first_to3", "metal1"]
 
@@ -49,6 +50,12 @@ if __name__ == '__main__':
         condition = gp1.score < 3 and gp2.score < 3
     elif game_parameters[0] == "time_to3":
         condition = sec <= 180
+
+    pygame.mixer.init()
+    pygame.mixer.music.load(r'ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
+    pygame.mixer.music.queue(r'ressources\soundtracks\UNL Pre-Battle Theme - Our Hisou Tensoku.wav')
+    pygame.mixer.music.set_volume(0.1)
+    pygame.mixer.music.play(-1)
 
     while gp1.score < 3 and gp2.score < 3:
 
