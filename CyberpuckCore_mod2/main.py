@@ -6,8 +6,8 @@
 # 1.6a: Début de travaux sur la refonte des inputs de jeu, optimisation des import calls, préparations au raccordement.
 # 1.7a: Développement de la préintégration de l'IA dans les programmes du Core.
 
+
 import pygame
-from time import sleep
 from classOneGame import PartyOn
 
 white = 255, 255, 255
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     pygame.mixer.init()
     pygame.mixer.music.load(r'ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
     pygame.mixer.music.queue(r'ressources\soundtracks\UNL Pre-Battle Theme - Our Hisou Tensoku.wav')
-    pygame.mixer.music.set_volume(0.1)
+    pygame.mixer.music.set_volume(0.05)
     pygame.mixer.music.play(-1)
 
     while gp1.score < 3 and gp2.score < 3:
