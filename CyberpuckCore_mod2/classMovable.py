@@ -78,9 +78,13 @@ class Movable:
                     if test.speed[i] < -15:
                         test.speed[i] = -10
 
+            # Forbid an entity to have multiple collisiosn in (4) consecutive frames.
+            # Used to avoid collision bugs.
+            cooldown_argument = (
+                    pygame.time.get_ticks() - self.last_impact > 4 and pygame.time.get_ticks() - entity.last_impact > 4)
+
             if (self.rect.centerx - entity.rect.centerx) ** 2 + (self.rect.centery - entity.rect.centery) ** 2 <= (
-                    self.ray + entity.ray) ** 2 and (
-                    pygame.time.get_ticks() - self.last_impact > 4 or pygame.time.get_ticks() - entity.last_impact > 4):
+                    self.ray + entity.ray) ** 2 and cooldown_argument:
 
                 a = self
                 b = entity

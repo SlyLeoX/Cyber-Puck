@@ -19,6 +19,9 @@ class PlayerType(Movable):
         self.current_inputs = [0, 0]
         self.map = controls_mapping(infopack[2])
 
+        self.acceleration = 0.3
+        self.max_speed = 8
+
         self.max_stamina = return_charstats(infopack[1])[1]
         self.max_special = return_charstats(infopack[1])[2]
 
@@ -143,8 +146,8 @@ class PlayerType(Movable):
                 self.speed[i] = 0
 
         # To replace with char stats
-        acc = 0.3
-        max = 8
+        acc = self.acceleration
+        max = self.max_speed
 
         # print(self.current_inputs)
         # print(self.current_inputs)
