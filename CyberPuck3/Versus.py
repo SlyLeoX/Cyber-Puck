@@ -1,6 +1,7 @@
 import pygame
 import winsound
 from CyberPuck3.Application import Application
+from CyberpuckCore_mod2.Main_game import Main_game
 
 class Versus(Application):
     def __init__(self, game):
@@ -83,12 +84,17 @@ class Versus(Application):
             winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
             self.run_display = False
 
+    def main_game(self):
+        g = Main_game(1)
+        g.display_menu()
+
     def check_input(self):
         self.move_cursor()
         if self.game.START_KEY:
             if self.state == '1 VS 1':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 #self.game.playing = True
+                self.main_game()
                 self.game.curr_menu = self.game.quit
             elif self.state == '1 VS AI':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)

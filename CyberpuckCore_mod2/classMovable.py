@@ -1,12 +1,15 @@
 import pygame
 import numpy as np
+import os
 
-from miscStats import return_charstats
+from CyberpuckCore_mod2.miscStats import return_charstats
 
 
 class Movable:
 
     def __init__(self, x, y, infopack):
+        print(os.getcwd())
+        print("infopack3", infopack[3])
         self.tex = pygame.image.load(infopack[3]).convert()
         self.rect = self.tex.get_rect()
 

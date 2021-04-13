@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from classPlayer import PlayerType
+from CyberpuckCore_mod2.classPlayer import PlayerType
 
 
 class AiType(PlayerType):

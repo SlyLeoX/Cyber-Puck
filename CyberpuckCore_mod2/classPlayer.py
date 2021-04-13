@@ -1,10 +1,10 @@
 import pygame
 import sys
 
-from classOneGame import Movable
-from ClassEffect import EffectType
-from classMovableControlsAux import controls_mapping
-from miscStats import return_charstats
+from CyberpuckCore_mod2.classOneGame import Movable
+from CyberpuckCore_mod2.ClassEffect import EffectType
+from CyberpuckCore_mod2.classMovableControlsAux import controls_mapping
+from CyberpuckCore_mod2.miscStats import return_charstats
 
 
 class PlayerType(Movable):

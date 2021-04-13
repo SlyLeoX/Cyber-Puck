@@ -1,11 +1,11 @@
 import pygame
 
-from classMovable import Movable
-from classPlayer import PlayerType
-from classCom import AiType
-from classImmuable import goalType
-from ClassEffect import EffectType
-from miscStats import return_stadiumstats
+from CyberpuckCore_mod2.classMovable import Movable
+from CyberpuckCore_mod2.classPlayer import PlayerType
+from CyberpuckCore_mod2.classCom import AiType
+from CyberpuckCore_mod2.classImmuable import goalType
+from CyberpuckCore_mod2.ClassEffect import EffectType
+from CyberpuckCore_mod2.miscStats import return_stadiumstats
 
 # Placeholder while we don't have proper file transmission between parts...
 player_pos = [[1/6, 1/2], [5/6, 1/2]]
@@ -19,7 +19,7 @@ class PartyOn:
         self.width = system_parameters[1][0]
         self.height = system_parameters[1][1]
 
-        infopack = ["PUCK1","0", "0", r"ressources\misc\intro_ball.gif"]
+        infopack = ["PUCK1","0", "0", r"..\CyberPuckCore_mod2\ressources\characters\sanic\icon.gif"]
         self.base_entities = []
         self.base_entities.append(Movable(self.width/2, self.height/2, infopack))
         for i in range(2):
@@ -40,7 +40,7 @@ class PartyOn:
         self.bg = pygame.transform.scale(self.bg, system_parameters[1])
         self.terrain_resistance = return_stadiumstats(terrain)[1]
 
-        self.overlay = pygame.image.load(r"ressources\ui\Cyberpeck_Overlay_III_mk1.gif").convert_alpha()
+        self.overlay = pygame.image.load(r"..\CyberPuckCore_mod2\ressources\ui\Cyberpeck_Overlay_III_mk1.gif").convert_alpha()
         self.overlay = pygame.transform.scale(self.overlay, (self.width, self.height))
 
         self.char_icons = []
@@ -50,10 +50,10 @@ class PartyOn:
             icon = pygame.transform.scale(icon, (round(160 * self.width / 1920), round(160 * self.height / 1080)))
             self.char_icons.append(icon)
 
-        self.sideimpact_effect = pygame.image.load(r"ressources\vfx\side_impact.gif").convert_alpha()
+        self.sideimpact_effect = pygame.image.load(r"..\CyberPuckCore_mod2\ressources\vfx\side_impact.gif").convert_alpha()
         self.sideimpact_effect = pygame.transform.scale(self.sideimpact_effect, (86, 39))
 
-        self.centerimpact_effect = pygame.image.load(r"ressources\vfx\center_impact.gif").convert_alpha()
+        self.centerimpact_effect = pygame.image.load(r"..\CyberPuckCore_mod2\ressources\vfx\center_impact.gif").convert_alpha()
         self.centerimpact_effect = pygame.transform.scale(self.centerimpact_effect, (94, 94))
 
     def apply_all_effects(self):
@@ -68,12 +68,12 @@ class PartyOn:
                     player.active_pow.remove(capacity)
 
     def side_sounds(self):
-        effect = pygame.mixer.Sound('ressources\sfx\mechanical-clonk-1.wav')
+        effect = pygame.mixer.Sound(r'..\CyberPuckCore_mod2\ressources\sfx\mechanical-clonk-1.wav')
         effect.set_volume(0.1)
         effect.play()
 
     def collide_sounds(self):
-        effect = pygame.mixer.Sound('ressources\sfx\gun-gunshot-01.wav')
+        effect = pygame.mixer.Sound(r'..\CyberPuckCore_mod2\ressources\sfx\gun-gunshot-01.wav')
         effect.set_volume(0.1)
         effect.play()
 
