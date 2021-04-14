@@ -9,6 +9,7 @@
 # 1.9a: Intégration de l'IA v1.
 
 # M3.Oa: Merging done + Begins on Begin and End Screens + Legacy GetInputs"1" got deleted
+# M3.1a: Intégration de la commande de sortie de jeu "sauvage". (F9)
 
 import pygame
 from CORE.classOneGame import PartyOn
@@ -101,22 +102,7 @@ def core(system_parameters,player_parameters,game_parameters):
             pygame.display.flip()
 
     if condition:
-        #MAKE A FUNCTION OUT OF THESE LATER
-        if game.players[0].score > game.players[1].score:
-            winner = 0
-        elif game.players[1].score > game.players[0].score:
-            winner = 1
-        else:
-            winner = -1
-        misc_text = pygame.font.SysFont('Calibri', 30)
-        if winner < 0:
-            winner = misc_text.render("PAR !", False, red)
-        else:
-            winner = misc_text.render(player_parameters[winner][1]+" WINS!", False, red)
-        system_parameters[0].blit(winner,((system_parameters[1][0]/2),(system_parameters[1][1]/2)))
-        pygame.display.flip()
-
-        pygame.time.delay(5000)
+        game.end_screen()
         pygame.mixer.fadeout(5)
 
 

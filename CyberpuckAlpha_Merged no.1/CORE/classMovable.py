@@ -21,6 +21,7 @@ class Movable:
         self.rect.y = y
 
         self.mass = return_charstats(infopack[1])[0]
+        self.tangible = True
 
         self.last_impact = 0
         self.followed_impact = 0

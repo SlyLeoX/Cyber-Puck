@@ -15,6 +15,7 @@ class PlayerType(Movable):
 
         self.score = 0
         self.number = number
+        self.charname = infopack[1]
 
         self.current_inputs = [0, 0]
         self.map = controls_mapping(infopack[2])

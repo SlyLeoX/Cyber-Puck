@@ -237,8 +237,49 @@ class PartyOn:
             else: self.screen.blit(pygame.transform.flip(self.char_icons[i],True,False), (self.width-(16+158)*self.width/1920, 12*self.height/1080))
             #PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
 
+    def end_screen(self):
+
+        red = 255, 0, 0
+
+        if self.players[0].score > self.players[1].score:
+            winner = 0
+        elif self.players[1].score > self.players[0].score:
+            winner = 1
+        else:
+            winner = -1
+        misc_text = pygame.font.SysFont(r'Calibri', 30)
+        if winner < 0:
+            self.text_box("PAR !", 5000)
+        else:
+            self.text_box(self.players[winner].charname+" WINS", 5000)
+
+
     def pause_screen(self):
         print("NOTHING HERE BUDDY !")
+
+    def text_box(self,text,time):
+
+        red = 255,0,0
+
+        font = '8-BIT WONDER.TTF'
+        full_font = pygame.font.Font(font, 80)
+        full_text = full_font.render(text, True, red)
+        text_size = full_font.size(text)
+        text_pos = ((self.width/2)-(text_size[0]/2), (self.height/2)-(text_size[1]/2))
+
+        box = pygame.image.load(r"CORE\ressources\ui\speakerless_bubble.png").convert_alpha()
+        box = pygame.transform.scale(box, (text_size[0] + 120, text_size[1] + 120))
+
+        box_rect = box.get_rect()
+        box_rect.x = (self.width/2)-(text_size[0]/2)-65
+        box_rect.y = (self.height/2)-(text_size[1]/2)-60
+
+        self.screen.blit(box,box_rect)
+        self.screen.blit(full_text,text_pos)
+
+        pygame.display.flip()
+        pygame.time.delay(time)
+
 
 
 

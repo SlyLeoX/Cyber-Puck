@@ -17,6 +17,7 @@ class Game():
         self.display = pygame.Surface((self.width,self.height))
         self.window = pygame.display.set_mode(((self.width,self.height)))
 
+        #Here to help with the execution of the core.
         self.system_parameters = [self.window,[self.width,self.height]]
 
         self.font_name = '8-BIT WONDER.TTF'
