@@ -90,12 +90,12 @@ class PlayerType(Movable):
                     self.current_inputs[1] = event.value
 
             if event.type == pygame.JOYBUTTONDOWN and event.instance_id == self.number:
-                if event.value in self.map.values():
-                    self.inputs[event.value] = "pressing"
+                if event.button in self.map.values():
+                    self.inputs[event.button] = "pressing"
 
             if event.type == pygame.JOYBUTTONUP and event.instance_id == self.number:
-                if event.value in self.map.values():
-                    self.inputs[event.value] = "releasing"
+                if event.button in self.map.values():
+                    self.inputs[event.button] = "releasing"
 
     def apply_inputs(self):
 
