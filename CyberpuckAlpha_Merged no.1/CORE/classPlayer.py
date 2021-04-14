@@ -92,6 +92,10 @@ class PlayerType(Movable):
             if event.type == pygame.JOYBUTTONDOWN and event.instance_id == self.number:
                 if event.button in self.map.values():
                     self.inputs[event.button] = "pressing"
+                if event.button == self.map["spe_move"]:
+                    self.dash(game)
+                if event.button == self.map["ultra"]:
+                    self.ultra(game)
 
             if event.type == pygame.JOYBUTTONUP and event.instance_id == self.number:
                 if event.button in self.map.values():
