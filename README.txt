@@ -13,3 +13,4 @@ Eplications des dossiers :
 Changelog :
 -CyberpuckCore_mod2 v1.5a (18.03 update) : adding the protype, proper interface as well as the prototype for the special moves class. (Joystick and songs absent)
 
+Game is now in CyberpuckAlphaMergerd no.1
