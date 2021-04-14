@@ -33,10 +33,10 @@ def core(system_parameters,player_parameters,game_parameters):
 
     # Victoryloops condition.
     condition = 1
-    if game_parameters[0] == "first_to3":
-        condition = gp1.score < 3 and gp2.score < 3
-    elif game_parameters[0] == "time_to120" or 1:
-        condition = sec < 121
+    #if game_parameters[0] == "first_to3":
+        #condition = gp1.score < 3 and gp2.score < 3
+    #elif game_parameters[0] == "time_to120" or 1:
+        #condition = sec < 121
 
     pygame.mixer.init()
     pygame.mixer.music.load(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
@@ -46,7 +46,7 @@ def core(system_parameters,player_parameters,game_parameters):
 
     init_date=pygame.time.get_ticks()
 
-    while (gp1.score < 3 and gp2.score < 3 if game_parameters[0] == "first_to3" else  sec < 121):
+    while condition and (gp1.score < 3 and gp2.score < 3 if game_parameters[0] == "first_to3" else  sec < 121):
 
         game.entities_reset()
         chrono = pygame.time.Clock()
@@ -71,9 +71,14 @@ def core(system_parameters,player_parameters,game_parameters):
             game.ia_turn(game)
 
             # The following pragraph is the embryo for the PAUSE system. Currently not working.
-            if not game.get_allinputs():
+            command = game.get_allinputs()
+            #Superbreak
+            if command == 0:
                 loop = condition = 0
                 break
+            #Pause
+            elif command == -1:
+                game.pause_screen()
 
             game.apply_all_effects()
             game.complete_frame()
@@ -95,17 +100,24 @@ def core(system_parameters,player_parameters,game_parameters):
 
             pygame.display.flip()
 
-    #MAKE A FUNCTION OUT OF THESE LATER
-    if game.players[0].score > game.players[1].score:
-        winner=0
-    else:
-        winner=1
-    misc_text = pygame.font.SysFont('Calibri', 30)
-    winner = misc_text.render(player_parameters[winner][1]+" WINS!", False, red)
-    system_parameters[0].blit(winner,((system_parameters[1][0]/2),(system_parameters[1][1]/2)))
-    pygame.display.flip()
-    pygame.time.delay(5000)
-    pygame.mixer.fadeout(5)
+    if condition:
+        #MAKE A FUNCTION OUT OF THESE LATER
+        if game.players[0].score > game.players[1].score:
+            winner = 0
+        elif game.players[1].score > game.players[0].score:
+            winner = 1
+        else:
+            winner = -1
+        misc_text = pygame.font.SysFont('Calibri', 30)
+        if winner < 0:
+            winner = misc_text.render("PAR !", False, red)
+        else:
+            winner = misc_text.render(player_parameters[winner][1]+" WINS!", False, red)
+        system_parameters[0].blit(winner,((system_parameters[1][0]/2),(system_parameters[1][1]/2)))
+        pygame.display.flip()
+
+        pygame.time.delay(5000)
+        pygame.mixer.fadeout(5)
 
 
 if __name__ == '__main__':

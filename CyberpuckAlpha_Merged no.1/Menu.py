@@ -23,6 +23,7 @@ class Menu(Application):
     def display_menu(self):
         self.run_display = True
         pygame.mixer.music.load('midnight-ride-01a.wav')
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play(-1)
         while self.run_display:
             self.game.check_events()

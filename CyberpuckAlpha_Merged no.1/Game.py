@@ -1,4 +1,5 @@
 import pygame
+import sys
 from Menu import Menu
 from Versus import Versus
 from Collection import Collection
@@ -45,9 +46,13 @@ class Game():
 
     def check_events(self):
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 self.running, self.playing = False, False
                 self.curr_menu.run_display = False
+                #I put that here , for now ...
+                sys.exit()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.START_KEY = True

@@ -109,8 +109,14 @@ class PartyOn:
         for player in self.players:
             player.get_inputs_2(events, self)
             player.apply_inputs()
-        if pygame.K_F9 in events:
-            return 0
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F9:
+                    print("STOOOOOP!!")
+                    return 0
+                if event.key == pygame.K_ESCAPE:
+                    print("PAUSEEEEE!!")
+                    return -1
         return 1
 
     def goal_verif(self):
@@ -230,6 +236,9 @@ class PartyOn:
             if player.base_x < (self.width/2): self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height / 1080))
             else: self.screen.blit(pygame.transform.flip(self.char_icons[i],True,False), (self.width-(16+158)*self.width/1920, 12*self.height/1080))
             #PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
+
+    def pause_screen(self):
+        print("NOTHING HERE BUDDY !")
 
 
 
