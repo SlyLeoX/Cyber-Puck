@@ -2,6 +2,8 @@ import pygame
 import winsound
 from Application import Application
 
+from SOLO.campaign_manager import complete_campaign
+
 class Menu(Application):
     def __init__(self, game):
         Application.__init__(self, game)
@@ -91,6 +93,7 @@ class Menu(Application):
         if self.game.START_KEY:
             if self.state == 'Story':
                 winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                complete_campaign(self.game.system_parameters)
                 self.game.playing = True
             elif self.state == 'Versus':
                 winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)

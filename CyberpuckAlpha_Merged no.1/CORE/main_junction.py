@@ -19,7 +19,8 @@ black = 0, 0, 0
 red = 255, 65, 65
 blue = 65, 65, 255
 
-def core(system_parameters,player_parameters,game_parameters):
+
+def core(system_parameters, player_parameters, game_parameters, dialogues_avaiable=99):
     # Supercall synthax: (system_parameters, players_parameters, chosen_stadium)
     game = PartyOn(system_parameters, player_parameters, game_parameters[1])
     gp1, gp2 = game.players[0], game.players[1]
@@ -32,12 +33,9 @@ def core(system_parameters,player_parameters,game_parameters):
         joystick.append(pygame.joystick.Joystick(i))
         joystick[-1].init()
 
-    # Victoryloops condition.
+    # That variable is used by the "savage cut" to exit the match abruptly.
+    # Will most likely be used by the pause menu later.
     condition = 1
-    #if game_parameters[0] == "first_to3":
-        #condition = gp1.score < 3 and gp2.score < 3
-    #elif game_parameters[0] == "time_to120" or 1:
-        #condition = sec < 121
 
     pygame.mixer.init()
     pygame.mixer.music.load(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
@@ -45,9 +43,26 @@ def core(system_parameters,player_parameters,game_parameters):
     pygame.mixer.music.set_volume(0.05)
     pygame.mixer.music.play(-1)
 
+    # Linking to the dialogues function, made in a file apart.
+    # The dialogues avaiable variable has a 2 digit value: 10 to 99:
+    # If value = 99 : no dialogue.
+    # If value = 1x : entry dialogue only.
+    # If value = 2x : exit dialogue only.
+    # if value = 3x : entry and exit dialogue only. The function shall then take a before or after indication.
+    # Values beginning by 0 and 4 are not to be used.
+    # Other values just don't work.
+
+    if str(dialogues_avaiable)[0] == 1 or str(dialogues_avaiable)[0] == 3:
+        pass
+
     init_date=pygame.time.get_ticks()
 
-    while condition and (gp1.score < 3 and gp2.score < 3 if game_parameters[0] == "first_to3" else  sec < 121):
+    # There is to redo the objective's synthax so we can easily extract the value in this.
+    while condition and ((gp1.score < 3 and gp2.score < 3)if game_parameters[0] == "first_to3" else sec < 121):
+
+        print(type(gp1))
+        print(type(gp2))
+        print(gp2.level)
 
         game.entities_reset()
         chrono = pygame.time.Clock()
@@ -103,6 +118,8 @@ def core(system_parameters,player_parameters,game_parameters):
 
     if condition:
         game.end_screen()
+        if str(dialogues_avaiable)[0] == 2 or str(dialogues_avaiable)[0] == 3:
+            pass
         pygame.mixer.fadeout(5)
 
 
@@ -118,8 +135,8 @@ if __name__ == '__main__':
     system_parameters = [screen, [width, height]]
     # Synthax for each: [Player_type(player or IA)+ID,Chosen_Character,Chosen_Peripheral,Chosen_Bumber_Texture]
     # Also called infopacks later in the code
-    player_parameters = [["PLAYER1", "Sanic", "keyboard1", r"ressources\misc\player_bumper.gif"],
-                         ["COM2", "Alexander", "keyboard2", r"ressources\misc\player_bumper.gif"]]
+    player_parameters = [["PLAYER1", "Sanic", "keyboard1"],
+                         ["0COM2", "Alexander", "keyboard2"]]
     # Synthax: [gametype, terrain chosen]
     game_parameters = ["first_to3", "metal1"]
 

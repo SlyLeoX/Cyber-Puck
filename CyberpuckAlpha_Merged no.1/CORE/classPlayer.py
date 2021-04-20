@@ -13,6 +13,10 @@ class PlayerType(Movable):
 
         Movable.__init__(self, x, y, infopack)
 
+        # Change the following static string by a call ajusting the texture to the character.
+        self.tex = pygame.image.load(r"CORE\ressources\misc\player_bumper.gif").convert()
+        self.rect = self.tex.get_rect()
+
         self.score = 0
         self.number = number
         self.charname = infopack[1]

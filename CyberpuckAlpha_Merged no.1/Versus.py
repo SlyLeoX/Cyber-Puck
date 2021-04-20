@@ -17,8 +17,8 @@ class Versus(Application):
 
         self.back = pygame.image.load('Back_Menu.png')
 
-        self.player_parameters = [["PLAYER1","Sanic", "keyboard1", r"CORE\ressources\misc\player_bumper.gif"],
-                         ["COM2", "Alexander", "keyboard2", r"CORE\ressources\misc\player_bumper.gif"]]
+        self.player_parameters = [["PLAYER1","Sanic", "keyboard1"],
+                         ["0COM2", "Alexander", "keyboard2"]]
 
         self.game_parameters = ["first_to3", "metal1"]
 
@@ -101,7 +101,7 @@ class Versus(Application):
             elif self.state == '1 VS AI':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 #self.game.curr_menu = self.game.quit
-                self.player_parameters[1][0]="COM2"
+                self.player_parameters[1][0]="0COM2"
             elif self.state == 'Points':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 #self.game.curr_menu = self.game.quit

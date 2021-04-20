@@ -7,7 +7,8 @@ from CORE.miscStats import return_charstats
 class Movable:
 
     def __init__(self, x, y, infopack):
-        self.tex = pygame.image.load(infopack[3]).convert()
+        # The following  static string shall be replace by some function answer if we have multiple tex. avb.
+        self.tex = pygame.image.load(r"CORE\ressources\misc\intro_ball.gif").convert()
         self.rect = self.tex.get_rect()
 
         self.base_x = x

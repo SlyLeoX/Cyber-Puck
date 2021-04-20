@@ -9,8 +9,12 @@ class AiType(PlayerType):
     def __init__(self, x, y, infopack, game, number=-1):
 
         PlayerType.__init__(self, x, y, infopack)
+
+        # The input parameters are a pain to manage, so the IA's level 'x' shall appear as "xCOMn" in inputs.
+        self.level = int(infopack[0][0])
+
         self.max_speed -= 2
-        #self.map = "0"
+        # self.map = "0"
 
     def get_object_pos_x(self, object):
         return object.true_pos[0]

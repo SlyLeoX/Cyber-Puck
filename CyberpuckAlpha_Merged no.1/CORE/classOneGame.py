@@ -19,7 +19,7 @@ class PartyOn:
         self.width = system_parameters[1][0]
         self.height = system_parameters[1][1]
 
-        infopack = ["PUCK1","0", "0", r"CORE\ressources\misc\intro_ball.gif"]
+        infopack = ["PUCK1", "0", "0"]
         self.base_entities = []
         self.base_entities.append(Movable(self.width/2, self.height/2, infopack))
         for i in range(2):
@@ -101,8 +101,15 @@ class PartyOn:
 
     def ia_turn(self, game):
         for player in self.players:
+
             if type(player) == AiType:
-                player.ia_choice_lvl0(game)
+                # This function shall be completed when Romeo and Leo are done with their work.
+                if player.level == 0:
+                    player.ia_choice_lvl0(game)
+                if player.level == 1:
+                    pass
+                if player.level == 2:
+                    pass
 
     def get_allinputs(self):
         events = pygame.event.get()
@@ -117,14 +124,6 @@ class PartyOn:
                 if event.key == pygame.K_ESCAPE:
                     print("PAUSEEEEE!!")
                     return -1
-        return 1
-
-    def goal_verif(self):
-        for i in range(2):
-            if self.zone_parts[i].rect.colliderect(self.base_entities[0].rect):
-                print("GOAL!")
-                self.players[i].score += 1
-                return 0
         return 1
 
     def goal_verif2(self):
