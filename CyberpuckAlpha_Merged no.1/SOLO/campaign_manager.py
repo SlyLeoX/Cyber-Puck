@@ -1,5 +1,6 @@
 from CORE.main_junction import core
 
+
 def complete_campaign(system_parameters):
 
     # The player needs an intermediate menu before launching the campaign (choosing inputs and reading rules)
@@ -7,7 +8,7 @@ def complete_campaign(system_parameters):
 
     # For now there is only one planned campaign, so 1 'main' character only.
 
-    levels_file = 'SOLO\levels.txt'
+    levels_file = r'SOLO\levels.txt'
     levels_file = open(levels_file, "r", encoding="UTF-8")
     levels = levels_file.readlines()
 
@@ -22,7 +23,12 @@ def complete_campaign(system_parameters):
     player_parameters = [["PLAYER1", "Sanic", "keyboard1"],["0COM2", "Alexander", "0"]]
     game_parameters = ["first_to3", "metal1"]
 
-    for i in range(5):
+    i = 0
+    winner = 0
+
+    # Counter intuitive but the core should return 0 if the player win (cause he's no.0 in the array of players)
+    # Might correct that later
+    while i < 5 and winner == 0:
         parameters = levels[i].split(",")
         print(parameters)
         player_parameters[1][0] = parameters[0]+"COM2"
@@ -30,4 +36,5 @@ def complete_campaign(system_parameters):
         game_parameters[0] = parameters[2]
         game_parameters[1] = parameters[3].removesuffix("\n")
 
-        core(system_parameters, player_parameters, game_parameters, 300+i)
+        winner = core(system_parameters, player_parameters, game_parameters, 300+i)
+        i += 1

@@ -252,6 +252,8 @@ class PartyOn:
         else:
             self.text_box(self.players[winner].charname+" WINS", 5000)
 
+        return winner
+
 
     def pause_screen(self):
         print("NOTHING HERE BUDDY !")

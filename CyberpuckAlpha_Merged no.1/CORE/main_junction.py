@@ -117,10 +117,11 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
             pygame.display.flip()
 
     if condition:
-        game.end_screen()
+        winner = game.end_screen()
         if str(dialogues_avaiable)[0] == 2 or str(dialogues_avaiable)[0] == 3:
             pass
         pygame.mixer.fadeout(5)
+        return winner
 
 
 if __name__ == '__main__':
