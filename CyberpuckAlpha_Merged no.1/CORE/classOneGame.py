@@ -5,13 +5,21 @@ from CORE.classPlayer import PlayerType
 from CORE.classCom import AiType
 from CORE.classImmuable import goalType
 from CORE.classEffect import EffectType
-from CORE.miscStats import return_stadiumstats
+
+from CORE.auxiliary_Stats import return_stadiumstats
+from CORE.auxiliary_Toolbox import text_box, text_screen
 
 # Placeholder while we don't have proper file transmission between parts...
 player_pos = [[1/6, 1/2], [5/6, 1/2]]
 
 
 class PartyOn:
+
+    # Some function of the class have been put in the following files to unload the classOneGame.py .
+    # The technique allow to use these functions the same as usual, except you have to manually put the 'self' argument.
+
+    from CORE.auxiliary_FX import side_sounds, side_animations, collide_sounds, collide_animations
+
 
     def __init__(self, system_parameters, player_parameters, terrain):
 
@@ -58,7 +66,7 @@ class PartyOn:
 
     def apply_all_effects(self):
         for player in self.players:
-            if player.active_pow!=[]: print(player.active_pow,player.active_pow[0].types, player.active_pow[0].lenght)
+            if player.active_pow != []: print(player.active_pow,player.active_pow[0].types, player.active_pow[0].lenght)
             for capacity in player.active_pow:
                 print("He went there! Capacity's time:", pygame.time.get_ticks()-capacity.origin)
                 capacity.effects_apply(player, (self.width, self.height, self.screen), self.base_entities)
@@ -67,32 +75,9 @@ class PartyOn:
                     print("Lastframe!")
                     player.active_pow.remove(capacity)
 
-    def side_sounds(self):
-        effect = pygame.mixer.Sound(r'CORE\ressources\sfx\mechanical-clonk-1.wav')
-        effect.set_volume(0.1)
-        effect.play()
-
-    def collide_sounds(self):
-        effect = pygame.mixer.Sound(r'CORE\ressources\sfx\gun-gunshot-01.wav')
-        effect.set_volume(0.1)
-        effect.play()
-
-    def side_animations(self,entity,i):
-        self.side_sounds()
-
-        return_angle = {"bottom": 0, "right": 90, "top": 180, "left": 270}
-        sprite = pygame.transform.rotate(self.sideimpact_effect, return_angle[i])
-        sprite_rect = sprite.get_rect()
-        sprite_rect.centerx, sprite_rect.centery = entity.rect.centerx, entity.rect.centery
-        self.screen.blit(sprite, sprite_rect)
-
-    def collide_animations(self, i):
-        self.collide_sounds()
-
-        self.screen.blit(self.centerimpact_effect, i)
-
     def complete_frame(self):
         for entity in self.base_entities:
+            # Ignore your IDE if it asks for more arguments in the following calls.
             i = entity.boundary_check((self.width, self.height))
             if i: self.side_animations(entity, i)
             i = entity.physics_check(self.base_entities)
@@ -234,11 +219,9 @@ class PartyOn:
             player = self.players[i]
             if player.base_x < (self.width/2): self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height / 1080))
             else: self.screen.blit(pygame.transform.flip(self.char_icons[i],True,False), (self.width-(16+158)*self.width/1920, 12*self.height/1080))
-            #PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
+            # PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
 
     def end_screen(self):
-
-        red = 255, 0, 0
 
         if self.players[0].score > self.players[1].score:
             winner = 0
@@ -246,42 +229,13 @@ class PartyOn:
             winner = 1
         else:
             winner = -1
-        misc_text = pygame.font.SysFont(r'Calibri', 30)
+
         if winner < 0:
-            self.text_box("PAR !", 5000)
+            text_box((self.screen, (self.width, self.height)), "PAR !", 5000)
         else:
-            self.text_box(self.players[winner].charname+" WINS", 5000)
+            text_box((self.screen, (self.width, self.height)), self.players[winner].charname+" WINS", 5000)
 
         return winner
 
-
     def pause_screen(self):
         print("NOTHING HERE BUDDY !")
-
-    def text_box(self,text,time):
-
-        red = 255,0,0
-
-        font = '8-BIT WONDER.TTF'
-        full_font = pygame.font.Font(font, 80)
-        full_text = full_font.render(text, True, red)
-        text_size = full_font.size(text)
-        text_pos = ((self.width/2)-(text_size[0]/2), (self.height/2)-(text_size[1]/2))
-
-        box = pygame.image.load(r"CORE\ressources\ui\speakerless_bubble.png").convert_alpha()
-        box = pygame.transform.scale(box, (text_size[0] + 120, text_size[1] + 120))
-
-        box_rect = box.get_rect()
-        box_rect.x = (self.width/2)-(text_size[0]/2)-65
-        box_rect.y = (self.height/2)-(text_size[1]/2)-60
-
-        self.screen.blit(box,box_rect)
-        self.screen.blit(full_text,text_pos)
-
-        pygame.display.flip()
-        pygame.time.delay(time)
-
-
-
-
-

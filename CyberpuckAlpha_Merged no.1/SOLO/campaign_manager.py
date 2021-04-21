@@ -1,5 +1,8 @@
 from CORE.main_junction import core
+from CORE.auxiliary_Toolbox import text_screen
+from CORE.auxiliary_Stats import return_stadiumstats
 
+from SOLO.chat_manager import chat
 
 def complete_campaign(system_parameters):
 
@@ -34,7 +37,22 @@ def complete_campaign(system_parameters):
         player_parameters[1][0] = parameters[0]+"COM2"
         player_parameters[1][1] = parameters[1]
         game_parameters[0] = parameters[2]
-        game_parameters[1] = parameters[3].removesuffix("\n")
+        game_parameters[1] = parameters[3]
+
+        prolog = parameters[4]
+        epilog = parameters[5].removesuffix("\n")
+
+        text_screen(system_parameters, "LEVEL 0"+str(i+1), "white", 5000)
+        if int(prolog): chat(system_parameters, prolog, return_stadiumstats(game_parameters[1])[0])
+
+        for j in range(3, -1, -1):
+            text_screen(system_parameters, str(j), "white", 250)
 
         winner = core(system_parameters, player_parameters, game_parameters, 300+i)
+        if int(epilog) and winner == 0 : chat(system_parameters, epilog, return_stadiumstats(game_parameters[1])[0])
         i += 1
+
+    if i < 5 or winner != 0:
+        text_screen(system_parameters, "GAME OVER", "red", 5000)
+    else:
+        text_screen(system_parameters, "CONGRATULATIONS-YOU BEAT THE GAME", "green", 5000)

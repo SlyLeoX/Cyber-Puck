@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 
-from CORE.miscStats import return_charstats
+from CORE.auxiliary_Stats import return_charstats
 
 
 class Movable:

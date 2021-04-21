@@ -1,0 +1,6 @@
+alexander,sanic
+sanic:Aille! Ouille!-Je me rend!
+alexander:Je n'ai que faire de toi!-Ou est ton chef?
+sanic:Il est au LavOMatic!-Juré!
+alexander:Ok
+#END

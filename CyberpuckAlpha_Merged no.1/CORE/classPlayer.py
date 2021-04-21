@@ -3,8 +3,8 @@ import sys
 
 from CORE.classOneGame import Movable
 from CORE.classEffect import EffectType
-from CORE.classMovableControlsAux import controls_mapping
-from CORE.miscStats import return_charstats
+from CORE.auxiliary_Controls import controls_mapping
+from CORE.auxiliary_Stats import return_charstats
 
 
 class PlayerType(Movable):

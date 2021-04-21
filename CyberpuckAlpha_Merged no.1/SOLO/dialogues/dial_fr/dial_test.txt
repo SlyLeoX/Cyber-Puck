@@ -1,0 +1,7 @@
+alexander,sanic
+alexander:C'est terminé racaille! Tes méfaits s'arrêtent ici!
+sanic:Ah! T'es trop lent! C'est même pas la peine d'essayer de me stopper!
+sanic:Chuis Trop Rapide!
+alexander: C'est ce qu'on va voir!
+#END
+

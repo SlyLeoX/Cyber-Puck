@@ -10,6 +10,7 @@
 
 # M3.Oa: Merging done + Begins on Begin and End Screens + Legacy GetInputs"1" got deleted
 # M3.1a: Intégration de la commande de sortie de jeu "sauvage". (F9)
+# M3.2a: Intégration du système de base du mode Solo.
 
 import pygame
 from CORE.classOneGame import PartyOn
@@ -52,6 +53,7 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
     # Values beginning by 0 and 4 are not to be used.
     # Other values just don't work.
 
+    # The chat function has been moved elsewhere for now.
     if str(dialogues_avaiable)[0] == 1 or str(dialogues_avaiable)[0] == 3:
         pass
 
@@ -118,8 +120,11 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
 
     if condition:
         winner = game.end_screen()
+
+        # The chat function has been moved elsewhere for now.
         if str(dialogues_avaiable)[0] == 2 or str(dialogues_avaiable)[0] == 3:
             pass
+
         pygame.mixer.fadeout(5)
         return winner
 
