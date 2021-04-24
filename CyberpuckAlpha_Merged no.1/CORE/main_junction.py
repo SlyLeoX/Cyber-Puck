@@ -64,7 +64,6 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
 
         print(type(gp1))
         print(type(gp2))
-        print(gp2.level)
 
         game.entities_reset()
         chrono = pygame.time.Clock()
