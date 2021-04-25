@@ -4,11 +4,11 @@ import pygame
 # That function loads the right character arts according to the file's first line.
 def replica_init(dialogue):
     characters = dialogue[0].removesuffix("\n").split(",")
-    print(characters)
+    # print(characters)
     portraits = {}
     for loading in characters:
         path = r"CORE\ressources\characters\fix".removesuffix("fix") + loading + "\icon.png"
-        print(path)
+        # print(path)
         portraits[loading] = (pygame.image.load(path).convert_alpha())
     portraits[characters[1]] = pygame.transform.flip(portraits[characters[1]], True, False)
     return portraits
@@ -35,7 +35,7 @@ def replica_blitting(system_parameters, dialogue, portraits, line):
     height = system_parameters[1][1]
 
     replica = dialogue[line].split(":")
-    print(replica)
+    # print(replica)
 
     # Don't forget to put that line at the end of the dialog file so the code spots the end of the dialog.
     if replica[0] == "#END":
@@ -94,7 +94,7 @@ def chat(system_parameters, code, bg):
         screen.blit(bg, (0, 0))
         blit_portraits(system_parameters, list(portraits.values()))
         line = replica_blitting(system_parameters, dialogue, portraits, line)
-        print(line)
+        # print(line)
         if line == -1:
             break
         if press(last_press):
@@ -102,4 +102,4 @@ def chat(system_parameters, code, bg):
 
         pygame.display.flip()
 
-    print("Dialogue has ended!")
+    # print("Dialogue has ended!")

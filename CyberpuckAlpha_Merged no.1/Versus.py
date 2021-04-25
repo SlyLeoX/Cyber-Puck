@@ -20,7 +20,7 @@ class Versus(Application):
         self.player_parameters = [["PLAYER1","Sanic", "keyboard1"],
                          ["0COM2", "Alexander", "keyboard2"]]
 
-        self.game_parameters = ["first_to3", "metal1"]
+        self.game_parameters = ["score_3", "metal1"]
 
     def display_menu(self):
         self.run_display = True
@@ -105,11 +105,11 @@ class Versus(Application):
             elif self.state == 'Points':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 #self.game.curr_menu = self.game.quit
-                self.game_parameters[0]="first_to3"
+                self.game_parameters[0]="score_3"
             elif self.state == 'Time':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 #self.game.curr_menu = self.game.quit
-                self.game_parameters[0] ="time_to120"
+                self.game_parameters[0] ="time_120"
             elif self.state == 'Enabled':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 self.player_parameters[0][1]="Alexander"

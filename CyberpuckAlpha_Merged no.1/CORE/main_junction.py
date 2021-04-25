@@ -14,6 +14,7 @@
 
 import pygame
 from CORE.classOneGame import PartyOn
+from CORE.auxiliary_Toolbox import text_screen
 
 white = 255, 255, 255
 black = 0, 0, 0
@@ -25,7 +26,6 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
     # Supercall synthax: (system_parameters, players_parameters, chosen_stadium)
     game = PartyOn(system_parameters, player_parameters, game_parameters[1])
     gp1, gp2 = game.players[0], game.players[1]
-    sec = 0
 
     # Joysticks initialization.
     pygame.joystick.init()
@@ -34,42 +34,42 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
         joystick.append(pygame.joystick.Joystick(i))
         joystick[-1].init()
 
-    # That variable is used by the "savage cut" to exit the match abruptly.
-    # Will most likely be used by the pause menu later.
-    condition = 1
-
+    # Background music initialization.
     pygame.mixer.init()
     pygame.mixer.music.load(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
     pygame.mixer.music.queue(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - Our Hisou Tensoku.wav')
     pygame.mixer.music.set_volume(0.05)
     pygame.mixer.music.play(-1)
 
-    # Linking to the dialogues function, made in a file apart.
-    # The dialogues avaiable variable has a 2 digit value: 10 to 99:
-    # If value = 99 : no dialogue.
-    # If value = 1x : entry dialogue only.
-    # If value = 2x : exit dialogue only.
-    # if value = 3x : entry and exit dialogue only. The function shall then take a before or after indication.
-    # Values beginning by 0 and 4 are not to be used.
-    # Other values just don't work.
-
-    # The chat function has been moved elsewhere for now.
-    if str(dialogues_avaiable)[0] == 1 or str(dialogues_avaiable)[0] == 3:
-        pass
-
+    # init_date is used to compute the right current time later. Sec is here for plain initialization.
     init_date=pygame.time.get_ticks()
+    sec = 0
 
-    # There is to redo the objective's synthax so we can easily extract the value in this.
-    while condition and ((gp1.score < 3 and gp2.score < 3)if game_parameters[0] == "first_to3" else sec < 121):
+    print(type(gp1))
+    print(type(gp2))
 
-        print(type(gp1))
-        print(type(gp2))
+    # The following lines decompose the type of game into the observed parameter and the required value.
+    parameter = (game_parameters[0].split("_"))[0]
+    objective = int((game_parameters[0].split("_"))[1])
+
+    # That variable is used by the "savage cut" to exit the match abruptly.
+    condition = 1
+
+    # Displays the match's victory requirements.
+    game.begin_screen(parameter,objective)
+
+    # Code for the countdown before the party engages
+    for j in range(3, -1, -1):
+        text_screen(system_parameters, str(j), "white", 250)
+
+    while condition and ((gp1.score < objective and gp2.score < objective)if parameter == "score" else sec < objective):
 
         game.entities_reset()
         chrono = pygame.time.Clock()
         sec = round((pygame.time.get_ticks()-init_date) / 1000)
 
         loop = 1
+        pause_asked = 0
         while loop and (gp1.score < 3 and gp2.score < 3 if game_parameters[0] == "first_to3" else sec < 120):
 
             chrono.tick(60)
@@ -89,13 +89,13 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
 
             # The following pragraph is the embryo for the PAUSE system. Currently not working.
             command = game.get_allinputs()
-            #Superbreak
+            # Superbreak
             if command == 0:
                 loop = condition = 0
                 break
-            #Pause
+            # Pause
             elif command == -1:
-                game.pause_screen()
+                pause_asked = 1
 
             game.apply_all_effects()
             game.complete_frame()
@@ -117,14 +117,17 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
 
             pygame.display.flip()
 
+            # I put that there in that way, because else parts of the game objects are invisible during pause.
+            if pause_asked:
+                pause_asked = 0
+                game.pause_screen()
+
+    # That condition make it so that regular end screen is only displayed if F9 has not been pressed.
     if condition:
+        pygame.mixer.fadeout(5000)
         winner = game.end_screen()
 
-        # The chat function has been moved elsewhere for now.
-        if str(dialogues_avaiable)[0] == 2 or str(dialogues_avaiable)[0] == 3:
-            pass
 
-        pygame.mixer.fadeout(5)
         return winner
 
 
@@ -143,7 +146,7 @@ if __name__ == '__main__':
     player_parameters = [["PLAYER1", "Sanic", "keyboard1"],
                          ["0COM2", "Alexander", "keyboard2"]]
     # Synthax: [gametype, terrain chosen]
-    game_parameters = ["first_to3", "metal1"]
+    game_parameters = ["score_3", "metal1"]
 
 
     core(system_parameters,player_parameters,game_parameters)

@@ -45,9 +45,6 @@ def complete_campaign(system_parameters):
         text_screen(system_parameters, "LEVEL 0"+str(i+1), "white", 5000)
         if int(prolog): chat(system_parameters, prolog, return_stadiumstats(game_parameters[1])[0])
 
-        for j in range(3, -1, -1):
-            text_screen(system_parameters, str(j), "white", 250)
-
         winner = core(system_parameters, player_parameters, game_parameters, 300+i)
         if int(epilog) and winner == 0 : chat(system_parameters, epilog, return_stadiumstats(game_parameters[1])[0])
         i += 1

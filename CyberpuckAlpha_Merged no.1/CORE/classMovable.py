@@ -60,13 +60,13 @@ class Movable:
             if (self.rect.centerx - entity.rect.centerx) ** 2 + (self.rect.centery - entity.rect.centery) ** 2 < (
                     self.ray + entity.ray) ** 2 and (pygame.time.get_ticks() - self.last_impact <= 2):
                 self.followed_impact += 2
-                print("FOLLOWED IMPACT!", self.followed_impact)
+                # print("FOLLOWED IMPACT!", self.followed_impact)
             elif self.followed_impact > 0:
-                print("DEBUG DEFUSED!")
+                # print("DEBUG DEFUSED!")
                 self.followed_impact -= 1
 
             if self.followed_impact >= 8:
-                print("DEBUG TRIGGERED!")
+                # print("DEBUG TRIGGERED!")
                 if self.true_pos[0] < entity.true_pos[0]:
                     self.true_pos[0] -= 3
                 else:

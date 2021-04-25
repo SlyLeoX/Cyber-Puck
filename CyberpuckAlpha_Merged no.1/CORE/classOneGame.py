@@ -111,6 +111,19 @@ class PartyOn:
                     return -1
         return 1
 
+    def pause_screen(self):
+        press = 0
+        while press == 0:
+
+            text_box((self.screen, (self.width, self.height)), "PAUSE", "red", 250)
+
+            # After having shown the PAUSE sign for a quarter of a second, check if the 'echap' key has been pressed.
+            events = pygame.event.get()
+            for searching in events:
+                if searching.type == pygame.KEYDOWN:
+                    if searching.key == pygame.K_ESCAPE:
+                        press = 1
+
     def goal_verif2(self):
 
         cy = self.base_entities[0].rect.centery
@@ -221,6 +234,15 @@ class PartyOn:
             else: self.screen.blit(pygame.transform.flip(self.char_icons[i],True,False), (self.width-(16+158)*self.width/1920, 12*self.height/1080))
             # PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
 
+    def begin_screen(self, parameter, objective):
+        self.screen.fill((0, 0, 0))
+        print("THAT IS:",parameter)
+        if parameter == "score":
+            text = "BE THE FIRST TO SCORE "+str(objective)+" POINTS"
+        else:
+            text = "HAVE THE HIGHEST SCORE IN "+str(objective)+" SECONDS"
+        text_screen((self.screen, (self.width, self.height)), text, "black", 5000, 40)
+
     def end_screen(self):
 
         if self.players[0].score > self.players[1].score:
@@ -231,11 +253,9 @@ class PartyOn:
             winner = -1
 
         if winner < 0:
-            text_box((self.screen, (self.width, self.height)), "PAR !", 5000)
+            text_box((self.screen, (self.width, self.height)), "PAR", "blue", 5000)
         else:
-            text_box((self.screen, (self.width, self.height)), self.players[winner].charname+" WINS", 5000)
+            text_box((self.screen, (self.width, self.height)), self.players[winner].charname+" WINS", "green", 5000)
 
         return winner
 
-    def pause_screen(self):
-        print("NOTHING HERE BUDDY !")
