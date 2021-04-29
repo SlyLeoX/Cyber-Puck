@@ -50,11 +50,17 @@ class AiType(PlayerType):
             radius += max_speed
             ball_x_pos += ball_x_speed
             ball_y_pos += ball_y_speed
-            if ball_y_pos > 768:
+            if ball_y_pos >= 768:
                 ball_y_pos += 768 - ball_y_pos
                 ball_y_speed *= -1
-            if ball_x_pos > 1366:
+            if ball_y_pos <= 0:
+                ball_y_pos *= -1
+                ball_y_speed *= -1
+            if ball_x_pos >= 1366:
                 ball_x_pos += 1366 - ball_x_pos
+                ball_x_speed *= -1
+            if ball_x_pos <= 0:
+                ball_x_pos *= -1
                 ball_x_speed *= -1
             if radius > ((ball_x_pos - player_x_pos) ** 2 + (ball_y_pos - player_y_pos) ** 2) ** (1 / 2):
                 catchable = True
@@ -76,14 +82,19 @@ class AiType(PlayerType):
         # We return that position
         return (player_x_pos, player_y_pos)
         '''
+        # print(ball_x_pos, ball_y_pos)
         return ball_x_pos, ball_y_pos
 
     def get_shortest_path(self, game):
         # This gets us the inputs to get to the target and the time needed to do so
+        puck_pos_x = self.get_object_pos_x(game.base_entities[0])
         ai_pos_x = self.get_object_pos_x(game.base_entities[2])
         ai_pos_y = self.get_object_pos_y(game.base_entities[2])
         m = (ai_pos_y - self.target_y) / (ai_pos_x - self.target_x)
         time = ((((ai_pos_y - self.target_y) ** 2) + ((ai_pos_x - self.target_x) ** 2)) ** (1/2)) / self.max_speed
+        # print(np.cos(np.arctan(m)), np.sin(np.arctan(m)), time)
+        if puck_pos_x < ai_pos_x:
+            return -np.cos(np.arctan(m)), np.sin(np.arctan(m)), time
         return np.cos(np.arctan(m)), np.sin(np.arctan(m)), time
 
     # Fonction principale appelée par le loop:
@@ -135,40 +146,50 @@ class AiType(PlayerType):
         if self.idea > 0:
             self.idea -= 1
         else:
-            print(puck_pos_x, puck_pos_y, ai_pos_x, ai_pos_y)
+            # print(puck_pos_x, puck_pos_y, ai_pos_x, ai_pos_y)
             self.target_x, self.target_y = self.get_quickest_position(ai_pos_x, ai_pos_y, self.max_speed, puck_pos_x,
                                                                  puck_pos_y,
                                                                  game.base_entities[0].speed[0],
                                                                  game.base_entities[0].speed[1])
             # We have put a target on the position to hit the puck
             # line of coordinate y = mx + p
-            print(self.idea, self.current_inputs[0], self.current_inputs[1], self.target_x, self.target_y)
+            # print(self.idea, self.current_inputs[0], self.current_inputs[1], self.target_x, self.target_y)
             m_coeff = (ai_pos_y - self.target_y) / (ai_pos_x - self.target_x)
             p_coeff = (ai_pos_y - m_coeff * ai_pos_x)
-            if puck_pos_x > 1366 / 2:
-                # so if the puck is our zone
-
-                if (768 / 4 > m_coeff * 1366 + p_coeff) or \
-                        (768 * 3 / 4 < m_coeff * 1366 + p_coeff):
-                    print("a")
-                    # If the puck isn't aligned with the goal, we kick it
-                    self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
-                else:
-                    print("b")
-                    # If it cannot, we gotta reposition
-                    self.target_x = (ai_pos_x + 1366) / 2
-                    self.target_y = (ai_pos_y + 768) / 2
-                    self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
+            if not (-0.5 < self.speed[0] < 0.5 or -0.5 < self.speed[1] < 0.5):
+                if -0.5 > self.speed[0]:
+                    self.current_inputs[0] = 1
+                if 0.5 < self.speed[0]:
+                    self.current_inputs[0] = -1
+                if -0.5 > self.speed[1]:
+                    self.current_inputs[1] = 1
+                if 0.5 < self.speed[1]:
+                    self.current_inputs[1] = -1
             else:
-                # If we can score, we go for it
-                # If not, we reposition
-                if (768 / 4 < p_coeff) and (768 * 3 / 4 > p_coeff):
-                    print("c")
-                    # If we can score, full throttle
-                    self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
+                if self.target_x > 1366 / 2:
+                    # so if the puck is our zone
+
+                    if (768 / 4 > m_coeff * 1366 + p_coeff) or \
+                            (768 * 3 / 4 < m_coeff * 1366 + p_coeff):
+                        print("a")
+                        # If the puck isn't aligned with the goal, we kick it
+                        self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
+                    else:
+                        print("b")
+                        # If it cannot, we gotta reposition
+                        self.target_x = (ai_pos_x + 1366) / 2
+                        self.target_y = (ai_pos_y + 768) / 2
+                        self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
                 else:
-                    print("d")
-                    # We go at the center to await our shot
-                    self.target_x = 1366/2
-                    self.target_y = 768/2
-                    self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
+                    # If we can score, we go for it
+                    # If not, we reposition
+                    if (768 / 4 < p_coeff) and (768 * 3 / 4 > p_coeff):
+                        print("c")
+                        # If we can score, full throttle
+                        self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
+                    else:
+                        print("d")
+                        # We go at the center to await our shot
+                        self.target_x = 1366 / 2
+                        self.target_y = 768 / 2
+                        self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)

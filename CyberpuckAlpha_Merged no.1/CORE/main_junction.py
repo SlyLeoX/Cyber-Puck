@@ -103,6 +103,11 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
             game.stamina_restitution()
 
             loop = game.goal_verif2()
+            if loop == 0:
+                if type(gp1) == "AiType":
+                    gp1.idea = 0
+                if type(gp2) == "AiType":
+                    gp2.idea = 0
 
             game.blit_entities()
             game.blit_stadium()
