@@ -66,9 +66,7 @@ class PartyOn:
 
     def apply_all_effects(self):
         for player in self.players:
-            if player.active_pow != []: print(player.active_pow,player.active_pow[0].types, player.active_pow[0].lenght)
             for capacity in player.active_pow:
-                print("He went there! Capacity's time:", pygame.time.get_ticks()-capacity.origin)
                 capacity.effects_apply(player, (self.width, self.height, self.screen), self.base_entities)
 
                 if capacity.last_frame():
@@ -92,7 +90,7 @@ class PartyOn:
                 if player.level == 0:
                     player.ia_choice_lvl0(game)
                 if player.level == 1:
-                    pass
+                    player.ia_choice_lvl1(game)
                 if player.level == 2:
                     pass
 
@@ -103,11 +101,15 @@ class PartyOn:
             player.apply_inputs()
         for event in events:
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F8:
+                    print("Debug information requested")
+                    self.debug_informations()
+                    return 1
                 if event.key == pygame.K_F9:
-                    print("STOOOOOP!!")
+                    print("STOP!!")
                     return 0
                 if event.key == pygame.K_ESCAPE:
-                    print("PAUSEEEEE!!")
+                    print("PAUSE!!")
                     return -1
         return 1
 
@@ -258,4 +260,10 @@ class PartyOn:
             text_box((self.screen, (self.width, self.height)), self.players[winner].charname+" WINS", "green", 5000)
 
         return winner
+
+    def debug_informations(self):
+
+        for i in range(2):
+            print("Player NO.",i)
+            print("Multipliers:",self.players[i].speed_multiplier)
 

@@ -39,9 +39,9 @@ class PlayerType(Movable):
 
         # pattern=[number of frames of effect (theoretical),("type0,effect1,effect2,...")]
 
-        self.ultras = return_charstats(infopack[1])[4]
-        self.specials = return_charstats(infopack[1])[5]
-        self.passives = return_charstats(infopack[1])[6]
+        self.ultras = return_charstats(infopack[1])[5]
+        self.supers = return_charstats(infopack[1])[4]
+        # self.passives = return_charstats(infopack[1])[6]
         self.dashs = [10*60,"dash0,self_speedup4"]
 
         # player.map is a dictionary of type player.map["action"] = key. It is a map for the keyboard.
@@ -84,7 +84,8 @@ class PlayerType(Movable):
 
                 if event.key == self.map["spe_move"]:
                     self.dash(game)
-
+                if event.key == self.map["sup_move"]:
+                    self.super(game)
                 if event.key == self.map["ultra"]:
                     self.ultra(game)
 
@@ -135,12 +136,19 @@ class PlayerType(Movable):
         else:
             print("Dash failed")
 
-    def ultra(self, game):
+    def super(self, game):
+        if self.current_special >= 6:
+            print("SUPER")
+            self.current_special -= 6
+            self.active_pow.append(EffectType(self, self.supers[0], self.supers[1], game))
+        else:
+            print("SUPER FAIL!")
 
-        if self.current_special == 12:
+    def ultra(self, game):
+        if self.current_special >= 12:
             print("ULTRA")
             self.current_special -= 12
-            self.active_pow.append(EffectType(self, self.ultras[0], self.ultras[1]))
+            self.active_pow.append(EffectType(self, self.ultras[0], self.ultras[1], game))
         else:
             print("ULTRA FAIL!")
 

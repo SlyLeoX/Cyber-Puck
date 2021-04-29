@@ -41,7 +41,7 @@ class Movable:
                 self.speed[i] -= 1/resistance
 
         # rect = {1: self.rect.x, 2: self.rect.y}
-        for i in range(0, 2):
+        for i in range(2):
             self.true_pos[i] += (self.speed[i])*self.speed_multiplier[i]
             # if self.true_pos != [0, 0]: print(self.true_pos)
             # rect[i] = self.true_pos[i]

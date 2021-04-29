@@ -3,6 +3,7 @@ import sys
 import numpy as np
 
 from CORE.classPlayer import PlayerType
+from CORE.auxiliary_Controls import controls_mapping
 
 
 class AiType(PlayerType):
@@ -15,7 +16,7 @@ class AiType(PlayerType):
         self.level = int(infopack[0][0])
 
         self.max_speed -= 2
-        # self.map = "0"
+        self.map = controls_mapping("0")
 
         self.idea = 0
         self.target_x = 0
