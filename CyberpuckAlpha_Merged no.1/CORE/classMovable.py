@@ -108,16 +108,16 @@ class Movable:
                 else:  # Proper physics calculated.
 
                     c = (a.rect.centery - b.rect.centery) / (a.rect.centerx - b.rect.centerx)
-                    s = (relative_v[0]) * (np.cos(np.tan(c))) + (relative_v[1]) * (np.sin(np.tan(c)))
+                    s = (relative_v[0]) * (np.cos(np.arctan(c))) + (relative_v[1]) * (np.sin(np.arctan(c)))
 
                     va = s - ((2 * s * b.mass) / (a.mass + b.mass))
                     vb = ((2 * s * a.mass) / (a.mass + b.mass))
 
-                    a.speed[0] = va * (np.cos(np.tan(c))) + b.speed[0]
-                    a.speed[1] = va * (np.sin(np.tan(c))) + b.speed[1]
+                    a.speed[0] = va * (np.cos(np.arctan(c))) + b.speed[0]
+                    a.speed[1] = va * (np.sin(np.arctan(c))) + b.speed[1]
 
-                    b.speed[0] = vb * (np.cos(np.tan(c))) + b.speed[0]
-                    b.speed[1] = vb * (np.sin(np.tan(c))) + b.speed[1]
+                    b.speed[0] = vb * (np.cos(np.arctan(c))) + b.speed[0]
+                    b.speed[1] = vb * (np.sin(np.arctan(c))) + b.speed[1]
 
                 # print(self.speed, lentity.speed)
                 a.run()
