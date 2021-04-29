@@ -145,25 +145,24 @@ class AiType(PlayerType):
             print(self.idea, self.current_inputs[0], self.current_inputs[1], self.target_x, self.target_y)
             m_coeff = (ai_pos_y - self.target_y) / (ai_pos_x - self.target_x)
             p_coeff = (ai_pos_y - m_coeff * ai_pos_x)
-            if puck_pos_x < 1366 / 2:
-                # so if the puck is in the opponent's zone
+            if puck_pos_x > 1366 / 2:
+                # so if the puck is our zone
 
                 if (768 / 4 > m_coeff * 1366 + p_coeff) or \
                         (768 * 3 / 4 < m_coeff * 1366 + p_coeff):
                     print("a")
-                    # If the puck can be reached, we kick it
-                    self.idea = int()
+                    # If the puck isn't aligned with the goal, we kick it
                     self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
                 else:
                     print("b")
                     # If it cannot, we gotta reposition
-                    self.target_x = ai_pos_x + 1366 / 2
-                    self.target_y = ai_pos_y + 768 / 2
+                    self.target_x = (ai_pos_x + 1366) / 2
+                    self.target_y = (ai_pos_y + 768) / 2
                     self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
             else:
                 # If we can score, we go for it
                 # If not, we reposition
-                if (768 / 4 > p_coeff) or (768 * 3 / 4 < p_coeff):
+                if (768 / 4 < p_coeff) and (768 * 3 / 4 > p_coeff):
                     print("c")
                     # If we can score, full throttle
                     self.current_inputs[0], self.current_inputs[1], self.idea = self.get_shortest_path(game)
