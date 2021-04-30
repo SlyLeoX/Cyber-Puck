@@ -20,7 +20,6 @@ class PartyOn:
 
     from CORE.auxiliary_FX import side_sounds, side_animations, collide_sounds, collide_animations
 
-
     def __init__(self, system_parameters, player_parameters, terrain):
 
         self.screen = system_parameters[0]
@@ -72,6 +71,7 @@ class PartyOn:
                 if capacity.last_frame():
                     print("Lastframe!")
                     player.active_pow.remove(capacity)
+                    del capacity
 
     def complete_frame(self):
         for entity in self.base_entities:
@@ -177,6 +177,15 @@ class PartyOn:
     def entities_reset(self):
         for entity in self.base_entities:
             entity.speed = [0, 0]
+            entity.speed_multiplier = [1, 1]
+            entity.tangible = True
+
+        for player in self.players:
+            for effect in player.active_pow:
+                del effect
+            player.active_pow = []
+
+
         self.players[0].true_pos[0] = self.players[0].rect.x = self.width * 1 / 6
         self.players[1].true_pos[0] = self.players[1].rect.x = self.width * 5 / 6
         self.players[0].true_pos[1] = self.players[0].rect.y = self.height / 2
@@ -264,6 +273,6 @@ class PartyOn:
     def debug_informations(self):
 
         for i in range(2):
-            print("Player NO.",i)
-            print("Multipliers:",self.players[i].speed_multiplier)
+            print("Player NO.", i)
+            print("Multipliers:", self.players[i].speed_multiplier)
 
