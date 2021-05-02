@@ -1,8 +1,9 @@
 import pygame
-import sys
 from Menu import Menu
 from Versus import Versus
 from Collection import Collection
+from Characters import Characters
+from Pucks import Pucks
 from Settings import Settings
 from Credits import Credits
 from Quit import Quit
@@ -17,7 +18,6 @@ class Game():
         self.display = pygame.Surface((self.width,self.height))
         self.window = pygame.display.set_mode(((self.width,self.height)))
 
-        #Here to help with the execution of the core.
         self.system_parameters = [self.window,[self.width,self.height]]
 
         self.font_name = '8-BIT WONDER.TTF'
@@ -29,6 +29,8 @@ class Game():
         self.menu = Menu(self)
         self.versus = Versus(self)
         self.collection = Collection(self)
+        self.characters = Characters(self)
+        self.pucks = Pucks(self)
         self.settings = Settings(self)
         self.credits = Credits(self)
         self.quit = Quit(self)
@@ -47,13 +49,9 @@ class Game():
 
     def check_events(self):
         for event in pygame.event.get():
-
             if event.type == pygame.QUIT:
                 self.running, self.playing = False, False
                 self.curr_menu.run_display = False
-                #I put that here , for now ...
-                sys.exit()
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.START_KEY = True
@@ -105,6 +103,24 @@ class Game():
 
     def draw_logo_game(self, image):
         self.display.blit(image, (100, 100))
+
+    def draw_perso1(self, image):
+        self.display.blit(image, (350, 225))
+
+    def draw_perso2(self, image):
+        self.display.blit(image, (750, 225))
+
+    def draw_puck1(self, image):
+        self.display.blit(image, (350, 225))
+
+    def draw_puck2(self, image):
+        self.display.blit(image, (750, 225))
+
+    def draw_puck1(self, image):
+        self.display.blit(image, (200, 225))
+
+    def draw_puck1(self, image):
+        self.display.blit(image, (200, 225))
 
     def draw_logo_efrei(self, image):
         self.display.blit(image, (125, 275))
