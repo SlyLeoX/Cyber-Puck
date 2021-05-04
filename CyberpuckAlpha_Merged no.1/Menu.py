@@ -17,8 +17,8 @@ class Menu(Application):
         self.cursor_rect.midtop = (self.storyx + self.offset, self.storyy)
 
         self.back = pygame.image.load('Back_Menu.png')
-        self.logo1 = pygame.image.load('logo1.png')
-        self.logo_game = pygame.image.load('logo.png')
+        self.logo1 = pygame.image.load('logo1.png').convert_alpha()
+        self.logo_game = pygame.image.load('logo.png').convert_alpha()
 
         pygame.display.set_icon(self.logo1)
 
