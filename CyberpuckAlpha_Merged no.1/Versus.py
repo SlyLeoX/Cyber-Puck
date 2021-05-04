@@ -113,10 +113,12 @@ class Versus(Application):
             elif self.state == 'Enabled':
                 #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 self.player_parameters[0][1]="Alexander"
+                self.player_parameters[1][1] ="Sanic"
                 #self.game.curr_menu = self.game.quit
             elif self.state == 'Disabled':
                 #winsound.PlaySound('button-4.wav', winsound.SND_FILENAME)
                 self.player_parameters[0][1]="Sanic"
+                self.player_parameters[1][1] ="Alexander"
                 #self.game.curr_menu = self.game.quit
             self.run_display = False
 

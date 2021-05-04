@@ -8,7 +8,8 @@ class Movable:
 
     def __init__(self, x, y, infopack):
         # The following  static string shall be replace by some function answer if we have multiple tex. avb.
-        self.tex = pygame.image.load(r"CORE\ressources\misc\intro_ball.gif").convert()
+        self.tex = pygame.image.load(r"CORE\ressources\misc\puck_alt.png").convert_alpha()
+        self.tex = pygame.transform.scale(self.tex, (111, 111))
         self.rect = self.tex.get_rect()
 
         self.base_x = x

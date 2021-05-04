@@ -14,7 +14,8 @@ class PlayerType(Movable):
         Movable.__init__(self, x, y, infopack)
 
         # Change the following static string by a call ajusting the texture to the character.
-        self.tex = pygame.image.load(r"CORE\ressources\misc\player_bumper.gif").convert()
+        self.tex = pygame.image.load(r"CORE\ressources\misc\palet_alt.png").convert_alpha()
+        self.tex = pygame.transform.scale(self.tex, (55, 55))
         self.rect = self.tex.get_rect()
 
         self.score = 0
