@@ -43,7 +43,8 @@ class PlayerType(Movable):
         self.ultras = return_charstats(infopack[1])[5]
         self.supers = return_charstats(infopack[1])[4]
         # self.passives = return_charstats(infopack[1])[6]
-        self.dashs = [10*60,"dash0,self_speedup4"]
+        self.dashs = [10*60, "dash0,self_speedup4"]
+        self.inputs = {}
 
         # player.map is a dictionary of type player.map["action"] = key. It is a map for the keyboard.
         # player.current_inputs is an array of int [x_binary_speed, y_binary_speed]
@@ -83,11 +84,11 @@ class PlayerType(Movable):
                 elif event.key == self.map["right"]:
                     self.current_inputs[0] = 1
 
-                if event.key == self.map["spe_move"]:
+                if event.key in self.map["spe_move"]:
                     self.dash(game)
-                if event.key == self.map["sup_move"]:
+                if event.key in self.map["sup_move"]:
                     self.super(game)
-                if event.key == self.map["ultra"]:
+                if event.key in self.map["ultra"]:
                     self.ultra(game)
 
             if event.type == pygame.JOYAXISMOTION and event.instance_id == self.number:
@@ -97,11 +98,14 @@ class PlayerType(Movable):
                     self.current_inputs[1] = event.value
 
             if event.type == pygame.JOYBUTTONDOWN and event.instance_id == self.number:
+                print(event.button)
                 if event.button in self.map.values():
                     self.inputs[event.button] = "pressing"
-                if event.button == self.map["spe_move"]:
+                if event.button in self.map["spe_move"]:
                     self.dash(game)
-                if event.button == self.map["ultra"]:
+                if event.button in self.map["sup_move"]:
+                    self.super(game)
+                if event.button in self.map["ultra"]:
                     self.ultra(game)
 
             if event.type == pygame.JOYBUTTONUP and event.instance_id == self.number:
