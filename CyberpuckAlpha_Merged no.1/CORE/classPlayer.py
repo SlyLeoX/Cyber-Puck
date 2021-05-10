@@ -84,11 +84,11 @@ class PlayerType(Movable):
                 elif event.key == self.map["right"]:
                     self.current_inputs[0] = 1
 
-                if event.key in self.map["spe_move"]:
+                if event.key == self.map["spe_move"]:
                     self.dash(game)
-                if event.key in self.map["sup_move"]:
+                if event.key == self.map["sup_move"]:
                     self.super(game)
-                if event.key in self.map["ultra"]:
+                if event.key == self.map["ultra"]:
                     self.ultra(game)
 
             if event.type == pygame.JOYAXISMOTION and event.instance_id == self.number:
@@ -101,11 +101,11 @@ class PlayerType(Movable):
                 print(event.button)
                 if event.button in self.map.values():
                     self.inputs[event.button] = "pressing"
-                if event.button in self.map["spe_move"]:
+                if event.button == self.map["spe_move2"]:
                     self.dash(game)
-                if event.button in self.map["sup_move"]:
+                if event.button == self.map["sup_move2"]:
                     self.super(game)
-                if event.button in self.map["ultra"]:
+                if event.button == self.map["ultra2"]:
                     self.ultra(game)
 
             if event.type == pygame.JOYBUTTONUP and event.instance_id == self.number:
