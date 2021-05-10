@@ -56,6 +56,7 @@ class PartyOn:
             icon = pygame.image.load(icon).convert_alpha()
             icon = pygame.transform.scale(icon, (round(160 * self.width / 1920), round(160 * self.height / 1080)))
             self.char_icons.append(icon)
+        self.char_icons[1] = pygame.transform.flip(self.char_icons[1], True, False)
 
         self.sideimpact_effect = pygame.image.load(r"CORE\ressources\vfx\side_impact.gif").convert_alpha()
         self.sideimpact_effect = pygame.transform.scale(self.sideimpact_effect, (86, 39))
@@ -242,8 +243,7 @@ class PartyOn:
         for i in range (2):
             player = self.players[i]
             if player.base_x < (self.width/2): self.screen.blit(self.char_icons[i], (16*self.width/1920, 12*self.height / 1080))
-            else: self.screen.blit(pygame.transform.flip(self.char_icons[i],True,False), (self.width-(16+158)*self.width/1920, 12*self.height/1080))
-            # PROBABLY VERY BAD FOR FRAMERATE MODIFY THAT LATER
+            else: self.screen.blit(self.char_icons[i], (self.width-(16+158)*self.width/1920, 12*self.height/1080))
 
     def begin_screen(self, parameter, objective):
         self.screen.fill((0, 0, 0))

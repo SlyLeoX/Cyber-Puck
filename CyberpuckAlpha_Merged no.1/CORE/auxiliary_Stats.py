@@ -12,6 +12,9 @@ def return_charstats(character):
     elif character == 'Alexander':
         return [20, 20, 12, r"CORE\ressources\characters\alexander\icon.png", [100*60, "super0,puck_speedup2"], [100*60, "ultra0,gdmp0"], []]
 
+    elif character == 'Harry':
+        return [20, 20, 12, r"CORE\ressources\characters\harry\icon.png", [100*60, "super0,puck_speedup2"], [100*60, "ultra0,gdmp0"], []]
+
 
 def return_stadiumstats(terrain):
     if terrain=="metal1":

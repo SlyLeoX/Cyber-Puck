@@ -1,5 +1,5 @@
-1,Sanic,score_3,metal1,111,112
-0,Alexander,score_3,metal1,0,0
-0,Sanic,time_120,metal1,0,0
-0,Alexander,time_120,metal1,0,0
+1,Sanic,time_120,metal1,111,112
+1,Harry,time_90,metal1,0,0
 0,Sanic,score_3,metal1,0,0
+0,Alexander,score_5,metal1,0,0
+0,Sanic,score_7,metal1,0,0

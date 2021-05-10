@@ -23,7 +23,7 @@ def complete_campaign(system_parameters):
 
     # Putting that there for initializing's sake.
     # The first half of player parameters (inputs i mean) shall be affected by players choice.
-    player_parameters = [["PLAYER1", "Sanic", "keyboard1"],["0COM2", "Alexander", "0"]]
+    player_parameters = [["PLAYER1", "Alexander", "keyboard1"],["0COM2", "Alexander", "0"]]
     game_parameters = ["first_to3", "metal1"]
 
     i = 0
