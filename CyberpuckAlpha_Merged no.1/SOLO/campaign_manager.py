@@ -1,5 +1,5 @@
 from CORE.main_junction import core
-from CORE.auxiliary_Toolbox import text_screen
+from CORE.auxiliary_Toolbox import text_screen, story_text_screen
 from CORE.auxiliary_Stats import return_stadiumstats
 
 from SOLO.chat_manager import chat
@@ -42,6 +42,15 @@ def complete_campaign(system_parameters):
         prolog = parameters[4]
         epilog = parameters[5].removesuffix("\n")
 
+
+        #This paragraph print the story in text mode.
+        dialogue_file = (r"SOLO\stories\fix".removesuffix("fix")) + str(i+1) + ".txt"
+        dialogue_file = open(dialogue_file, "r", encoding="UTF-8")
+        dialogue = dialogue_file.readlines()
+        story_text_screen(system_parameters,dialogue,"black",20)
+
+
+
         text_screen(system_parameters, "LEVEL 0"+str(i+1), "white", 5000)
         if int(prolog): chat(system_parameters, prolog, return_stadiumstats(game_parameters[1])[0])
 
@@ -52,4 +61,8 @@ def complete_campaign(system_parameters):
     if i < 5 or winner != 0:
         text_screen(system_parameters, "GAME OVER", "red", 5000)
     else:
+        dialogue_file = (r"SOLO\stories\fix".removesuffix("fix")) + str(6) + ".txt"
+        dialogue_file = open(dialogue_file, "r", encoding="UTF-8")
+        dialogue = dialogue_file.readlines()
+        story_text_screen(system_parameters, dialogue, "black", 20)
         text_screen(system_parameters, "CONGRATULATIONS-YOU BEAT THE GAME", "green", 5000)

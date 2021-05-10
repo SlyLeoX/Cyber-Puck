@@ -1,0 +1,7 @@
+(Le Roi) "Bien! Tu es effectivement un fin joueur, comme on me l'avait rapporté."
+"Eh bien tu as maitenant le choix:"
+"Tu peux vivre une vie de calme payée par le royaume en tant que héros national."
+"Ou bien tu peux mettre tes talents au service de ma fille et rester au près d'elle comme chevalier servant."
+Je vois... bien le choix sera vite fait.
+Bref, c'est l'histoire de comment je me suis retrouvé garde du corps dans un autre monde.
+[THE END]

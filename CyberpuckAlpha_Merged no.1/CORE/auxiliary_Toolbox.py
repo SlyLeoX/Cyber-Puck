@@ -42,6 +42,7 @@ def text_screen(system_parameters, text, color, time, size=80):
     width = system_parameters[1][0]
     height = system_parameters[1][1]
 
+    #Associate the chosen background color with an appropriate font color.
     color_link = {"white": "black", "black": "white", "red": "black", "green": "white", "blue": "white"}
 
     screen.fill(color_code[color])
@@ -61,3 +62,46 @@ def text_screen(system_parameters, text, color, time, size=80):
 
     pygame.time.wait(time)
     # sleep(time/1000)
+
+def story_text_screen(system_parameters,lines,color,size=50):
+
+    screen = system_parameters[0]
+    width = system_parameters[1][0]
+    height = system_parameters[1][1]
+
+    # Associate the chosen background color with an appropriate font color.
+    color_link = {"white": "black", "black": "white", "red": "black", "green": "white", "blue": "white"}
+
+    screen.fill(color_code[color])
+
+    #font = '8-BIT WONDER.TTF'
+    font = None
+
+    full_font = pygame.font.Font(font, size)
+
+    reading = True
+    for i in range(0,len(lines),5):
+
+        if (len(lines)-i)>10:
+            printed = 10
+        else:
+            printed = len(lines) - i
+
+        while reading :
+            screen.fill(color_code[color])
+            for j in range(printed):
+                full_text = full_font.render(lines[i+j].removesuffix("\n"), True, color_code[color_link[color]])
+                text_pos = ((width / 12), (height / 12) + (j*30))
+                screen.blit(full_text, text_pos)
+
+            full_text = full_font.render("[PRESS A KEY TO CONTINUE]", True, color_code[color_link[color]])
+            text_pos = ((width / 12), (height / 12) + ((1+printed) * 30))
+            screen.blit(full_text, text_pos)
+            pygame.display.flip()
+
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    reading = False
+        reading = True
+        print(i,len(lines))
