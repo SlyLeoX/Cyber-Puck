@@ -65,7 +65,7 @@ def replica_blitting(system_parameters, dialogue, portraits, line):
 
     return line
 
-
+# This code allow to detect if the player presses any key.
 def press(last_press):
     events = pygame.event.get()
     for event in events:
@@ -74,6 +74,7 @@ def press(last_press):
     return False
 
 
+# Allows to display a dialogue between 2 characters with the dialogue located in a file and a set background.
 def chat(system_parameters, code, bg):
 
     screen = system_parameters[0]
