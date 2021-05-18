@@ -1,5 +1,9 @@
 import pygame
 
+# Returns a dictionary that is a map of input keys for the player who asked that map.
+# The is a 0 map that is used for objects that are not controllable like puck or an ai.
+# The other two are map of keyboard keys with also some values for the joystick.
+# The joystick controls are always avaiable and useable by the player on the left.
 
 def controls_mapping(controller):
 

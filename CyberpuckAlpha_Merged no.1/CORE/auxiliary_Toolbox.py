@@ -5,6 +5,8 @@ from time import sleep
 color_code = {"white": (255, 255, 255), "black": (0, 0, 0), "red": (175, 0, 0), "green": (0, 175, 0),
                   "blue": (0, 0, 175)}
 
+
+# Displays a text on the screen with a frame around during a given time.
 def text_box(system_parameters, text, color, time):
 
     screen = system_parameters[0]
@@ -31,18 +33,18 @@ def text_box(system_parameters, text, color, time):
 
     pygame.display.flip()
 
-
     pygame.time.wait(time)
     # sleep(time/1000)
 
 
+# Displays a text on the screen with a uniform color on the whole screen behind during a given time.
 def text_screen(system_parameters, text, color, time, size=80):
 
     screen = system_parameters[0]
     width = system_parameters[1][0]
     height = system_parameters[1][1]
 
-    #Associate the chosen background color with an appropriate font color.
+    # Associate the chosen background color with an appropriate font color.
     color_link = {"white": "black", "black": "white", "red": "black", "green": "white", "blue": "white"}
 
     screen.fill(color_code[color])
@@ -56,14 +58,16 @@ def text_screen(system_parameters, text, color, time, size=80):
         full_text = full_font.render(text[i], True, color_code[color_link[color]])
         text_size = full_font.size(text[i])
         text_pos = ((width / 2) - (text_size[0] / 2), (height / 2) - (text_size[1] / 2))
-        screen.blit(full_text, (text_pos[0],text_pos[1]+100*i))
+        screen.blit(full_text, (text_pos[0], text_pos[1]+100*i))
 
     pygame.display.flip()
 
     pygame.time.wait(time)
     # sleep(time/1000)
 
-def story_text_screen(system_parameters,lines,color,size=50):
+
+# Displays text as paragraphs on the screen for easier printing of long texts.
+def story_text_screen(system_parameters, lines, color, size=50):
 
     screen = system_parameters[0]
     width = system_parameters[1][0]
@@ -74,7 +78,7 @@ def story_text_screen(system_parameters,lines,color,size=50):
 
     screen.fill(color_code[color])
 
-    #font = '8-BIT WONDER.TTF'
+    # font = '8-BIT WONDER.TTF'
     font = None
 
     full_font = pygame.font.Font(font, size)

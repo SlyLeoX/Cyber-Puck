@@ -15,7 +15,9 @@ class AiType(PlayerType):
         # The input parameters are a pain to manage, so the IA's level 'x' shall appear as "xCOMn" in inputs.
         self.level = int(infopack[0][0])
 
+        # We slightly debuff the ia's max speed to equilibrate the game.
         self.max_speed -= 2
+        # We deactivate the inputs for the ia by giving it an empty key map.
         self.map = controls_mapping("0")
 
         self.idea = 0
@@ -98,8 +100,7 @@ class AiType(PlayerType):
             return -np.cos(np.arctan(m)), np.sin(np.arctan(m)), time
         return np.cos(np.arctan(m)), np.sin(np.arctan(m)), time
 
-    # Fonction principale appelée par le loop:
-
+    # The Ia lvl0 simply goes towards the puck at all times without further considerations.
     def ia_choice_lvl0(self, game):
         # Rappel: "game.base entities[0]" designe l'objet "Puck" 100% des cas.
         puck_pos_x = self.get_object_pos_x(game.base_entities[0])
@@ -121,9 +122,9 @@ class AiType(PlayerType):
         if puck_pos_x > ai_pos_x:
             self.current_inputs[0] = 0.75
 
+    # The Ia lvl1 should try to predict the puck's trajectory and determine if it wants to shoot, defend or other ...
     def ia_choice_lvl1(self, game):
         # print(self.idea, self.current_inputs[0], self.current_inputs[1], self.target_x, self.target_y)
-
 
         # The prog should be fine, but there's a chance we just intercept instead of shooting
 

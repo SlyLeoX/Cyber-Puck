@@ -23,8 +23,10 @@ blue = 65, 65, 255
 
 
 def core(system_parameters, player_parameters, game_parameters, dialogues_avaiable=99):
+
     # Supercall synthax: (system_parameters, players_parameters, chosen_stadium)
     game = PartyOn(system_parameters, player_parameters, game_parameters[1])
+    # We already extract the references to the player objects from the game object to examine some of their stats later.
     gp1, gp2 = game.players[0], game.players[1]
 
     # Joysticks initialization.
@@ -35,6 +37,7 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
         joystick[-1].init()
 
     # Background music initialization.
+    # Currently fixated, a point of upgrade could be to offer the player the choice of the music.
     pygame.mixer.init()
     pygame.mixer.music.load(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
     pygame.mixer.music.queue(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - Our Hisou Tensoku.wav')
@@ -42,73 +45,85 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
     pygame.mixer.music.play(-1)
 
     # init_date is used to compute the right current time later. Sec is here for plain initialization.
-    init_date=pygame.time.get_ticks()
+    init_date = pygame.time.get_ticks()
     sec = 0
 
-    print(type(gp1))
-    print(type(gp2))
-
     # The following lines decompose the type of game into the observed parameter and the required value.
+    # Parameter may be like "time" or "points" and objective "120(s)" or "3(points)"
     parameter = (game_parameters[0].split("_"))[0]
     objective = int((game_parameters[0].split("_"))[1])
 
     # That variable is used by the "savage cut" to exit the match abruptly.
     condition = 1
 
-    # Displays the match's victory requirements.
-    game.begin_screen(parameter,objective)
+    # Displays the match's victory requirements displayed before the match begins.
+    game.begin_screen(parameter, objective)
 
-    # Code for the countdown before the party engages
+    # Code for the countdown before the party engages. See in "auxiliary_Toolbox.py" to see the function text_screen.
     for j in range(3, -1, -1):
         text_screen(system_parameters, str(j), "white", 250)
 
+    # The following while make it so the overall match continues as long as the selected objective is not fulfilled.
     while condition and ((gp1.score < objective and gp2.score < objective)if parameter == "score" else sec < objective):
 
+        # We reset the entities parameters so they get back to their initial position after a point is scored.
         game.entities_reset()
+
+        # Further initializations for the chronometer, sec is set to reflect the time since the beginning of the match.
         chrono = pygame.time.Clock()
         sec = round((pygame.time.get_ticks()-init_date) / 1000)
 
+        # loop is used to make the actors reset when a goal is scored"
         loop = 1
-        pause_asked = 0
-        while loop and (gp1.score < 3 and gp2.score < 3 if game_parameters[0] == "first_to3" else sec < 120):
 
+        pause_asked = 0
+
+        # The following while make it so the game continues as long as a goal is not scored or a quit is not asked.
+        # It will also cut the match if the time limit (if any) is reached.
+        while loop and ((gp1.score < objective and gp2.score < objective)if parameter == "score" else sec < objective):
+
+            # The 2 following lines blocks the framerate at 60 seconds for a more uniform experience for weaker PCs.
             chrono.tick(60)
             fps = chrono.get_fps()
-            # print(round(fps))
 
             # Chronometer_code
             if sec != round((pygame.time.get_ticks()-init_date) / 1000):
                 sec = round((pygame.time.get_ticks()-init_date) / 1000)
                 # print(sec//60,":", (sec//10)%6, sec%10)
 
-            # screen.fill(white)
+            # Prints the first elements of the user Interface.
             game.blit_bg()
             game.blit_overlay()
 
+            # Calls for a potential IA player to make its choices.
             game.ia_turn(game)
 
-            # The following pragraph is the embryo for the PAUSE system. Currently not working.
+            # The following paragraph is the Commands system.
             command = game.get_allinputs()
-            # Superbreak
+            # If the players hits the F9 Key the game will cease all operation and go back to Menu (count as a defeat).
             if command == 0:
                 loop = condition = 0
                 break
-            # Pause
+            # If the player hits the Escape Key the game will PAUSE and display a Pause Message (later in the code).
             elif command == -1:
                 pause_asked = 1
 
+            # The game checks if it got 'effects' to apply/remove.
             game.apply_all_effects()
+
+            # completer_frame is a subfunction that calls functions which make:
+            # -Border Collisions Verification
+            # -Colliding Physics Computation
+            # -Actors displacement on the terrain according to their speed.
             game.complete_frame()
 
+            # Call for the function that supplys a bit of energy to players each frame.
             game.stamina_restitution()
 
+            # The game verifies if goal is scored, if so the loop ends and the actors will get reseted.
             loop = game.goal_verif2()
-            if loop == 0:
-                if type(gp1) == "AiType":
-                    gp1.idea = 0
-                if type(gp2) == "AiType":
-                    gp2.idea = 0
 
+            # The game now Prints the actors and the remaining elements of the user Interface.
             game.blit_entities()
             game.blit_stadium()
 
@@ -122,20 +137,22 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
 
             pygame.display.flip()
 
-            # I put that there in that way, because else parts of the game objects are invisible during pause.
+            # I put the Pause there in that way, because else parts of the game objects are invisible during pause.
             if pause_asked:
                 pause_asked = 0
                 game.pause_screen()
 
     # That condition make it so that regular end screen is only displayed if F9 has not been pressed.
     if condition:
+        # Ends the music
         pygame.mixer.fadeout(5000)
+        # Prints the winner on the screen.
         winner = game.end_screen()
-
 
         return winner
 
 
+# Junk reliquary bit of code, used to allow to launch a game before the unification of the programm.
 if __name__ == '__main__':
 
     # The following three lines will have to be erased when
