@@ -3,7 +3,9 @@ from Menu import Menu
 from Versus import Versus
 from Collection import Collection
 from Characters import Characters
+from Play import Play
 from Pucks import Pucks
+from Selection import Selection
 from Settings import Settings
 from Credits import Credits
 from Quit import Quit
@@ -30,7 +32,9 @@ class Game():
         self.versus = Versus(self)
         self.collection = Collection(self)
         self.characters = Characters(self)
+        self.play = Play(self)
         self.pucks = Pucks(self)
+        self.selection = Selection(self)
         self.settings = Settings(self)
         self.credits = Credits(self)
         self.quit = Quit(self)
