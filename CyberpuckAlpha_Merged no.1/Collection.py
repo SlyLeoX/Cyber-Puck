@@ -54,12 +54,9 @@ class Collection(Application):
         self.move_cursor()
         if self.game.START_KEY:
             if self.state == 'Characters':
-                #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
-                #self.game.playing = True
-                #self.game.curr_menu = self.game.characters
+                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 self.game.curr_menu = self.game.pucks
             elif self.state == 'Pucks':
-                #winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
-                #self.game.curr_menu = self.game.quit
+                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
                 self.game.curr_menu = self.game.characters
             self.run_display = False
