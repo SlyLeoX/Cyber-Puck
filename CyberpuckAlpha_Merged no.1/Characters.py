@@ -16,6 +16,8 @@ class Characters(Application):
     def display_menu(self):
         self.run_display = True
         while self.run_display:
+            self.game.check_events()
+            self.move_cursor()
             self.game.background(self.back)
 
             self.game.draw_perso1(self.perso1)
@@ -26,3 +28,9 @@ class Characters(Application):
 
             self.game.draw_text_2('Characters', 50, 300, 100)
             self.blit_screen()
+
+    def move_cursor(self):
+        if self.game.BACK_KEY:
+            self.game.curr_menu = self.game.collection
+            winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
+            self.run_display = False
