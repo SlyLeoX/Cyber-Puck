@@ -97,7 +97,7 @@ class PartyOn:
             if i: self.side_animations(entity, i)
             i = entity.physics_check(self.base_entities)
             if i: self.collide_animations(i)
-            entity.run()
+            entity.run(self.terrain_resistance)
 
     # Checks if a player is an Ia, if so, calls the function liked to its level.
     def ia_turn(self, game):

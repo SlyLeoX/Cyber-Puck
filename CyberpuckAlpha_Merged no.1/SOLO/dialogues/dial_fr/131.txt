@@ -1,0 +1,6 @@
+alexander,sanic
+alexander:Pas très professionel tout ça...
+sanic:Ha!C'est trop tard pour revenir sur ta décision!
+sanic:Il est l'heure pour toi de jouer un match pour ta vie!
+alexander:*sigh*
+#END

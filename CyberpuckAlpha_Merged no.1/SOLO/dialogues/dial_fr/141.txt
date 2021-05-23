@@ -1,0 +1,7 @@
+alexander,sanic
+sanic:Alors? Pret à voir tes espoirs anéantis ?
+alexander:Oh vous savez moi les probabilité?
+sanic: Statisquoi ?
+alexander: Oh peu importe ...
+sanic: Tu ne sauras pas me troubler! En garde !
+#END

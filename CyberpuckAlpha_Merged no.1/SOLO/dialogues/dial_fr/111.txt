@@ -1,6 +1,9 @@
 alexander,sanic
-alexander:C'est terminé racaille!-Tes méfaits s'arrêtent ici!
-sanic:Ha! T'es trop lent!-C'est même pas la peine d'essayer de me stopper!
-sanic:Chuis Trop Rapide!
-alexander: C'est ce qu'on va voir!
+sanic:Bien, j'essaierais de vous apprendre au jouer au jeu
+sanic:Utilisez les touches Z,Q,S,D pour bouger votre pion.
+sanic:Vous pouvez égallement appuyer sur H pour un mouvement rapide.
+sanic:Enfin, une fois que votre jauge jaune est pleine, appuyez sur K.
+sanic:Cela déclenchera votre téchnique spéciale.
+alexander:Très bien, j'ai compris.
+sanic:Si c'est le cas, commençons à jouer...
 #END

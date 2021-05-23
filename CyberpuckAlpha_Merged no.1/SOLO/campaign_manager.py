@@ -41,7 +41,11 @@ def complete_campaign(system_parameters):
 
         # Storing the path to the file containing fast dialogues before the match begins.
         prolog = parameters[4]
-        epilog = parameters[5].removesuffix("\n")
+        epilog = parameters[5]
+
+        chat_bg = r"CORE\ressources\game_bg\fix".removesuffix("fix")+parameters[6]+".jpg"
+
+        music = parameters[7].removesuffix("\n")
 
         # This paragraph print the story in text mode.
         dialogue_file = (r"SOLO\stories\fix".removesuffix("fix")) + str(i+1) + ".txt"
@@ -53,11 +57,12 @@ def complete_campaign(system_parameters):
         text_screen(system_parameters, "LEVEL 0"+str(i+1), "white", 5000)
 
         # Launch a small dialogue before the match if avaiable.
-        if int(prolog): chat(system_parameters, prolog, return_stadiumstats(game_parameters[1])[0])
+        if int(prolog): chat(system_parameters, prolog, chat_bg)
 
-        winner = core(system_parameters, player_parameters, game_parameters, 300+i)
+        winner = core(system_parameters, player_parameters, game_parameters, music)
+
         # Launch a small dialogue after the match if avaiable, if the player won.
-        if int(epilog) and winner == 0 : chat(system_parameters, epilog, return_stadiumstats(game_parameters[1])[0])
+        if int(epilog) and winner == 0 : chat(system_parameters, epilog, chat_bg)
         i += 1
 
     # Case the player got out of the while before the last level:

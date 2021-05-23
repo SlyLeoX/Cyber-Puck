@@ -24,3 +24,7 @@ def return_stadiumstats(terrain):
     if terrain=="metal1":
         # Pattern: [terrain_texture, terrain roughness]
         return (r"CORE\ressources\game_bg\metal_1.jpg", 200)
+    if terrain=="stone1":
+        return (r"CORE\ressources\game_bg\stone_1.jpg", 100)
+    else:
+        return (r"CORE\ressources\game_bg\wood_1.jpg", 50)

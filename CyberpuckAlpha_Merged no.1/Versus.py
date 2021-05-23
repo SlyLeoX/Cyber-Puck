@@ -14,10 +14,10 @@ class Versus(Application):
 
         self.back = pygame.image.load('Back_Menu.png')
 
-        self.player_parameters = [["PLAYER1","Sanic", "keyboard1"],
+        self.game.player_parameters = [["PLAYER1","Sanic", "keyboard1"],
                          ["0COM2", "Alexander", "keyboard2"]]
 
-        self.game_parameters = ["score_3", "metal1"]
+        self.game.game_parameters = ["score_3", "metal1"]
 
     def display_menu(self):
         self.run_display = True
@@ -82,14 +82,15 @@ class Versus(Application):
     def check_input(self):
         self.move_cursor()
         if self.game.START_KEY:
+            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
             if self.state == '1 VS 1':
-                self.player_parameters[1][0]="PLAYER2"
+                self.game.player_parameters[1][0]="PLAYER2"
             elif self.state == '1 VS AI':
-                self.player_parameters[1][0]="0COM2"
+                self.game.player_parameters[1][0]="0COM2"
             elif self.state == 'Points':
-                self.game_parameters[0]="score_3"
+                self.game.game_parameters[0] = "score_3"
             elif self.state == 'Time':
-                self.game_parameters[0] ="time_120"
+                self.game.game_parameters[0] = "time_90"
             elif self.state == 'NEXT':
                 self.game.curr_menu = self.game.selection
             self.run_display = False

@@ -15,7 +15,7 @@ class Splash:
         self.window = pygame.display.set_mode((width, height))
         self.statut = True
 
-        self.logo1 = pygame.image.load('logo1.png')
+        self.logo1 = pygame.image.load('logo2.png')
         self.back = pygame.image.load('Back_Menu.png')
 
         pygame.display.set_icon(self.logo1)
@@ -29,7 +29,7 @@ class Splash:
         text_rect.center = (width/2, 600)
 
         self.window.blit(self.back, (0, 0))
-        self.window.blit(self.logo1, (450, 150))
+        self.window.blit(self.logo1, (450, 100))
         self.window.blit(text, text_rect)
 
         pygame.display.update()

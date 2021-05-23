@@ -59,7 +59,7 @@ def replica_blitting(system_parameters, dialogue, portraits, line):
     # The texts should be written in a way so the replicas doesn't go overboard of the speech bubble, put - to break.
     replica = replica[1].split("-")
     for i in range(len(replica)):
-        misc_text = pygame.font.SysFont('Calibri', int(960/32))
+        misc_text = pygame.font.SysFont('Calibri', int(960/56))
         misc_text = misc_text.render(replica[i].removesuffix("\n"), False, black)
         screen.blit(misc_text, bubble_rect.move(32, 64+(int(960/32)*i)))
 
@@ -85,6 +85,7 @@ def chat(system_parameters, code, bg):
     dialogue = dialogue_file.readlines()
 
     bg = pygame.image.load(bg).convert_alpha()
+    bg = pygame.transform.scale(bg, system_parameters[1])
 
     portraits = replica_init(dialogue)
     line = 1

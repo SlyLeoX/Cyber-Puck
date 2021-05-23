@@ -1,5 +1,5 @@
-1,Sanic,time_120,metal1,111,112
-1,Harry,time_90,metal1,0,0
-0,Sanic,score_3,metal1,0,0
-0,Alexander,score_5,metal1,0,0
-0,Sanic,score_7,metal1,0,0
+1,Sanic,time_60,wood1,111,112,forest,Open
+1,Harry,time_90,stone1,121,122,castle,Tetoma
+0,Sanic,score_3,wood1,131,132,castle,Bonbon
+0,Alexander,score_5,metal1,141,142,forest,Alice
+0,Sanic,score_7,stone1,151,152,castle,Open

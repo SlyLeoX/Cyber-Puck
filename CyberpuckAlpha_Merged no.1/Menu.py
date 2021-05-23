@@ -1,4 +1,5 @@
 import pygame
+import sys
 import winsound
 from Application import Application
 
@@ -109,5 +110,6 @@ class Menu(Application):
                 self.game.curr_menu = self.game.credits
             elif self.state == 'Quit':
                 winsound.PlaySound('button-4.wav', winsound.SND_FILENAME)
-                self.game.curr_menu = self.game.quit
+                #self.game.curr_menu = self.game.quit
+                sys.exit()
             self.run_display = False

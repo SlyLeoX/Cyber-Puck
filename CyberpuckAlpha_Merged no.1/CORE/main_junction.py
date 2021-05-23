@@ -22,7 +22,7 @@ red = 255, 65, 65
 blue = 65, 65, 255
 
 
-def core(system_parameters, player_parameters, game_parameters, dialogues_avaiable=99):
+def core(system_parameters, player_parameters, game_parameters, music="bensound-dance"):
 
     # Supercall synthax: (system_parameters, players_parameters, chosen_stadium)
     game = PartyOn(system_parameters, player_parameters, game_parameters[1])
@@ -39,9 +39,8 @@ def core(system_parameters, player_parameters, game_parameters, dialogues_avaiab
     # Background music initialization.
     # Currently fixated, a point of upgrade could be to offer the player the choice of the music.
     pygame.mixer.init()
-    pygame.mixer.music.load(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - The Legendary Titan.wav')
-    pygame.mixer.music.queue(r'CORE\ressources\soundtracks\UNL Pre-Battle Theme - Our Hisou Tensoku.wav')
-    pygame.mixer.music.set_volume(0.05)
+    pygame.mixer.music.load(r'CORE\ressources\soundtracks\fix'.removesuffix("fix")+music+'.wav')
+    pygame.mixer.music.set_volume(0.4)
     pygame.mixer.music.play(-1)
 
     # init_date is used to compute the right current time later. Sec is here for plain initialization.
