@@ -67,7 +67,7 @@ def text_screen(system_parameters, text, color, time, size=80):
 
 
 # Displays text as paragraphs on the screen for easier printing of long texts.
-def story_text_screen(system_parameters, lines, color, size=50):
+def story_text_screen(system_parameters, lines, color, size=40):
 
     screen = system_parameters[0]
     width = system_parameters[1][0]
@@ -79,12 +79,13 @@ def story_text_screen(system_parameters, lines, color, size=50):
     screen.fill(color_code[color])
 
     # font = '8-BIT WONDER.TTF'
-    font = None
+    used_font = 'Perfect DOS VGA 437 Win.ttf'
+    # used_font = None
 
-    full_font = pygame.font.Font(font, size)
+    full_font = pygame.font.Font(used_font, size)
 
     reading = True
-    for i in range(0,len(lines),5):
+    for i in range(0, len(lines), 10):
 
         if (len(lines)-i)>10:
             printed = 10
@@ -95,11 +96,11 @@ def story_text_screen(system_parameters, lines, color, size=50):
             screen.fill(color_code[color])
             for j in range(printed):
                 full_text = full_font.render(lines[i+j].removesuffix("\n"), True, color_code[color_link[color]])
-                text_pos = ((width / 12), (height / 12) + (j*30))
+                text_pos = ((width / 24), (height / 12) + (j*30))
                 screen.blit(full_text, text_pos)
 
             full_text = full_font.render("[PRESS A KEY TO CONTINUE]", True, color_code[color_link[color]])
-            text_pos = ((width / 12), (height / 12) + ((1+printed) * 30))
+            text_pos = ((width / 24), (height / 12) + ((1+printed) * 30))
             screen.blit(full_text, text_pos)
             pygame.display.flip()
 

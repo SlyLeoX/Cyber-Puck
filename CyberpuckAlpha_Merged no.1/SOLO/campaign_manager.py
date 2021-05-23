@@ -48,10 +48,10 @@ def complete_campaign(system_parameters):
         music = parameters[7].removesuffix("\n")
 
         # This paragraph print the story in text mode.
-        dialogue_file = (r"SOLO\stories\fix".removesuffix("fix")) + str(i+1) + ".txt"
+        dialogue_file = (r"SOLO\stories\fix".removesuffix("fix")) + str(i + 1) + ".txt"
         dialogue_file = open(dialogue_file, "r", encoding="UTF-8")
         dialogue = dialogue_file.readlines()
-        story_text_screen(system_parameters,dialogue,"black",20)
+        story_text_screen(system_parameters, dialogue, "black", 15)
 
         # This prints the number of the level before the match begins.
         text_screen(system_parameters, "LEVEL 0"+str(i+1), "white", 5000)

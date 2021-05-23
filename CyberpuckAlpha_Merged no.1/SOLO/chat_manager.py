@@ -80,8 +80,8 @@ def chat(system_parameters, code, bg):
     screen = system_parameters[0]
 
     # The "code" is directly the name of the file containing the dialog (without the .txt)
-    dialogue_file = (r"SOLO\dialogues\dial_fr\fix".removesuffix("fix"))+str(code)+".txt"
-    dialogue_file = open(dialogue_file, "r", encoding="UTF-8")
+    dialogue_file_path = (r"SOLO\dialogues\dial_fr\fix".removesuffix("fix"))+str(code)+".txt"
+    dialogue_file = open(dialogue_file_path, "r", encoding="UTF-8")
     dialogue = dialogue_file.readlines()
 
     bg = pygame.image.load(bg).convert_alpha()
