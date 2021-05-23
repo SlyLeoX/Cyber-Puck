@@ -29,5 +29,5 @@ class Pucks(Application):
     def move_cursor(self):
         if self.game.BACK_KEY:
             self.game.curr_menu = self.game.collection
-            winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
+            self.play_sfx(r'book-cover-close-01.wav')
             self.run_display = False

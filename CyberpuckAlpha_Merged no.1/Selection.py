@@ -1,5 +1,4 @@
 import pygame
-import winsound
 from Application import Application
 
 from CORE.main_junction import core
@@ -54,7 +53,7 @@ class Selection(Application):
 
     def move_cursor(self):
         if self.game.S_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Sanic':
                 self.cursor_rect.midtop = (self.perso20x + self.offset, self.perso20y)
                 self.state = 'Alexander'
@@ -75,7 +74,7 @@ class Selection(Application):
                 self.state = 'Sanic'
 
         elif self.game.Z_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Sanic':
                 self.cursor_rect.midtop = (self.playx + self.offset, self.playy)
                 self.state = 'Play'
@@ -97,12 +96,12 @@ class Selection(Application):
 
         elif self.game.BACK_KEY:
             self.game.curr_menu = self.game.versus
-            winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
+            self.play_sfx('book-cover-close-01.wav')
             self.run_display = False
 
     def move_cursor2(self):
         if self.game.DOWN_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Sanic':
                 self.cursor_rect.midtop = (self.perso21x + self.offset, self.perso21y)
                 self.state = 'Alexander'
@@ -123,7 +122,7 @@ class Selection(Application):
                 self.state = 'Sanic'
 
         elif self.game.UP_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Sanic':
                 self.cursor_rect.midtop = (self.playx + self.offset, self.playy)
                 self.state = 'Play'
@@ -145,13 +144,13 @@ class Selection(Application):
 
         elif self.game.BACK_KEY:
             self.game.curr_menu = self.game.versus
-            winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
+            self.play_sfx('book-cover-close-01.wav')
             self.run_display = False
 
     def check_input(self):
         self.move_cursor()
         if self.game.TAB_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Sanic':
                 self.game.player_parameters[0][1] = "Sanic"
             elif self.state == 'Alexander':
@@ -167,7 +166,7 @@ class Selection(Application):
     def check_input2(self):
         self.move_cursor2()
         if self.game.START_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Sanic':
                 self.game.player_parameters[1][1] = "Sanic"
             elif self.state == 'Alexander':
@@ -185,6 +184,7 @@ class Selection(Application):
             if self.state == 'Play':
                 # self.game.curr_menu = self.game.play
                 core(self.game.system_parameters, self.game.player_parameters, self.game.game_parameters)
-                #pygame.mixer.music.load('midnight-ride-01a.wav')
-                #pygame.mixer.music.play(-1)
+                pygame.mixer.music.load('midnight-ride-01a.wav')
+                pygame.mixer.music.set_volume(0.4)
+                pygame.mixer.music.play(-1)
         self.run_display = False

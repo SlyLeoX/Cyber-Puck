@@ -19,3 +19,8 @@ class Application():
         self.game.window.blit(self.game.display, (0, 0))
         pygame.display.update()
         self.game.reset_keys()
+
+    def play_sfx(self, path):
+        effect = pygame.mixer.Sound(path)
+        effect.set_volume(0.3)
+        effect.play()

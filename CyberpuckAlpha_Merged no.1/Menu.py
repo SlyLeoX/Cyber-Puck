@@ -1,6 +1,5 @@
 import pygame
 import sys
-import winsound
 from Application import Application
 
 from SOLO.campaign_manager import complete_campaign
@@ -9,9 +8,9 @@ class Menu(Application):
     def __init__(self, game):
         Application.__init__(self, game)
         self.state = "Story"
-        self.storyx, self.storyy = self.midw + 300, self.midh - 100
-        self.versusx, self.versusy = self.midw + 300, self.midh - 30
-        self.collectionx, self.collectiony = self.midw + 300, self.midh + 40
+        self.storyx, self.storyy = self.midw + 300, self.midh - 30
+        self.versusx, self.versusy = self.midw + 300, self.midh +40
+        self.collectionx, self.collectiony = self.midw + 300, self.midh + 110
         self.settingsx, self.settingsy = self.midw + 300, self.midh + 110
         self.creditsx, self.creditsy = self.midw + 300, self.midh + 180
         self.quitx, self.quity = self.midw + 300, self.midh + 250
@@ -39,7 +38,7 @@ class Menu(Application):
             self.game.draw_text("Story", 40, self.storyx, self.storyy)
             self.game.draw_text("Versus", 40, self.versusx, self.versusy)
             self.game.draw_text("Collection", 40, self.collectionx, self.collectiony)
-            self.game.draw_text("Settings", 40, self.settingsx, self.settingsy)
+            #self.game.draw_text("Settings", 40, self.settingsx, self.settingsy)
             self.game.draw_text("Credits", 40, self.creditsx, self.creditsy)
             self.game.draw_text_2("Quit", 40, self.quitx, self.quity)
             self.draw_cursor()
@@ -48,7 +47,7 @@ class Menu(Application):
 
     def move_cursor(self):
         if self.game.DOWN_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Story':
                 self.cursor_rect.midtop = (self.versusx + self.offset, self.versusy)
                 self.state = 'Versus'
@@ -56,8 +55,8 @@ class Menu(Application):
                 self.cursor_rect.midtop = (self.collectionx + self.offset, self.collectiony)
                 self.state = 'Collection'
             elif self.state == 'Collection':
-                self.cursor_rect.midtop = (self.settingsx + self.offset, self.settingsy)
-                self.state = 'Settings'
+                self.cursor_rect.midtop = (self.settingsx + self.offset, self.creditsy)
+                self.state = 'Credits'
             elif self.state == 'Settings':
                 self.cursor_rect.midtop = (self.creditsx + self.offset, self.creditsy)
                 self.state = 'Credits'
@@ -69,7 +68,7 @@ class Menu(Application):
                 self.state = 'Story'
 
         elif self.game.UP_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Story':
                 self.cursor_rect.midtop = (self.quitx + self.offset, self.quity)
                 self.state = 'Quit'
@@ -84,7 +83,7 @@ class Menu(Application):
                 self.state = 'Collection'
             elif self.state == 'Credits':
                 self.cursor_rect.midtop = (self.settingsx + self.offset, self.settingsy)
-                self.state = 'Settings'
+                self.state = 'Collection'
             elif self.state == 'Quit':
                 self.cursor_rect.midtop = (self.creditsx + self.offset, self.creditsy)
                 self.state = 'Credits'
@@ -93,23 +92,23 @@ class Menu(Application):
         self.move_cursor()
         if self.game.START_KEY:
             if self.state == 'Story':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 complete_campaign(self.game.system_parameters)
                 self.game.playing = True
             elif self.state == 'Versus':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 self.game.curr_menu = self.game.versus
             elif self.state == 'Collection':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 self.game.curr_menu = self.game.collection
             elif self.state == 'Settings':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 self.game.curr_menu = self.game.settings
             elif self.state == 'Credits':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 self.game.curr_menu = self.game.credits
             elif self.state == 'Quit':
-                winsound.PlaySound('button-4.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-4.wav')
                 #self.game.curr_menu = self.game.quit
                 sys.exit()
             self.run_display = False

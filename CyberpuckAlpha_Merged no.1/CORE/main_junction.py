@@ -40,7 +40,7 @@ def core(system_parameters, player_parameters, game_parameters, music="bensound-
     # Currently fixated, a point of upgrade could be to offer the player the choice of the music.
     pygame.mixer.init()
     pygame.mixer.music.load(r'CORE\ressources\soundtracks\fix'.removesuffix("fix")+music+'.wav')
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
 
     # init_date is used to compute the right current time later. Sec is here for plain initialization.
@@ -143,6 +143,7 @@ def core(system_parameters, player_parameters, game_parameters, music="bensound-
 
     # That condition make it so that regular end screen is only displayed if F9 has not been pressed.
     pygame.mixer.fadeout(5000)
+    pygame.mixer.pause()
     if condition:
         # Ends the music
         # Prints the winner on the screen.

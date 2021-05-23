@@ -26,7 +26,7 @@ class Collection(Application):
 
     def move_cursor(self):
         if self.game.DOWN_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Characters':
                 self.cursor_rect.midtop = (self.persox + self.offset, self.persoy)
                 self.state = 'Pucks'
@@ -36,7 +36,7 @@ class Collection(Application):
 
 
         elif self.game.UP_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == 'Characters':
                 self.cursor_rect.midtop = (self.puckx + self.offset, self.pucky)
                 self.state = 'Pucks'
@@ -46,7 +46,7 @@ class Collection(Application):
 
         elif self.game.BACK_KEY:
             self.game.curr_menu = self.game.menu
-            winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
+            self.play_sfx('book-cover-close-01.wav')
             self.run_display = False
 
 
@@ -54,9 +54,9 @@ class Collection(Application):
         self.move_cursor()
         if self.game.START_KEY:
             if self.state == 'Characters':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 self.game.curr_menu = self.game.pucks
             elif self.state == 'Pucks':
-                winsound.PlaySound('button-11.wav', winsound.SND_FILENAME)
+                self.play_sfx('button-11.wav')
                 self.game.curr_menu = self.game.characters
             self.run_display = False

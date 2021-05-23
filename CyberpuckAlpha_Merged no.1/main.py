@@ -1,5 +1,4 @@
 import pygame
-import winsound
 from Game import Game
 from Splash import Splash
 
@@ -15,7 +14,9 @@ while start.statut:
     for event in pygame.event.get():
         if tkey[pygame.K_RETURN]:
             app = Game()
-            winsound.PlaySound('button-2.wav', winsound.SND_FILENAME)
+            effect = pygame.mixer.Sound(r'button-2.wav')
+            effect.set_volume(0.35)
+            effect.play()
 
             while app.running:
                 app.curr_menu.display_menu()

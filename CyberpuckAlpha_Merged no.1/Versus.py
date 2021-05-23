@@ -1,5 +1,4 @@
 import pygame
-import winsound
 from Application import Application
 
 class Versus(Application):
@@ -39,7 +38,7 @@ class Versus(Application):
 
     def move_cursor(self):
         if self.game.DOWN_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == '1 VS 1':
                 self.cursor_rect.midtop = (self.mode2x + self.offset, self.mode2y)
                 self.state = '1 VS AI'
@@ -57,7 +56,7 @@ class Versus(Application):
                 self.state = '1 VS 1'
 
         elif self.game.UP_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == '1 VS 1':
                 self.cursor_rect.midtop = (self.nextx + self.offset, self.nexty)
                 self.state = 'NEXT'
@@ -76,17 +75,17 @@ class Versus(Application):
 
         elif self.game.BACK_KEY:
             self.game.curr_menu = self.game.menu
-            winsound.PlaySound('book-cover-close-01.wav', winsound.SND_FILENAME)
+            self.play_sfx('book-cover-close-01.wav')
             self.run_display = False
 
     def check_input(self):
         self.move_cursor()
         if self.game.START_KEY:
-            winsound.PlaySound('button-3.wav', winsound.SND_FILENAME)
+            self.play_sfx('button-3.wav')
             if self.state == '1 VS 1':
-                self.game.player_parameters[1][0]="PLAYER2"
+                self.game.player_parameters[1][0] = "PLAYER2"
             elif self.state == '1 VS AI':
-                self.game.player_parameters[1][0]="0COM2"
+                self.game.player_parameters[1][0] = "0COM2"
             elif self.state == 'Points':
                 self.game.game_parameters[0] = "score_3"
             elif self.state == 'Time':

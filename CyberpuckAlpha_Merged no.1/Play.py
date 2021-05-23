@@ -17,5 +17,6 @@ class Play(Application):
             self.game.check_events()
             core(self.game.system_parameters, self.player_parameters, self.game_parameters)
             pygame.mixer.music.load('midnight-ride-01a.wav')
+            pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1)
         self.run_display = False
