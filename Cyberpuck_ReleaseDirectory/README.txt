@@ -1,5 +1,17 @@
 Hello, thanks for downloading the game Cyberpuck.
 
+GROUP 82 (Copper Gears):
+
+Antoine Craipeau 
+Emma Desté 
+Roméo Gennari 
+Kevin Op 
+Léo Petit 
+Quentin Rault
+
+L1-INT1 Promo.2025
+EFREI PARIS
+
 OPEN THE GAME:
 
 To open the game, you can execute the file "CYBERPUCK - Executable build.xxxx". HOWEVER, as ressource files are not included in the .exe file, the game won't work if you displace the executable out of its folder.
