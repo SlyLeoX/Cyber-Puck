@@ -3,6 +3,7 @@ from MENU.Application import Application
 
 from CORE.main_junction import core
 
+#this class file served to activate the game with the selected paramters previously
 class Play(Application):
     def __init__(self, game):
         Application.__init__(self, game)
