@@ -20,6 +20,7 @@ class Splash:
 
         pygame.display.set_icon(self.logo1)
 
+    #this function below will display a splash screen when the user will start the game
     def screen(self):
         RED = (200, 0, 0)
         font = pygame.font.Font('MENU\8-BIT WONDER.TTF', 30)
