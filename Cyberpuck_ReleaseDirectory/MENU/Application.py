@@ -3,6 +3,7 @@ import pygame
 width = 1366
 height = 768
 
+#this class is on the most important in the MENU folder since this file will be called by most of all the class present in the folder
 class Application():
     def __init__(self, game):
         self.game = game
@@ -11,6 +12,7 @@ class Application():
         self.cursor_rect = pygame.Rect(0, 0, 220, 20)
         self.offset = - 100
 
+    #the function draw_cursor is an important function that will help the user to choose the option he wants (graphically)
     def draw_cursor(self):
         self.game.draw_text('*', 15, self.cursor_rect.x, self.cursor_rect.y)
 
