@@ -121,6 +121,12 @@ class Game():
 
     def draw_perso2(self, image):
         self.display.blit(image, (750, 225))
+    
+    def draw_perso3(self, image):
+        self.display.blit(image, (710, 225))
+
+    def draw_perso4(self, image):
+        self.display.blit(image, (1010, 225))
 
     def draw_puck1(self, image):
         self.display.blit(image, (350, 225))
