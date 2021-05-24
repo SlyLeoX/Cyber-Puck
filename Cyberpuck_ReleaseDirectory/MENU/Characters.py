@@ -9,10 +9,12 @@ class Characters(Application):
         self.width, self.height = 1366, 768
         self.display = pygame.Surface((self.width,self.height))
 
+        #these will help us to call the images present in the code
         self.perso1 = pygame.image.load('MENU\perso1.png')
         self.perso2 = pygame.image.load('MENU\perso2.png')
         self.back = pygame.image.load('MENU\Back_Menu.png')
 
+    #this function display_menu will help us to show the different characters of the game
     def display_menu(self):
         self.run_display = True
         while self.run_display:
@@ -29,6 +31,7 @@ class Characters(Application):
             self.game.draw_text_2('Characters', 50, 300, 100)
             self.blit_screen()
 
+    #this function move_cursor can allow the user to return to the collection
     def move_cursor(self):
         if self.game.BACK_KEY:
             self.game.curr_menu = self.game.collection
