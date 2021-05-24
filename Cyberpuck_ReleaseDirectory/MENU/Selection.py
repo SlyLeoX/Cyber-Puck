@@ -8,6 +8,7 @@ class Selection(Application):
     def __init__(self, game):
         Application.__init__(self, game)
 
+        #this will be helpful to determine the positions of the different labels of the characters
         self.perso10x, self.perso10y = self.midw - 400, self.midh - 100
         self.perso20x, self.perso20y = self.midw - 400, self.midh
         self.perso30x, self.perso30y = self.midw - 400, self.midh + 100
@@ -20,11 +21,14 @@ class Selection(Application):
         self.perso51x, self.perso51y = self.midw + 400, self.midh + 300
         self.playx, self.playy = self.midw, self.midh
 
+        #we have to state the first texte that the user can interact with
         self.state = "Sanic"
         self.cursor_rect.midtop = (self.perso10x + self.offset, self.perso10y)
 
+        #here we load the image that will be used as background
         self.back = pygame.image.load('MENU\Back_Menu.png')
 
+    #this function display_menu will help us to show the name of the playable characters
     def display_menu(self):
         self.run_display = True
         while self.run_display:
@@ -33,6 +37,8 @@ class Selection(Application):
             self.check_input()
             self.check_input2()
             self.check_input3()
+            
+            #below we define the background image and the different texts 
             self.game.background(self.back)
             self.game.draw_text_2('Selection', 50, 250, 100)
             self.game.draw_text_3("P1 character", 40, self.midw - 400, self.midh - 200)
@@ -51,6 +57,7 @@ class Selection(Application):
             self.draw_cursor()
             self.blit_screen()
 
+    #this function move_cursor can allow the user to select the character for the user 
     def move_cursor(self):
         if self.game.S_KEY:
             self.play_sfx(r'MENU\button-3.wav')
@@ -99,6 +106,7 @@ class Selection(Application):
             self.play_sfx(r'MENU\book-cover-close-01.wav')
             self.run_display = False
 
+    #this function move_cursor can allow the user to select the character for the second player or the AI
     def move_cursor2(self):
         if self.game.DOWN_KEY:
             self.play_sfx(r'MENU\button-3.wav')
@@ -147,6 +155,7 @@ class Selection(Application):
             self.play_sfx(r'MENU\book-cover-close-01.wav')
             self.run_display = False
 
+    #the function check_input 1 and 2 will be useful for the user to select the character they want
     def check_input(self):
         self.move_cursor()
         if self.game.TAB_KEY:
@@ -179,6 +188,8 @@ class Selection(Application):
                 self.game.player_parameters[1][1] = "Sakuya"
             self.run_display = False
 
+            
+    #the function check_input3 will be useful to start the game
     def check_input3(self):
         if self.game.START_KEY or self.game.TAB_KEY:
             if self.state == 'Play':
