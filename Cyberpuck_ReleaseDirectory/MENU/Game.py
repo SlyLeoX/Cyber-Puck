@@ -43,7 +43,19 @@ class Game():
         self.credits = Credits(self)
         self.quit = Quit(self)
         self.curr_menu = self.menu
-
+        
+        
+    def game_loop(self):
+        while self.playing:
+            self.check_events()
+            if self.START_KEY:
+                self.playing = False
+            self.display.fill(self.BLACK)
+            self.draw_text('Thanks for Playing', 20, self.width/2, self.height/2)
+            self.window.blit(self.display, (0,0))
+            pygame.display.update()
+            self.reset_keys()
+            
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
