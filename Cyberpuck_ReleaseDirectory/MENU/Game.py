@@ -117,10 +117,10 @@ class Game():
         self.display.blit(image, (100, 100))
 
     def draw_perso1(self, image):
-        self.display.blit(image, (350, 225))
+        self.display.blit(image, (10, 225))
 
     def draw_perso2(self, image):
-        self.display.blit(image, (750, 225))
+        self.display.blit(image, (360, 225))
     
     def draw_perso3(self, image):
         self.display.blit(image, (710, 225))

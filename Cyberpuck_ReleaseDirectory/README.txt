@@ -1,6 +1,6 @@
 Hello, thanks for downloading the game Cyberpuck.
 
-GROUP 82 (Copper Gears):
+GROUP 82 (Copper Gear):
 
 Antoine Craipeau 
 Emma Desté 
