@@ -71,19 +71,14 @@ class Game():
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
         self.Z_KEY, self.S_KEY, self.TAB_KEY = False, False, False
 
+        
+    #here is the definition of functions to show texts on the screen
     def draw_text(self, text, size, x, y):
         font = pygame.font.Font(self.font_name,size)
         text_surface = font.render(text, True, self.colors['normal'])
         text_rect = text_surface.get_rect()
         text_rect.center = (x,y)
         self.display.blit(text_surface,text_rect)
-
-    def draw_text_change(self, text, size, x, y):
-        font = pygame.font.Font(self.font_name, size)
-        text_surface = font.render(text, True, self.colors['survol'])
-        text_rect = text_surface.get_rect()
-        text_rect.center = (x, y)
-        self.display.blit(text_surface, text_rect)
 
     def draw_text_2(self, text, size, x, y):
         font = pygame.font.Font(self.font_name,size)
@@ -99,9 +94,12 @@ class Game():
         text_rect.center = (x,y)
         self.display.blit(text_surface,text_rect)
 
+        
+    #this function is helpful to set a image as background
     def background(self, image):
         self.display.blit(image, (0, 0))
 
+    #all the functions below are helpful to display an image at certain positions
     def draw_logo_game(self, image):
         self.display.blit(image, (100, 100))
 
