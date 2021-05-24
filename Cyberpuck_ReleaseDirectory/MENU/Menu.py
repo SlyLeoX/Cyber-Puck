@@ -7,7 +7,11 @@ from SOLO.campaign_manager import complete_campaign
 class Menu(Application):
     def __init__(self, game):
         Application.__init__(self, game)
+        
+        #we have to state the very first text that the user can select
         self.state = "Story"
+        
+        #this is helpful to determine the different positions of the texts
         self.storyx, self.storyy = self.midw + 300, self.midh - 30
         self.versusx, self.versusy = self.midw + 300, self.midh +40
         self.collectionx, self.collectiony = self.midw + 300, self.midh + 110
@@ -16,12 +20,14 @@ class Menu(Application):
         self.quitx, self.quity = self.midw + 300, self.midh + 250
         self.cursor_rect.midtop = (self.storyx + self.offset, self.storyy)
 
+        #this will define the images that can be loaded in the file
         self.back = pygame.image.load('MENU\Back_Menu.png')
         self.logo1 = pygame.image.load('MENU\logo1.png').convert_alpha()
         self.logo_game = pygame.image.load('MENU\logo.png').convert_alpha()
 
         pygame.display.set_icon(self.logo1)
 
+    #this function display_menu will help us to show the different options that we can choose for the menu and display a graphic part
     def display_menu(self):
         self.run_display = True
         pygame.mixer.music.load('MENU\midnight-ride-01a.wav')
@@ -30,10 +36,10 @@ class Menu(Application):
         while self.run_display:
             self.game.check_events()
             self.check_input()
+            
+            #this will show the differents images for the menu (the backgorund and the logo) and of course the different texts
             self.game.background(self.back)
             self.game.draw_logo_game(self.logo_game)
-            #self.game.draw_text_3('Made by', 50, 320, 565)
-            #self.game.draw_text_2('Copper Gears', 60, 360, 650)
             self.game.draw_text_2('Menu', 60, self.game.width - 375, self.game.height - 600)
             self.game.draw_text("Story", 40, self.storyx, self.storyy)
             self.game.draw_text("Versus", 40, self.versusx, self.versusy)
@@ -45,6 +51,7 @@ class Menu(Application):
             self.blit_screen()
 
 
+    #this function move_cursor can allow the user to select the option they want by using the keyboard keys
     def move_cursor(self):
         if self.game.DOWN_KEY:
             self.play_sfx(r'MENU\button-3.wav')
@@ -88,6 +95,7 @@ class Menu(Application):
                 self.cursor_rect.midtop = (self.creditsx + self.offset, self.creditsy)
                 self.state = 'Credits'
 
+    #this function is helpful since the user can activate the option they want selecting it and using the enter key from the keyboard
     def check_input(self):
         self.move_cursor()
         if self.game.START_KEY:
