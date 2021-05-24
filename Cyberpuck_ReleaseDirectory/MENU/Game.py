@@ -26,6 +26,7 @@ class Game():
 
         #this is helpful because it will be served to define the form and the color of the texts
         self.font_name = 'MENU\8-BIT WONDER.TTF'
+        self.colors = dict(normal=(255, 255, 255), survol=(0, 0, 0))
         self.BLACK = (0, 0, 0)
         self.RED = (200, 0, 0)
         self.WHITE = (255, 255, 255)
