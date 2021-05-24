@@ -7,6 +7,7 @@ class Credits(Application):
         self.back = pygame.image.load('MENU\Back_Menu.png')
         self.logo_efrei = pygame.image.load('MENU\logo_efrei.png')
 
+        #these will help us to define the positions of the texts
         self.name1x, self.name1y = self.midw + 300, self.midh - 100
         self.name2x, self.name2y = self.midw + 300, self.midh - 30
         self.name3x, self.name3y = self.midw + 300, self.midh + 40
@@ -14,6 +15,7 @@ class Credits(Application):
         self.name5x, self.name5y = self.midw + 300, self.midh + 180
         self.name6x, self.name6y = self.midw + 300, self.midh + 250
 
+    #this function display_menu will help us to show the logo of EFREI Paris and the different members of the team 
     def display_menu(self):
         self.run_display = True
         while self.run_display:
@@ -22,7 +24,11 @@ class Credits(Application):
                 self.game.curr_menu = self.game.menu
                 self.play_sfx(r'MENU\book-cover-close-01.wav')
                 self.run_display = False
+                
+            #this helps us to define an image for the background
             self.game.background(self.back)
+            
+            #all this functions are defined in the game file and can be called by the self.game
             self.game.draw_logo_efrei(self.logo_efrei)
             self.game.draw_text_3('Credits', 50, 250, 100)
             self.game.draw_text_2('Members', 50, self.midw + 300, self.midh -200)
