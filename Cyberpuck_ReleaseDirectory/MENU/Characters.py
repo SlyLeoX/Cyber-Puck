@@ -12,6 +12,8 @@ class Characters(Application):
         #these will help us to call the images present in the code
         self.perso1 = pygame.image.load('MENU\perso1.png')
         self.perso2 = pygame.image.load('MENU\perso2.png')
+        self.perso3 = pygame.image.load('perso3.png')
+        self.perso4 = pygame.image.load('perso4.png')
         self.back = pygame.image.load('MENU\Back_Menu.png')
 
     #this function display_menu will help us to show the different characters of the game
@@ -24,9 +26,13 @@ class Characters(Application):
 
             self.game.draw_perso1(self.perso1)
             self.game.draw_perso2(self.perso2)
-
-            self.game.draw_text_3('Alexander', 25, 525, 600)
-            self.game.draw_text_3('Harry', 25, 925, 600)
+            self.game.draw_perso4(self.perso3)
+            self.game.draw_perso3(self.perso4)
+            
+            self.game.draw_text_3('Alexander', 25, 160, 600)
+            self.game.draw_text_3('Harry', 25, 510, 600)
+            self.game.draw_text_3('Sakuya', 25, 880, 600)
+            self.game.draw_text_3('Sanic', 25, 1210, 600)
 
             self.game.draw_text_2('Characters', 50, 300, 100)
             self.blit_screen()
