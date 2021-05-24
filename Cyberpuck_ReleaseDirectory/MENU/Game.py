@@ -10,6 +10,7 @@ from MENU.Settings import Settings
 from MENU.Credits import Credits
 from MENU.Quit import Quit
 
+#this file is very important because the functions present in this file will be called in the other files 
 class Game():
     def __init__(self):
         pygame.init()
@@ -23,12 +24,13 @@ class Game():
 
         self.system_parameters = [self.window,[self.width,self.height]]
 
+        #this is helpful because it will be served to define the form and the color of the texts
         self.font_name = 'MENU\8-BIT WONDER.TTF'
-        self.colors = dict(normal=(255, 255, 255), survol=(0, 0, 0))
         self.BLACK = (0, 0, 0)
         self.RED = (200, 0, 0)
         self.WHITE = (255, 255, 255)
 
+        #here we list the files to call them later in different calls  
         self.menu = Menu(self)
         self.versus = Versus(self)
         self.collection = Collection(self)
@@ -40,17 +42,6 @@ class Game():
         self.credits = Credits(self)
         self.quit = Quit(self)
         self.curr_menu = self.menu
-
-    def game_loop(self):
-        while self.playing:
-            self.check_events()
-            if self.START_KEY:
-                self.playing = False
-            self.display.fill(self.BLACK)
-            self.draw_text('Thanks for Playing', 20, self.width/2, self.height/2)
-            self.window.blit(self.display, (0,0))
-            pygame.display.update()
-            self.reset_keys()
 
     def check_events(self):
         for event in pygame.event.get():
