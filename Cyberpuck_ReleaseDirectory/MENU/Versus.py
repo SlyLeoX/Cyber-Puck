@@ -4,13 +4,17 @@ from MENU.Application import Application
 class Versus(Application):
     def __init__(self, game):
         Application.__init__(self, game)
+        #self.state will give the start
         self.state = "1 VS 1"
+        
+        #all this will give the positions of the different texts that will be displayed
         self.mode1x, self.mode1y = self.midw + 100, self.midh - 100
         self.mode2x, self.mode2y = self.midw + 500, self.midh - 100
         self.pointsx, self.pointsy = self.midw + 100, self.midh + 40
         self.timex, self.timey = self.midw + 500, self.midh + 40
         self.nextx, self.nexty = self.midw, self.midh + 200
 
+        #this self.back is a photot that takes the entire back of the screen
         self.back = pygame.image.load('MENU\Back_Menu.png')
 
         self.game.player_parameters = [["PLAYER1","Sanic", "keyboard1"],
@@ -18,6 +22,7 @@ class Versus(Application):
 
         self.game.game_parameters = ["score_3", "metal1"]
 
+    #the display_menu function is a function that takes the different functions present in the application to display the different texts
     def display_menu(self):
         self.run_display = True
         while self.run_display:
@@ -35,7 +40,7 @@ class Versus(Application):
             self.draw_cursor()
             self.blit_screen()
 
-
+    #the move_cursor function is a function that will help us to move from on text to another using the keys of the keyboard 
     def move_cursor(self):
         if self.game.DOWN_KEY:
             self.play_sfx(r'MENU\button-3.wav')
@@ -78,6 +83,7 @@ class Versus(Application):
             self.play_sfx(r'MENU\book-cover-close-01.wav')
             self.run_display = False
 
+    #the check_input function is a function that will retain the parameters wanted by the user, by clicking on NEXT, it will activate another file (selection file)
     def check_input(self):
         self.move_cursor()
         if self.game.START_KEY:
